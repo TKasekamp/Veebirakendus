@@ -4,6 +4,7 @@ Veebirakendus
 Veebirakenduste loomine (MTAT.03.230)
 
 Projekti teema: Koodikorv
+
 Rühmaliikmed: Juhan-Rasmus Risti, Sander Tiganik, Tõnis Kasekamp.
 
 Planeeritud funktsioonid:
