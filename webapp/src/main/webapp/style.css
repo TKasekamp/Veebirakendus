@@ -1,0 +1,38 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    background-color: #00ff21;
+}
+
+.main{
+    background-color: #fff;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header{
+    height: 40px;
+    background-color: #000;
+}
+
+.content{
+    background-color: #808080;
+    height: 700px;
+}
+
+#banner{
+    height: 100px;
+    background-color: #ff6a00;    
+}
+
+.footer{
+    height: 25px;
+    background-color: #7f5d00;
+}
+
+#footnote{
+    color: #a0a0a0;
+    font-size: 14px;
+    margin-left: 10px;
+}
