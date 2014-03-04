@@ -82,7 +82,7 @@
         <section class="section">
           <div class="content" data-slug="panel1">
             <form>
-              <textarea rows="20" id="codearea"></textarea>
+              <textarea rows="20" id="codearea" placeholder="Code here..."></textarea>
               <button type="submit" class="radius button">Submit</button>
             </form>
           </div>
@@ -98,22 +98,29 @@
 
     <div class="large-3 columns">
       <h5>Options</h5>
-      <p>
-        Make everything blue<br/>
-        <button type="button" class="radius button">Okay</button>
-      </p>
-      <p>
-        Make everything red<br/>
-        <button type="button" class="radius button">Okay</button>
-      </p>
-      <p>
-        Make everything extra pretty<br/>
-        <button type="button" class="radius button">Okay</button>
-      </p>
-       <h5>Ads to make money</h5> 
-        <p>
+      <div class="row collapse">
+            <div class="large-10 columns">
+                <label>Source language</label>
+                <select class="selector">
+                  <option value="Java">Java</option>
+                  <option value="C/C++">C/C++</option>
+                  <option value="Pyhton">Python</option>
+                </select>
+            </div>
+       </div>
+       <div class="row collapse">
+            <div class="large-10 columns">
+                <label>Privacy</label>
+                <select class="selector">
+                  <option value="Public">Public</option>
+                  <option value="Private">Private</option>
+                </select>
+            </div>
+       </div>
+       <br /> 
+       <p>
         <a href="" data-reveal-id="mapModal"><img alt="reklaam" src="400x280.gif"></a><br>
-      </p>      
+      </p> 
     </div>
     <!-- End Sidebar -->
   </div>

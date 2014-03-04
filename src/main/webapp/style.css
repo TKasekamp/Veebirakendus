@@ -30,3 +30,7 @@ a#signup:hover{
 h5#cAccount{
     color: #008cba;
 }
+
+select.selector{
+    color: rgba(0, 0, 0, 0.75);
+}
