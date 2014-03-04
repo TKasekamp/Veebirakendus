@@ -34,3 +34,21 @@ h5#cAccount{
 select.selector{
     color: rgba(0, 0, 0, 0.75);
 }
+
+div.login{
+    padding: 1.5em;
+    visibility: hidden;
+    border-style: solid;
+    position: absolute;
+    top: 45px;
+    right: 0px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+button#login{
+    padding: 0.5em;
+    padding-left: 1em;
+    padding-right: 1em;
+    margin: 0em;
+    float: right;
+}
