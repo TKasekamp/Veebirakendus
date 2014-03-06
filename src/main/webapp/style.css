@@ -5,8 +5,8 @@
     display: block;
     width: 100%;
     height: 100px;
-	/*background-image: url("pic.svg");*/
-    background-color: #999999;
+	background-image: url("banner.svg");
+    /*background-color: #999999;*/
     max-width: 62.5rem;
     margin-left: auto;
     margin-right: auto;
