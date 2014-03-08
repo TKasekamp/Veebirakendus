@@ -18,3 +18,8 @@ Planeeritud funktsioonid:
 * Isiklike tekstide ligipääsetavuse muutmine ja kustutamine.
 * Avalike tekstide otsimine sõna järgi.
 * Avalike tekstide kuvamine ja sorteerimine kategooria või kuupäeva järgi.
+
+Käivitamine:
+Mine käsurealt kausta Veebirakendus. 
+mvn package && java -jar target/dependency/jetty-runner.jar --port 8080 target/*.war
+mvn jetty:run
