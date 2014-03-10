@@ -1,56 +1,57 @@
 
 /* Functions */
-var vldemo2 = {
-    loadAuctionItems: function(itemList) {
-        $.ajax('/data', {
-            dataType: 'json',
-            success: function (itemsJson) {
-                console.info('ajax success');
-                for (var i = 0; i < itemsJson.length; i++) {
-                    itemList.addItem(itemsJson[i]);
-    				console.log(itemsJson[i]);
-                }
-            },
-            error: function (req, text) {
-                console.error('failed to load auction items: ' + text);
-            }
-        });
+var submit = {
+	objectify: function(t1,t2,t3,t4){
+		return {
+			name: t1,
+			text: t2,
+			language: t3,
+			privacy: t4
+		};
+	}
+};
+
+var pump = {
+    loadSubmitted: function(objekt,text) {
+        var header = $('#resp-name');
+		var body = $('#resp-body');
+		header.hide();
+		body.hide();
+		header.html(objekt.name);
+		body.html(text);
+		header.fadeToggle();
+		body.fadeToggle();
     },
 
-    makeBid: function(view, bidBuilder) {
-        var item = view.selectedItem;
-        var bid = bidBuilder.buildBid(item);
+    newCode: function() {
+        var name = $('#codename').val();
+		var text = $('#codearea').val();
+		var language = $('#language').find(':selected').text();
+		var privacy = $('#privacy').find(':selected').text();
+		var objekt = submit.objectify(name,text,language,privacy);
         $.ajax('/data', {
             type: 'POST',
-            data: JSON.stringify(bid), // pack the bid object into json string
-            success: function(savedBid) {
+            data: JSON.stringify(objekt), // pack the bid object into json string
+            success: function(objekt) {
                 // server returns the bid with its new generated id
                 // syncing js&dom is a pain. angularjs may help
-                bidBuilder.clear();
-                item.bids.push(savedBid);
-                view.addBid(savedBid);
+				pump.loadSubmitted(objekt,text);
             },
             error: function(req, text) {
-                console.error('failed to post bid: ' + text);
+				objekt.name = "Uploading failed";
+                loadSubmitted(objekt.name,"we are sorry but we seemed to have misplaced your code, please try again in a minute");
             }
         });
     }
 };
 
 $(function() {
-
-    console.log("running demoapp.js");
-
-    var bidBuilder = new auctions.BidBuilder($('#stuff'));
-    var viewingList = new auctions.ViewingList($('#viewing'));
-    var itemList = new auctions.BrowsingList($('#items'), viewingList);
-
     $('#submit1').click(function() {
-        vldemo2.makeBid(viewingList, bidBuilder);
+		pump.newCode();
+        //vldemo2.makeBid(viewingList, bidBuilder);
     });
-
-    vldemo2.loadAuctionItems(itemList);
-
+	
+	
 });
 
 
