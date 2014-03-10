@@ -1,10 +1,12 @@
 package data;
 
 public class CodeItem {
+	private Integer id;
 	private String name;
 	private String text;
-	private Integer id;
-	public Integer itemId;
+	private String language;
+	private String privacy; // 0 public, 1 private
+	private String address; // for Juhan to think about
 
 	public CodeItem(Integer id, String name, String text) {
 		super();
@@ -18,6 +20,27 @@ public class CodeItem {
 		this.name = name;
 		this.text = text;
 	}
+
+	public CodeItem(String name, String text, String language, String privacy) {
+		super();
+		this.name = name;
+		this.text = text;
+		this.language = language;
+		this.privacy = privacy;
+	}
+
+//	public CodeItem(String name, String text, String language, String privacy) {
+//		super();
+//		this.name = name;
+//		this.text = text;
+//		this.language = language;
+//		if (privacy.equalsIgnoreCase("public")) {
+//			this.privacy = 0;
+//		}
+//		else {
+//			this.privacy = 1;
+//		}
+//	}
 
 	public CodeItem() {
 		// TODO Auto-generated constructor stub
@@ -49,8 +72,9 @@ public class CodeItem {
 
 	@Override
 	public String toString() {
-		return "CodeItem [name=" + name + ", text=" + text + ", id=" + id
-				+ ", itemId=" + itemId + "]";
+		return "CodeItem [id=" + id + ", name=" + name + ", text=" + text
+				+ ", language=" + language + ", privacy=" + privacy
+				+ ", address=" + address + "]";
 	}
 
 }

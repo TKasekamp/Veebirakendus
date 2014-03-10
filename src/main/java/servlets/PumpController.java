@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 
 import data.CodeItem;
@@ -26,7 +27,7 @@ public class PumpController extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		gson = new Gson();
+		gson = new GsonBuilder().setPrettyPrinting().create();
 		datastore = new MemoryStore();
 	}
 

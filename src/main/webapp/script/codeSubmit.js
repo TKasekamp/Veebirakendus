@@ -18,7 +18,7 @@ var pump = {
 		header.hide();
 		body.hide();
 		header.html(objekt.name);
-		body.html(text);
+		body.html(objekt.text);
 		header.fadeToggle();
 		body.fadeToggle();
     },
