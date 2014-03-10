@@ -19,6 +19,7 @@ var pump = {
 		body.hide();
 		header.html(objekt.name);
 		body.html(objekt.text);
+		body.attr("class","brush: java");
 		header.fadeToggle();
 		body.fadeToggle();
     },
@@ -36,6 +37,7 @@ var pump = {
                 // server returns the bid with its new generated id
                 // syncing js&dom is a pain. angularjs may help
 				pump.loadSubmitted(objekt,text);
+				console.log(objekt);
             },
             error: function(req, text) {
 				objekt.name = "Uploading failed";
