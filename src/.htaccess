@@ -1,0 +1,3 @@
+RewriteEngine On
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://codepump2.herokuapp.com/$1 [R=301,L]
