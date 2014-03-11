@@ -15,11 +15,12 @@ var pump = {
     loadSubmitted: function(objekt,text) {
         var header = $('#resp-name');
 		var body = $('#resp-body');
+		body.empty();
 		header.hide();
 		body.hide();
 		header.html(objekt.name);
-		body.html(objekt.text);
-		body.attr("class","brush: java");
+		body.append("<pre class=\"brush: " + "java" + "\">" + objekt.text + "</pre>");
+		SyntaxHighlighter.highlight();
 		header.fadeToggle();
 		body.fadeToggle();
     },
