@@ -25,22 +25,10 @@ public class CodeItem {
 		super();
 		this.name = name;
 		this.text = text;
-		this.language = language;
+		this.language = language.toLowerCase();
 		this.privacy = privacy;
 	}
 
-//	public CodeItem(String name, String text, String language, String privacy) {
-//		super();
-//		this.name = name;
-//		this.text = text;
-//		this.language = language;
-//		if (privacy.equalsIgnoreCase("public")) {
-//			this.privacy = 0;
-//		}
-//		else {
-//			this.privacy = 1;
-//		}
-//	}
 
 	public CodeItem() {
 		// TODO Auto-generated constructor stub

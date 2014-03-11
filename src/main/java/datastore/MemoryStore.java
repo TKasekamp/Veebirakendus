@@ -14,7 +14,7 @@ public class MemoryStore implements CodeDataProvider {
 
 	public MemoryStore() {
 		items = new HashMap<>();
-		items.put(1, new CodeItem(1, "test1", "testimise koht"));
+		items.put(1, new CodeItem("hello", "public static void Hello(String s);", "java", "Public"));
 		codeCounter = 2;
 	}
 
