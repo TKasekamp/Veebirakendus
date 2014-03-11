@@ -19,7 +19,7 @@ var pump = {
 		header.hide();
 		body.hide();
 		header.html(objekt.name);
-		body.append("<pre class=\"brush: " + "java" + "\">" + objekt.text + "</pre>");
+		body.append("<pre class=\"brush: " + objekt.language.toLowerCase() + "\">" + objekt.text + "</pre>");
 		SyntaxHighlighter.highlight();
 		header.fadeToggle();
 		body.fadeToggle();
