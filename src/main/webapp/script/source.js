@@ -15,7 +15,7 @@ function loadFile(){
 			var name = $('h3#name');
 			var tag = $('pre');
 			name.html(item.name);
-			tag.attr("class", "brush: " + item.language);
+			tag.attr("class", "brush: " + item.language.toLowerCase());
 			tag.html(item.text);
 			SyntaxHighlighter.highlight();
 		},
