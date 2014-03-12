@@ -7,6 +7,7 @@ public class CodeItem {
 	private String language;
 	private String privacy; // 0 public, 1 private
 	private String address; // for Juhan to think about
+	private Integer UserId; // who it belongs to 
 
 	public CodeItem(Integer id, String name, String text) {
 		super();

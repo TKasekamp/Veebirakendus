@@ -17,8 +17,8 @@ import data.CodeItem;
 import datastore.CodeDataProvider;
 import datastore.MemoryStore;
 
-@WebServlet(value = "/data")
-public class PumpController extends HttpServlet {
+@WebServlet(value = "/source.html")
+public class SourceController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Gson gson;
@@ -45,30 +45,25 @@ public class PumpController extends HttpServlet {
 		}
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		try {
-			System.out.println("hello");
-//			if (req.getAttribute("id").equals("0")) {
-				System.out.println("This is a new text");
-				CodeItem item = gson.fromJson(req.getReader(), CodeItem.class);
-				datastore.addCode(item); 
-				System.out.println("Adding codeitem");
-				System.out.println(item);
-
-				resp.setHeader("Content-Type", "application/json");
-				resp.getWriter().write(gson.toJson(item));
-//			}
-//			else if (req.getAttribute("id").equals("1")){
-//				System.out.println("This is a new User");			
-//			}
-
-		} catch (JsonParseException ex) {
-			System.err.println(ex);
-			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
-		}
-	}
+// This currently deactivated as no code will come from looking page
+//	@Override
+//	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+//			throws ServletException, IOException {
+//		try {
+//			System.out.println("hello");
+//			CodeItem item = gson.fromJson(req.getReader(), CodeItem.class);
+//			datastore.addCode(item); // bid should be validated carefully
+//			System.out.println("Adding codeitem");
+//			System.out.println(item);
+//			// echo the same object back for convenience and debugging
+//			// also it now contains the generated id of the bid
+//			resp.setHeader("Content-Type", "application/json");
+//			resp.getWriter().write(gson.toJson(item));
+//		} catch (JsonParseException ex) {
+//			System.err.println(ex);
+//			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
+//		}
+//	}
 
 	private void replyWithAllItems(HttpServletResponse resp) throws IOException {
 		List<CodeItem> allContent = datastore.findAllItems();
@@ -79,7 +74,7 @@ public class PumpController extends HttpServlet {
 
 	private void replyWithSingleItem(HttpServletResponse resp, String idString)
 			throws IOException {
-		int id = Integer.parseInt(idString);
+		int id = Integer.parseInt(idString); // Try catch needed
 		CodeItem item = datastore.findItemById(id);
 		resp.getWriter().write(gson.toJson(item));
 	}
