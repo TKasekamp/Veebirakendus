@@ -2,9 +2,9 @@ function loadCode(){
 	$.ajax('/data', {
 		dataType: 'json',
 		success: function (itemsJson) {
-			var tag = $('.content');
+			var tag = $('.down');
 			for (var i = 0; i < itemsJson.length; i++) {
-				tag.append("<a href=\"source.html?id=1\">" + itemsJson[i].name + "</a>");
+				tag.append("<li><a href=\"source.html?id=1\">" + itemsJson[i].name + "</a></li>");
 			}
 		},
 		error: function (req, text) {
