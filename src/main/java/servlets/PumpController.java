@@ -22,7 +22,7 @@ public class PumpController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Gson gson;
-	private CodeDataProvider datastore;
+	public static CodeDataProvider datastore;
 
 	@Override
 	public void init() throws ServletException {
@@ -35,14 +35,16 @@ public class PumpController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.setHeader("Content-Type", "application/json");
-
-		String idString = req.getParameter("id");
-		if (idString != null) {
-			replyWithSingleItem(resp, idString);
-			System.out.println(idString);
-		} else {
-			replyWithAllItems(resp);
-		}
+		
+		
+		resp.getWriter().write("youre not supposed to be here!");
+//		String idString = req.getParameter("id");
+//		if (idString != null) {
+//			replyWithSingleItem(resp, idString);
+//			System.out.println(idString);
+//		} else {
+//			replyWithAllItems(resp);
+//		}
 	}
 
 	@Override
@@ -70,18 +72,18 @@ public class PumpController extends HttpServlet {
 		}
 	}
 
-	private void replyWithAllItems(HttpServletResponse resp) throws IOException {
-		List<CodeItem> allContent = datastore.findAllItems();
-		resp.getWriter().write(gson.toJson(allContent));
-		System.out.println("all items");
-		System.out.println(allContent);
-	}
-
-	private void replyWithSingleItem(HttpServletResponse resp, String idString)
-			throws IOException {
-		int id = Integer.parseInt(idString);
-		CodeItem item = datastore.findItemById(id);
-		resp.getWriter().write(gson.toJson(item));
-	}
+//	private void replyWithAllItems(HttpServletResponse resp) throws IOException {
+//		List<CodeItem> allContent = datastore.findAllItems();
+//		resp.getWriter().write(gson.toJson(allContent));
+//		System.out.println("all items");
+//		System.out.println(allContent);
+//	}
+//
+//	private void replyWithSingleItem(HttpServletResponse resp, String idString)
+//			throws IOException {
+//		int id = Integer.parseInt(idString);
+//		CodeItem item = datastore.findItemById(id);
+//		resp.getWriter().write(gson.toJson(item));
+//	}
 
 }

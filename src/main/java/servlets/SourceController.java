@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import serializer.CodeItemSerializerAll;
+import serializer.CodeItemSerializerNormal;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
@@ -22,13 +25,16 @@ public class SourceController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Gson gson;
+	private Gson gson2; // For replyWithAll
 	private CodeDataProvider datastore;
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		gson = new GsonBuilder().setPrettyPrinting().create();
-		datastore = new MemoryStore();
+		gson = new GsonBuilder().registerTypeAdapter(CodeItem.class, new CodeItemSerializerNormal()).create();
+		gson2 = new GsonBuilder().
+			    registerTypeAdapter(CodeItem.class, new CodeItemSerializerAll()).create();
+		datastore = PumpController.datastore;
 	}
 
 	@Override
@@ -67,7 +73,8 @@ public class SourceController extends HttpServlet {
 
 	private void replyWithAllItems(HttpServletResponse resp) throws IOException {
 		List<CodeItem> allContent = datastore.findAllItems();
-		resp.getWriter().write(gson.toJson(allContent));
+		// Costum serializer http://stackoverflow.com/questions/8572568/how-to-serialize-such-a-custom-type-to-json-with-google-gson
+		resp.getWriter().write(gson2.toJson(allContent));
 		System.out.println("all items");
 		System.out.println(allContent);
 	}
@@ -76,7 +83,12 @@ public class SourceController extends HttpServlet {
 			throws IOException {
 		int id = Integer.parseInt(idString); // Try catch needed
 		CodeItem item = datastore.findItemById(id);
-		resp.getWriter().write(gson.toJson(item));
+		if (item == null) {
+			resp.getWriter().write("sorry, there isn't such a file yet");			
+		}
+		else {
+			resp.getWriter().write(gson.toJson(item));
+		}
 	}
 
 }

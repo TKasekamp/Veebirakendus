@@ -7,7 +7,7 @@ public class CodeItem {
 	private String language;
 	private String privacy; // 0 public, 1 private
 	private String address; // for Juhan to think about
-	private Integer UserId; // who it belongs to 
+	private Integer UserId; // who it belongs to
 
 	public CodeItem(Integer id, String name, String text) {
 		super();
@@ -22,6 +22,16 @@ public class CodeItem {
 		this.text = text;
 	}
 
+	public CodeItem(Integer id, String name, String text, String language,
+			String privacy) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.text = text;
+		this.language = language;
+		this.privacy = privacy;
+	}
+
 	public CodeItem(String name, String text, String language, String privacy) {
 		super();
 		this.name = name;
@@ -29,7 +39,6 @@ public class CodeItem {
 		this.language = language.toLowerCase();
 		this.privacy = privacy;
 	}
-
 
 	public CodeItem() {
 		// TODO Auto-generated constructor stub
@@ -64,6 +73,18 @@ public class CodeItem {
 		return "CodeItem [id=" + id + ", name=" + name + ", text=" + text
 				+ ", language=" + language + ", privacy=" + privacy
 				+ ", address=" + address + "]";
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public String getPrivacy() {
+		return privacy;
+	}
+
+	public Integer getUserId() {
+		return UserId;
 	}
 
 }

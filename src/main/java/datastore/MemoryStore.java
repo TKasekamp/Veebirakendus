@@ -14,16 +14,17 @@ public class MemoryStore implements CodeDataProvider {
 
 	public MemoryStore() {
 		items = new HashMap<>();
-		items.put(1, new CodeItem("hello", "public static void Hello(String s);", "java", "Public"));
-		items.put(2, new CodeItem("bla", "print(\"bla\")", "python", "Public"));
-		items.put(3, new CodeItem("haha", "Hello::Hello", "c", "Private"));
+		items.put(1, new CodeItem(1,"hello", "public static void Hello(String s);", "java", "Public"));
+		items.put(2, new CodeItem(2,"bla", "print(\"bla\")", "python", "Public"));
+		items.put(3, new CodeItem(3,"haha", "Hello::Hello", "c", "Private"));
 		codeCounter = 4;
 	}
 
 	@Override
 	public void addCode(CodeItem item) {
+		item.setId(codeCounter); // temp hack
 		items.put(codeCounter, item);
-		codeCounter++; //
+		codeCounter++; 
 		System.out.println("Added item. List now contains:");
 		System.out.println(items);
 
