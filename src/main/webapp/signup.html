@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="style.css" />
     <script src="JQuery-2.0.2.js"></script>
     <script src="script/login.js" type="text/javascript"></script>
+	<script src="script/signUp.js" type="text/javascript"></script>
   </head>
   <body>
     
@@ -101,13 +102,13 @@
         <section class="section">
           <h5 class="title" id="cAccount">Create account</h5>
           <div class="content" data-slug="panel1">
-            <form>
+
               <div class="row collapse">
                 <div class="large-2 columns">
                   <label class="inline"> Username</label>
                 </div>
                 <div class="large-10 columns">
-                  <input type="text" id="username" placeholder="Example">
+                  <input type="text" id="signup-username" placeholder="Example">
                 </div>
               </div>
               <div class="row collapse">
@@ -115,7 +116,7 @@
                   <label class="inline"> Email</label>
                 </div>
                 <div class="large-10 columns">
-                  <input type="text" id="email" placeholder="Example@gmail.com">
+                  <input type="text" id="signup-email" placeholder="Example@gmail.com">
                 </div>
               </div>
                <div class="row collapse">
@@ -123,7 +124,7 @@
                   <label class="inline"> Password</label>
                 </div>
                 <div class="large-10 columns">
-                  <input type="password" id="password" placeholder="">
+                  <input type="password" id="signup-password" placeholder="">
                 </div>
               </div>
               <div class="row collapse">
@@ -131,11 +132,11 @@
                   <label class="inline"> Password again</label>
                 </div>
                 <div class="large-10 columns">
-                  <input type="password" id="password2" placeholder="">
+                  <input type="password" id="signup-password2" placeholder="">
                 </div>
               </div>
-              <button type="submit" class="radius button">Create account</button>
-            </form>
+              <button type="submit" class="radius button" id="signup-submit">Create account</button>
+
           </div>
         </section>
       </div>

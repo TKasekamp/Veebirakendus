@@ -51,10 +51,7 @@ var pump = {
 $(function() {
     $('#submit1').click(function() {
 		pump.newCode();
-        //vldemo2.makeBid(viewingList, bidBuilder);
     });
-	
-	
 });
 
 
