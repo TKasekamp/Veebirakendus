@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import serializer.CodeItemSerializerAll;
+import serializer.CodeItemSerializerNormal;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
@@ -22,12 +25,15 @@ public class PumpController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Gson gson;
+	private Gson gson2; // For replyWithAll
 	public static CodeDataProvider datastore;
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		gson = new GsonBuilder().setPrettyPrinting().create();
+		gson = new GsonBuilder().registerTypeAdapter(CodeItem.class, new CodeItemSerializerNormal()).create();
+		gson2 = new GsonBuilder().
+			    registerTypeAdapter(CodeItem.class, new CodeItemSerializerAll()).create();
 		datastore = new MemoryStore();
 	}
 
@@ -36,15 +42,13 @@ public class PumpController extends HttpServlet {
 			throws ServletException, IOException {
 		resp.setHeader("Content-Type", "application/json");
 		
-		
-		resp.getWriter().write("youre not supposed to be here!");
-//		String idString = req.getParameter("id");
-//		if (idString != null) {
-//			replyWithSingleItem(resp, idString);
-//			System.out.println(idString);
-//		} else {
-//			replyWithAllItems(resp);
-//		}
+		String idString = req.getParameter("id");
+		if (idString != null) {
+			replyWithSingleItem(resp, idString);
+			System.out.println(idString);
+		} else {
+			replyWithAllItems(resp);
+		}
 	}
 
 	@Override
@@ -72,18 +76,19 @@ public class PumpController extends HttpServlet {
 		}
 	}
 
-//	private void replyWithAllItems(HttpServletResponse resp) throws IOException {
-//		List<CodeItem> allContent = datastore.findAllItems();
+	private void replyWithAllItems(HttpServletResponse resp) throws IOException {
+		List<CodeItem> allContent = datastore.findAllItems();
 //		resp.getWriter().write(gson.toJson(allContent));
-//		System.out.println("all items");
-//		System.out.println(allContent);
-//	}
-//
-//	private void replyWithSingleItem(HttpServletResponse resp, String idString)
-//			throws IOException {
-//		int id = Integer.parseInt(idString);
-//		CodeItem item = datastore.findItemById(id);
-//		resp.getWriter().write(gson.toJson(item));
-//	}
+		resp.getWriter().write(gson2.toJson(allContent));
+		System.out.println("all items");
+		System.out.println(allContent);
+	}
+
+	private void replyWithSingleItem(HttpServletResponse resp, String idString)
+			throws IOException {
+		int id = Integer.parseInt(idString);
+		CodeItem item = datastore.findItemById(id);
+		resp.getWriter().write(gson.toJson(item));
+	}
 
 }

@@ -20,7 +20,7 @@ import data.CodeItem;
 import datastore.CodeDataProvider;
 import datastore.MemoryStore;
 
-@WebServlet(value = "/source.html")
+//@WebServlet(value = "/source.html")
 public class SourceController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -51,25 +51,22 @@ public class SourceController extends HttpServlet {
 		}
 	}
 
-// This currently deactivated as no code will come from looking page
-//	@Override
-//	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-//			throws ServletException, IOException {
-//		try {
-//			System.out.println("hello");
-//			CodeItem item = gson.fromJson(req.getReader(), CodeItem.class);
-//			datastore.addCode(item); // bid should be validated carefully
-//			System.out.println("Adding codeitem");
-//			System.out.println(item);
-//			// echo the same object back for convenience and debugging
-//			// also it now contains the generated id of the bid
-//			resp.setHeader("Content-Type", "application/json");
-//			resp.getWriter().write(gson.toJson(item));
-//		} catch (JsonParseException ex) {
-//			System.err.println(ex);
-//			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
-//		}
-//	}
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		try {
+			System.out.println("hello");
+			CodeItem item = gson.fromJson(req.getReader(), CodeItem.class);
+			datastore.addCode(item); // bid should be validated carefully
+			System.out.println("Adding codeitem");
+			System.out.println(item);
+			resp.setHeader("Content-Type", "application/json");
+			resp.getWriter().write(gson.toJson(item));
+		} catch (JsonParseException ex) {
+			System.err.println(ex);
+			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
+		}
+	}
 
 	private void replyWithAllItems(HttpServletResponse resp) throws IOException {
 		List<CodeItem> allContent = datastore.findAllItems();
