@@ -1,3 +1,20 @@
+function enableTab(id){
+	var el = document.getElementById(id);
+
+	el.onkeydown = function(e){
+		if(e.keyCode === 9){
+			console.log("tab");
+			var val = this.value,
+				start = this.selectionStart,
+				end = this.selectionEnd;
+			
+			this.value = val.substring(0, start) + '\t' + val.substring(end);
+
+			this.selectionStart = this. selectionEnd = start + 1;
+			return false;
+		}
+	}
+}
 
 /* Functions */
 var submit = {
@@ -52,6 +69,8 @@ $(function() {
     $('#submit1').click(function() {
 		pump.newCode();
     });
+	
+	enableTab("codearea");
 });
 
 
