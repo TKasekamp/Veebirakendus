@@ -1,11 +1,13 @@
 package data;
 
-/** 
+/**
  * Basic user class. Password has to be hashed at some point
+ * 
  * @author TKasekamp
- *
+ * 
  */
 public class User {
+
 	private int id;
 	private String Name;
 	private String Email;
@@ -13,6 +15,14 @@ public class User {
 
 	public User(String name, String email, String password) {
 		super();
+		Name = name;
+		Email = email;
+		Password = password;
+	}
+
+	public User(int id, String name, String email, String password) {
+		super();
+		this.id = id;
 		Name = name;
 		Email = email;
 		Password = password;

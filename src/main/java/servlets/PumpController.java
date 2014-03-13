@@ -44,8 +44,14 @@ public class PumpController extends HttpServlet {
 		
 		String idString = req.getParameter("id");
 		if (idString != null) {
-			replyWithSingleItem(resp, idString);
-			System.out.println(idString);
+			if (idString.equals("")) {
+				replyWithAllItems(resp);				
+			}
+			else {
+				replyWithSingleItem(resp, idString);
+				System.out.println(idString);				
+			}
+
 		} else {
 			replyWithAllItems(resp);
 		}
