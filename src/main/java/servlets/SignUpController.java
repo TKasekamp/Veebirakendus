@@ -29,8 +29,6 @@ public class SignUpController extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		gson = new GsonBuilder().create();
-//		gson2 = new GsonBuilder().
-//			    registerTypeAdapter(CodeItem.class, new CodeItemSerializerAll()).create();
 		datastore = new UserStore();
 	}
 
@@ -52,8 +50,6 @@ public class SignUpController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-			System.out.println("hello");
-//			System.out.println(req.getReader().toString());
 			User user = gson.fromJson(req.getReader(), User.class);
 			datastore.addUser(user); // bid should be validated carefully
 			System.out.println("Adding user");
@@ -68,7 +64,6 @@ public class SignUpController extends HttpServlet {
 
 	private void replyWithAllUsers(HttpServletResponse resp) throws IOException {
 		List<User> allContent = datastore.findAllUsers();
-		// Costum serializer http://stackoverflow.com/questions/8572568/how-to-serialize-such-a-custom-type-to-json-with-google-gson
 		resp.getWriter().write(gson.toJson(allContent));
 		System.out.println("all users");
 		System.out.println(allContent);
