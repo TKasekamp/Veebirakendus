@@ -1,9 +1,9 @@
 var signup = {
 	objectify: function(t1,t2,t3){
 		return {
-			user: t1,
+			name: t1,
 			email: t2,
-			passwd: t3
+			password: t3
 		};
 	}
 };
