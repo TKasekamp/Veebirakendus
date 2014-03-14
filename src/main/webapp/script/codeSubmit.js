@@ -30,16 +30,7 @@ var submit = {
 
 var pump = {
     loadSubmitted: function(objekt) {
-        var header = $('#resp-name');
-		var body = $('#resp-body');
-		body.empty();
-		header.hide();
-		body.hide();
-		header.html(objekt.name);
-		body.append("<pre class=\"brush: " + objekt.language.toLowerCase() + "\">" + objekt.text + "</pre>");
-		SyntaxHighlighter.highlight();
-		header.fadeToggle();
-		body.fadeToggle();
+		window.location.href = "source.html?id=" + objekt.id;
     },
 
     newCode: function() {
@@ -58,11 +49,10 @@ var pump = {
                 // server returns the bid with its new generated id
                 // syncing js&dom is a pain. angularjs may help
 				pump.loadSubmitted(objekt);
-				console.log(objekt);
             },
             error: function(req, text) {
-				objekt.name = "Uploading failed. Failed to connect to server";
-                loadSubmitted(objekt);
+				var id = $('#resp');
+				id.html("Uploading failed. Failed to connect to server");
             }
         });
     }
