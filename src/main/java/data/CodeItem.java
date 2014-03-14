@@ -44,6 +44,16 @@ public class CodeItem {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * Generates a string with id. It can be done with a costum serializer, but
+	 * this is easier.
+	 * 
+	 * @return id in Json format
+	 */
+	public String JsonID() {
+		return "{\"id\":\"" + Integer.toString(id) + "\"}";
+	}
+
 	public String getName() {
 		return name;
 	}

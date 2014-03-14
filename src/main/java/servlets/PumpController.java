@@ -31,9 +31,10 @@ public class PumpController extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		gson = new GsonBuilder().registerTypeAdapter(CodeItem.class, new CodeItemSerializerNormal()).create();
-		gson2 = new GsonBuilder().
-			    registerTypeAdapter(CodeItem.class, new CodeItemSerializerAll()).create();
+		gson = new GsonBuilder().registerTypeAdapter(CodeItem.class,
+				new CodeItemSerializerNormal()).create();
+		gson2 = new GsonBuilder().registerTypeAdapter(CodeItem.class,
+				new CodeItemSerializerAll()).create();
 		datastore = new MemoryStore();
 	}
 
@@ -41,15 +42,14 @@ public class PumpController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.setHeader("Content-Type", "application/json");
-		
+
 		String idString = req.getParameter("id");
 		if (idString != null) {
 			if (idString.equals("")) {
-				replyWithAllItems(resp);				
-			}
-			else {
+				replyWithAllItems(resp);
+			} else {
 				replyWithSingleItem(resp, idString);
-				System.out.println(idString);				
+				System.out.println(idString);
 			}
 
 		} else {
@@ -62,19 +62,15 @@ public class PumpController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			System.out.println("hello");
-//			if (req.getAttribute("id").equals("0")) {
-				System.out.println("This is a new text");
-				CodeItem item = gson.fromJson(req.getReader(), CodeItem.class);
-				datastore.addCode(item); 
-				System.out.println("Adding codeitem");
-				System.out.println(item);
+			System.out.println("This is a new text");
+			CodeItem item = gson.fromJson(req.getReader(), CodeItem.class);
+			datastore.addCode(item);
+			System.out.println("Adding codeitem");
+			System.out.println(item);
 
-				resp.setHeader("Content-Type", "application/json");
-				resp.getWriter().write(gson.toJson(item));
-//			}
-//			else if (req.getAttribute("id").equals("1")){
-//				System.out.println("This is a new User");			
-//			}
+			resp.setHeader("Content-Type", "application/json");
+			// resp.getWriter().write(gson.toJson(item));
+			resp.getWriter().write(item.JsonID());
 
 		} catch (JsonParseException ex) {
 			System.err.println(ex);
@@ -84,7 +80,6 @@ public class PumpController extends HttpServlet {
 
 	private void replyWithAllItems(HttpServletResponse resp) throws IOException {
 		List<CodeItem> allContent = datastore.findAllItems();
-//		resp.getWriter().write(gson.toJson(allContent));
 		resp.getWriter().write(gson2.toJson(allContent));
 		System.out.println("all items");
 		System.out.println(allContent);
