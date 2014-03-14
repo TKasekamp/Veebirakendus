@@ -26,7 +26,7 @@ public class PumpController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Gson gson;
 	private Gson gson2; // For replyWithAll
-	public static CodeDataProvider datastore;
+	public static CodeDataProvider datastore = new MemoryStore();
 
 	@Override
 	public void init() throws ServletException {
@@ -35,7 +35,6 @@ public class PumpController extends HttpServlet {
 				new CodeItemSerializerNormal()).create();
 		gson2 = new GsonBuilder().registerTypeAdapter(CodeItem.class,
 				new CodeItemSerializerAll()).create();
-		datastore = new MemoryStore();
 	}
 
 	@Override
@@ -61,12 +60,8 @@ public class PumpController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-			System.out.println("hello");
-			System.out.println("This is a new text");
 			CodeItem item = gson.fromJson(req.getReader(), CodeItem.class);
 			datastore.addCode(item);
-			System.out.println("Adding codeitem");
-			System.out.println(item);
 
 			resp.setHeader("Content-Type", "application/json");
 			// resp.getWriter().write(gson.toJson(item));
@@ -81,7 +76,7 @@ public class PumpController extends HttpServlet {
 	private void replyWithAllItems(HttpServletResponse resp) throws IOException {
 		List<CodeItem> allContent = datastore.findAllItems();
 		resp.getWriter().write(gson2.toJson(allContent));
-		System.out.println("all items");
+		System.out.println("returning all items");
 		System.out.println(allContent);
 	}
 
@@ -90,6 +85,10 @@ public class PumpController extends HttpServlet {
 		int id = Integer.parseInt(idString);
 		CodeItem item = datastore.findItemById(id);
 		resp.getWriter().write(gson.toJson(item));
+	}
+
+	public CodeDataProvider getDatastore() {
+		return datastore;
 	}
 
 }

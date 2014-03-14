@@ -55,7 +55,7 @@ function edit(){
 		position.fadeToggle();
 		editing = false;
 		var objekt = source.objectify2(code.id,code.text);
-		$.ajax('/data', {
+		$.ajax('/edit', {
             type: 'POST',
             data: JSON.stringify(objekt), // pack the bid object into json string
             success: function(objekt) {

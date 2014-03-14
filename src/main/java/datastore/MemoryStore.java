@@ -25,8 +25,8 @@ public class MemoryStore implements CodeDataProvider {
 		item.setId(codeCounter); // temp hack
 		items.put(codeCounter, item);
 		codeCounter++; 
-		System.out.println("Added item. List now contains:");
-		System.out.println(items);
+//		System.out.println("Added item. List now contains:");
+//		System.out.println(items);
 
 	}
 
@@ -38,5 +38,16 @@ public class MemoryStore implements CodeDataProvider {
 	@Override
 	public List<CodeItem> findAllItems() {
 		return new ArrayList<>(items.values());
+	}
+
+	@Override
+	public void editCode(CodeItem item) {
+//		System.out.println("Editing code");
+//		CodeItem existing = items.get(item.getId());
+//		existing.setText(item.getText());
+//		items.put(item.getId(), existing);
+//		System.out.println(items.get(item.getId()));
+		items.get(item.getId()).setText(item.getText());
+		
 	}
 }
