@@ -44,6 +44,9 @@ var pump = {
 
     newCode: function() {
         var name = $('#codename').val();
+		if(!name){
+			name = "Untitled";
+		}
 		var text = $('#codearea').val();
 		var language = $('#language').find(':selected').text();
 		var privacy = $('#privacy').find(':selected').text();
