@@ -73,6 +73,7 @@ function edit(){
 		position.empty();
 		position.append("<textarea id=\"codearea\"></textarea>");
 		$("#codearea").val(code.text);
+		enableTab("codearea");
 		position.fadeToggle();
 		editing = true;
 	}
