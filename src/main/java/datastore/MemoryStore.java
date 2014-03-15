@@ -1,53 +1,51 @@
 package datastore;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
-
+import org.hibernate.Session;
 import data.CodeItem;
+import util.HibernateUtil;
 
 public class MemoryStore implements CodeDataProvider {
 
-	private final Map<Integer, CodeItem> items;
-	private int codeCounter; // useless
+	private Session session = HibernateUtil.currentSession();
 
 	public MemoryStore() {
-		items = new HashMap<>();
-		items.put(1, new CodeItem(1,"hello", "public static void Hello(String s);", "java", "Public"));
-		items.put(2, new CodeItem(2,"bla", "print(\"bla\")", "python", "Public"));
-		items.put(3, new CodeItem(3,"haha", "Hello::Hello", "c", "Private"));
-		codeCounter = 4;
+
 	}
 
 	@Override
 	public void addCode(CodeItem item) {
-		item.setId(codeCounter); // temp hack
-		items.put(codeCounter, item);
-		codeCounter++; 
-//		System.out.println("Added item. List now contains:");
-//		System.out.println(items);
+
+		item.setSaveDate(new Date());
+		item.setExpireDate(new Date());
+
+		session.getTransaction().begin();
+		session.save(item);
+		session.getTransaction().commit();
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public CodeItem findItemById(int id) {
-		return items.get(id);
+		// TODO Guard from SQL injection
+		List<CodeItem> dataset = session.createQuery(
+				"from CodeItem where ID='" + Integer.toString(id) + "'").list();
+		return dataset.get(0);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<CodeItem> findAllItems() {
-		return new ArrayList<>(items.values());
+		List<CodeItem> dataset = session.createQuery(
+				"from CodeItem where PRIVACY='Public'").list();
+		return dataset;
 	}
 
 	@Override
 	public void editCode(CodeItem item) {
-//		System.out.println("Editing code");
-//		CodeItem existing = items.get(item.getId());
-//		existing.setText(item.getText());
-//		items.put(item.getId(), existing);
-//		System.out.println(items.get(item.getId()));
-		items.get(item.getId()).setText(item.getText());
-		
+		// items.get(item.getId()).setText(item.getText());
+
 	}
 }
