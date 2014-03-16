@@ -19,7 +19,7 @@ import datastore.UserDataProvider;
 public class LogOutController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private Gson gson; 
+	private Gson gson;
 	private static UserDataProvider datastore;
 
 	@Override
@@ -30,29 +30,24 @@ public class LogOutController extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		
-	}
-
-	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-			
+
 			// Using LoginResponse here is terrible, has to be fixed
-			LoginResponse r = gson.fromJson(req.getReader(), LoginResponse.class);
+			LoginResponse r = gson.fromJson(req.getReader(),
+					LoginResponse.class);
 			int response = datastore.logOut(r);
 			resp.setHeader("Content-Type", "application/json");
-			resp.getWriter().write("{\"r\":\"" + Integer.toString(response) + "\"}");
-			
-			
+			// What the response is is not really important as long as there is
+			// a response
+			resp.getWriter().write(
+					"{\"response\":\"" + Integer.toString(response) + "\"}");
+
 		} catch (JsonParseException ex) {
 			System.err.println(ex);
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
 		}
 	}
-	
-
 
 }
