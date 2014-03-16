@@ -1,12 +1,22 @@
 package data;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
- * Basic user class. Password has to be hashed at some point
+ * Basic user class. 
  * 
  * @author TKasekamp
  * 
  */
-public class User {
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "WEBAPP_USER")
+public class User implements java.io.Serializable{
 
 	private int id;
 	private String username;
@@ -29,7 +39,6 @@ public class User {
 	}
 
 	public User() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
@@ -38,6 +47,9 @@ public class User {
 				+ ", Password=" + password + "]";
 	}
 
+	@Id
+	@Column(name = "USER_ID")
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
@@ -45,7 +57,7 @@ public class User {
 	public void setId(int id) {
 		this.id = id;
 	}
-
+	@Column(name = "USER_NAME", nullable = false, length = 100)
 	public String getName() {
 		return username;
 	}
@@ -53,7 +65,7 @@ public class User {
 	public void setName(String name) {
 		this.username = name;
 	}
-
+	@Column(name = "USER_EMAIL", length = 50)
 	public String getEmail() {
 		return email;
 	}
@@ -61,7 +73,7 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
+	@Column(name = "USER_PASSWORD", nullable = false,length = 50)
 	public String getPassword() {
 		return password;
 	}

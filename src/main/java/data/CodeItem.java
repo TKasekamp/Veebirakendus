@@ -81,7 +81,7 @@ public class CodeItem implements java.io.Serializable {
 	}
 
 	@Id
-	@Column(name = "ID")
+	@Column(name = "CODE_ID")
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public Integer getId() {
 		return id;

@@ -61,7 +61,7 @@ public class MemoryStore implements CodeDataProvider {
 		if (USE_DATABASE) {
 			// TODO Guard from SQL injection
 			List<CodeItem> dataset = session.createQuery(
-					"from CodeItem where ID='" + Integer.toString(id) + "'")
+					"from CodeItem where CODE_ID='" + Integer.toString(id) + "'")
 					.list();
 			return dataset.get(0);
 		} else {
@@ -77,6 +77,7 @@ public class MemoryStore implements CodeDataProvider {
 					"from CodeItem where PRIVACY='Public'").list();
 			return dataset;
 		} else {
+			// TODO return only public values
 			return new ArrayList<>(items.values());
 		}
 
