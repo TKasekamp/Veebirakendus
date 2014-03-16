@@ -13,11 +13,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 
 import data.LoginResponse;
-import data.User;
 import datastore.UserDataProvider;
 
-@WebServlet(value = "/login")
-public class LoginController extends HttpServlet {
+@WebServlet(value = "/logout")
+public class LogOutController extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Gson gson; 
@@ -40,13 +39,13 @@ public class LoginController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-
-			// Checking user
-			User user = gson.fromJson(req.getReader(), User.class);
-			LoginResponse r = datastore.checkPassword(user);
-			System.out.println("User login result: "+ r.toString());
+			
+			// Using LoginResponse here is terrible, has to be fixed
+			LoginResponse r = gson.fromJson(req.getReader(), LoginResponse.class);
+			int response = datastore.logOut(r);
 			resp.setHeader("Content-Type", "application/json");
-			resp.getWriter().write(gson.toJson(r));
+			resp.getWriter().write("{\"r\":\"" + Integer.toString(response) + "\"}");
+			
 			
 		} catch (JsonParseException ex) {
 			System.err.println(ex);
