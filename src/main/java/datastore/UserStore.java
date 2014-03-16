@@ -12,7 +12,7 @@ import data.User;
 public class UserStore implements UserDataProvider {
 	private final Map<Integer, User> users;
 	private int userCounter;
-	private final Map<Integer, String> SIDlist;
+	private final Map<String, Integer> SIDlist; // SID, corresponding user ID
 
 	public UserStore() {
 		users = new HashMap<>();
@@ -43,10 +43,10 @@ public class UserStore implements UserDataProvider {
 	}
 
 	/**
-	 * Finds a name from the list and checks password. 
-	 * 0 - there is no such user
-	 * 1 - user and password correct, but already logged in
-	 * 2 - wrong password
+	 * Finds a name from the list and checks password. <br>
+	 * 0 - there is no such user <br>
+	 * 1 - user and password are correct, but already logged in. NOT USED<br>
+	 * 2 - wrong password <br>
 	 * 3 - user succesfully logged in
 	 */
 	@Override
@@ -54,54 +54,58 @@ public class UserStore implements UserDataProvider {
 		int result = 0;
 		int userID = -1;
 		String sid = null;
-		
-		System.out.println(user);
+
 		// Find user
 		for (User value : users.values()) {
-			System.out.println(value);
 			if (value.getName().equals(user.getName())) {
 				if (value.getPassword().equals(user.getPassword())) {
 					result = 1;
 					userID = value.getId();
-					
+
 				} else {
 					result = 2;
 				}
 				break;
-				
+
 			}
 		}
-		// Check if user has logged in
-		if ((result == 1) &&(!SIDlist.containsKey(userID))) {
+		// Check if the user has logged in
+		if (result == 1) {
 			// This bit here to make sure we generated a random ID
-			// Maybe overkill
+			// May be overkill
 			while (true) {
 				sid = generateSID();
-				if (!SIDlist.containsKey(userID)) {
+				if (!SIDlist.containsKey(sid)) {
 					break;
 				}
 			}
 
-			SIDlist.put(userID, sid);
+			SIDlist.put(sid, userID);
 			result = 3;
-			System.out.println(SIDlist);
 		}
 		return new LoginResponse(result, sid);
 	}
-	
+
 	/**
 	 * Generates random string
 	 */
-	public String generateSID(){
+	public String generateSID() {
 		String temp = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		char[] lst = temp.toCharArray();
-		
+
 		String SID = "";
 		Random rand = new Random();
-		for(int i = 0; i < 32; i++){
+		for (int i = 0; i < 32; i++) {
 			int nr = rand.nextInt(lst.length);
 			SID += lst[nr];
-		}return SID;
+		}
+		return SID;
+	}
+
+	@Override
+	public int logOut(LoginResponse r) {
+		System.out.println("Logged out userID:" + SIDlist.remove(r.getSID()));
+		return 0;
 	}
 
 }

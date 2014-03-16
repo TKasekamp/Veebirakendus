@@ -3,7 +3,7 @@ package data;
 /**
  * Used in response to a login attempt. <br>
  * 0 - there is no such user <br>
- * 1 - user and password are correct, but already logged in <br>
+ * 1 - user and password are correct, but already logged in. NOT USED<br>
  * 2 - wrong password <br>
  * 3 - user succesfully logged in
  * 

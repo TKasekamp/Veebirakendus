@@ -16,5 +16,7 @@ public interface UserDataProvider {
 	public LoginResponse checkPassword(User user);
 	
 	public String generateSID();
+	
+	public int logOut(LoginResponse r);
 
 }
