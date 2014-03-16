@@ -11,5 +11,9 @@ public interface UserDataProvider {
 	public List<User> findAllUsers();
 
 	public void addUser(User item);
+	
+	public int checkPassword(User user);
+	
+	public String generateSID();
 
 }

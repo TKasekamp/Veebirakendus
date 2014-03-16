@@ -14,7 +14,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 
 import data.User;
-import datastore.UserStore;
 import datastore.UserDataProvider;
 
 @WebServlet(value = "/signup")
@@ -29,7 +28,7 @@ public class SignUpController extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		gson = new GsonBuilder().create();
-		datastore = new UserStore();
+		datastore = PumpController.userstore;
 	}
 
 	@Override

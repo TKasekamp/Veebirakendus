@@ -9,23 +9,23 @@ package data;
 public class User {
 
 	private int id;
-	private String Name;
-	private String Email;
-	private String Password;
+	private String username;
+	private String email;
+	private String password;
 
 	public User(String name, String email, String password) {
 		super();
-		Name = name;
-		Email = email;
-		Password = password;
+		this.username = name;
+		this.email = email;
+		this.password = password;
 	}
 
 	public User(int id, String name, String email, String password) {
 		super();
 		this.id = id;
-		Name = name;
-		Email = email;
-		Password = password;
+		this.username = name;
+		this.email = email;
+		this.password = password;
 	}
 
 	public User() {
@@ -34,8 +34,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", Name=" + Name + ", Email=" + Email
-				+ ", Password=" + Password + "]";
+		return "User [id=" + id + ", Name=" + username + ", Email=" + email
+				+ ", Password=" + password + "]";
 	}
 
 	public int getId() {
@@ -47,27 +47,27 @@ public class User {
 	}
 
 	public String getName() {
-		return Name;
+		return username;
 	}
 
 	public void setName(String name) {
-		Name = name;
+		this.username = name;
 	}
 
 	public String getEmail() {
-		return Email;
+		return email;
 	}
 
 	public void setEmail(String email) {
-		Email = email;
+		this.email = email;
 	}
 
 	public String getPassword() {
-		return Password;
+		return password;
 	}
 
 	public void setPassword(String password) {
-		Password = password;
+		this.password = password;
 	}
 
 }

@@ -19,6 +19,8 @@ import com.google.gson.JsonParseException;
 import data.CodeItem;
 import datastore.CodeDataProvider;
 import datastore.MemoryStore;
+import datastore.UserDataProvider;
+import datastore.UserStore;
 
 @WebServlet(value = "/data")
 public class PumpController extends HttpServlet {
@@ -27,6 +29,7 @@ public class PumpController extends HttpServlet {
 	private Gson gson;
 	private Gson gson2; // For replyWithAll
 	public static CodeDataProvider datastore = new MemoryStore();
+	public static UserDataProvider userstore = new UserStore();
 
 	@Override
 	public void init() throws ServletException {
