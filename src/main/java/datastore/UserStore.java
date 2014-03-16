@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import data.LoginResponse;
 import data.User;
 
 public class UserStore implements UserDataProvider {
@@ -49,7 +50,7 @@ public class UserStore implements UserDataProvider {
 	 * 3 - user succesfully logged in
 	 */
 	@Override
-	public int checkPassword(User user) {
+	public LoginResponse checkPassword(User user) {
 		int result = 0;
 		int userID = -1;
 		String sid = null;
@@ -85,7 +86,7 @@ public class UserStore implements UserDataProvider {
 			result = 3;
 			System.out.println(SIDlist);
 		}
-		return result;
+		return new LoginResponse(result, sid);
 	}
 	
 	/**

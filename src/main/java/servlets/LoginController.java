@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 
+import data.LoginResponse;
 import data.User;
 import datastore.UserDataProvider;
 
@@ -42,10 +43,10 @@ public class LoginController extends HttpServlet {
 
 			// Checking user
 			User user = gson.fromJson(req.getReader(), User.class);
-			int r = datastore.checkPassword(user);
-			System.out.println("User login result: "+ Integer.toString(r));
+			LoginResponse r = datastore.checkPassword(user);
+			System.out.println("User login result: "+ r.toString());
 			resp.setHeader("Content-Type", "application/json");
-			resp.getWriter().write("{\"r\":\"" + Integer.toString(r) + "\"}");
+			resp.getWriter().write(gson.toJson(r));
 			
 			
 		} catch (JsonParseException ex) {

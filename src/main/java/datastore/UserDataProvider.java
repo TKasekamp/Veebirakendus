@@ -2,6 +2,7 @@ package datastore;
 
 import java.util.List;
 
+import data.LoginResponse;
 import data.User;
 
 public interface UserDataProvider {
@@ -12,7 +13,7 @@ public interface UserDataProvider {
 
 	public void addUser(User item);
 	
-	public int checkPassword(User user);
+	public LoginResponse checkPassword(User user);
 	
 	public String generateSID();
 
