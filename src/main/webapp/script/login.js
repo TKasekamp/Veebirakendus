@@ -19,7 +19,8 @@ function objectify(t1){
 };
 
 $(document).ready(function () {
-	if(getCookie().length < 32){
+	if(getCookie()){
+		alert(getCookie());
 		var button = $("a#login");
 		button.html("Log Out");
 		button.click(function() {
