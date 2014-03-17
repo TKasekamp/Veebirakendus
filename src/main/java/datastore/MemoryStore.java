@@ -17,7 +17,7 @@ public class MemoryStore implements CodeDataProvider {
 	private Map<Integer, CodeItem> items;
 	private int codeCounter; // useless
 
-	public static boolean USE_DATABASE = false; // CHANGE THIS WHEN DEPLOYING
+	public static boolean USE_DATABASE = true; // CHANGE THIS WHEN DEPLOYING
 
 	public MemoryStore() {
 
