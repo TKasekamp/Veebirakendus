@@ -38,11 +38,9 @@ public class MemoryStore implements CodeDataProvider {
 
 	@Override
 	public void addCode(CodeItem item) {
-
+		item.setSaveDate(new Date());
+		item.setExpireDate(new Date());
 		if (USE_DATABASE) {
-			item.setSaveDate(new Date());
-			item.setExpireDate(new Date());
-
 			session.getTransaction().begin();
 			session.save(item);
 			session.getTransaction().commit();
@@ -57,12 +55,11 @@ public class MemoryStore implements CodeDataProvider {
 	@SuppressWarnings("unchecked")
 	@Override
 	public CodeItem findItemById(int id) {
-
 		if (USE_DATABASE) {
 			// TODO Guard from SQL injection
 			List<CodeItem> dataset = session.createQuery(
-					"from CodeItem where CODE_ID='" + Integer.toString(id) + "'")
-					.list();
+					"from CodeItem where CODE_ID='" + Integer.toString(id)
+							+ "'").list();
 			return dataset.get(0);
 		} else {
 			return items.get(id);
@@ -77,8 +74,13 @@ public class MemoryStore implements CodeDataProvider {
 					"from CodeItem where PRIVACY='Public'").list();
 			return dataset;
 		} else {
-			// TODO return only public values
-			return new ArrayList<>(items.values());
+			ArrayList<CodeItem> dataset = new ArrayList<CodeItem>();
+			for (CodeItem value : items.values()) {
+				if (value.getPrivacy().equals("Public")) {
+					dataset.add(value);
+				}
+			}
+			return dataset;
 		}
 
 	}
@@ -86,6 +88,7 @@ public class MemoryStore implements CodeDataProvider {
 	@Override
 	public void editCode(CodeItem item) {
 		if (USE_DATABASE) {
+			// TODO this
 		} else {
 			items.get(item.getId()).setText(item.getText());
 		}
