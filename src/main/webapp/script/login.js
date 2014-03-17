@@ -8,8 +8,15 @@ var login = {
 };
 
 function getCookie(){
-	var lst = document.cookie.split("=");
-	return lst[1];
+	var lst = document.cookie.split(";");
+	var cookie = "";
+	for(var i = 0; i < lst.length; i++){
+		if(lst[i].indexOf("SID") != -1){
+			var temp = lst[i].split("=");
+			cookie = temp[1];
+		}
+	}
+	return cookie;
 };
 
 function objectify(t1){
