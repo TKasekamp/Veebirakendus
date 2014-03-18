@@ -18,7 +18,7 @@ public class ServerController {
 	public static CodeService codeServer;
 	public static UserService userServer;
 	public static AuthenicationService authenticationServer;
-	public static final boolean USE_DATABASE = false;
+	public static final boolean USE_DATABASE = true; // TRUE WHEN DEPLOYING
 
 	static {
 		codeServer = new CodeServiceImpl();
