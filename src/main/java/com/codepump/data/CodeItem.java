@@ -1,4 +1,4 @@
-package data;
+package com.codepump.data;
 
 import java.util.Date;
 
@@ -12,7 +12,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 /**
- * Represents one item of code in the DB
+ * Represents one item of code in the DB.<br>
+ * <code>UserID</code> will be set to -1 if no user is specified.
  * 
  * @author TKasekamp
  * 
@@ -33,18 +34,18 @@ public class CodeItem implements java.io.Serializable {
 	public CodeItem() {
 	}
 
-	public CodeItem(Integer id, String name, String text) {
-		super();
-		this.name = name;
-		this.text = text;
-		this.id = id;
-	}
+//	public CodeItem(Integer id, String name, String text) {
+//		super();
+//		this.name = name;
+//		this.text = text;
+//		this.id = id;
+//	}
 
-	public CodeItem(String name, String text) {
-		super();
-		this.name = name;
-		this.text = text;
-	}
+//	public CodeItem(String name, String text) {
+//		super();
+//		this.name = name;
+//		this.text = text;
+//	}
 
 	public CodeItem(Integer id, String name, String text, String language,
 			String privacy) {
@@ -54,18 +55,21 @@ public class CodeItem implements java.io.Serializable {
 		this.text = text;
 		this.language = language;
 		this.privacy = privacy;
+		this.UserId = -1;
+		this.createdDate = new Date();
+		this.expireDate = new Date();
 	}
 
-	public CodeItem(String name, String text, String language, String privacy) {
-		super();
-		this.name = name;
-		this.text = text;
-		this.language = language.toLowerCase();
-		this.privacy = privacy;
-	}
+//	public CodeItem(String name, String text, String language, String privacy) {
+//		super();
+//		this.name = name;
+//		this.text = text;
+//		this.language = language.toLowerCase();
+//		this.privacy = privacy;
+//	}
 
 	/**
-	 * Generates a string with id. It can be done with a costum serializer, but
+	 * Generates a string with id. It can be done with a costum com.codepump.serializer, but
 	 * this is easier.
 	 * 
 	 * @return id in Json format

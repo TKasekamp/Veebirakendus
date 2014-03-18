@@ -1,4 +1,4 @@
-package datastore;
+package com.codepump.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
@@ -7,65 +7,26 @@ import java.util.Random;
 
 import org.hibernate.Session;
 
-import util.HibernateUtil;
-import data.LoginResponse;
-import data.User;
+import com.codepump.controller.ServerController;
+import com.codepump.data.User;
+import com.codepump.response.AuthenticationResponse;
+import com.codepump.service.AuthenicationService;
+import com.codepump.util.HibernateUtil;
 
-public class UserStore implements UserDataProvider {
-	private Map<Integer, User> users;
-	private int userCounter;
+public class AuthenticationServiceImpl implements AuthenicationService {
 	private Map<String, Integer> SIDlist; // SID, corresponding user ID
-
-	// Database connection stuff
-	private final boolean USE_DATABASE = MemoryStore.USE_DATABASE;
+	private final boolean USE_DATABASE = ServerController.USE_DATABASE;
 	private Session session;
-
-	public UserStore() {
+	private static Map<Integer, User> users = UserServiceImpl.users;
+	
+	public AuthenticationServiceImpl() {
 		if (USE_DATABASE) {
 			session = HibernateUtil.currentSession();
 
-		} else {
-			users = new HashMap<>();
-			users.put(1, new User(1, "User", "fuckoff@gmail.com", "12345"));
-			users.put(2, new User(2, "test", "the1whokn0cks@gmail.com",
-					"qwerty"));
-			userCounter = 3;
-			System.out.println("Users are: " + users.toString());
-
-		}
+		} 
 		SIDlist = new HashMap<>();
 	}
-
-	@Override
-	public void addUser(User item) {
-		if (USE_DATABASE) {
-			session.getTransaction().begin();
-			session.save(item);
-			session.getTransaction().commit();
-		} else {
-			item.setId(userCounter); // temp hack
-			users.put(userCounter, item);
-			userCounter++;
-			System.out.println("Added user. List now contains:");
-			System.out.println(users);
-		}
-
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public User findUserById(int id) {
-		if (USE_DATABASE) {
-			// TODO Guard from SQL injection
-			List<User> dataset = session.createQuery(
-					"from User where USER_ID='" + Integer.toString(id) + "'")
-					.list();
-			return dataset.get(0);
-		} else {
-			return users.get(id);
-		}
-	}
-
+	
 	/**
 	 * Finds a name from the list and checks password. <br>
 	 * 0 - there is no such user <br>
@@ -74,7 +35,7 @@ public class UserStore implements UserDataProvider {
 	 * 3 - user succesfully logged in
 	 */
 	@Override
-	public LoginResponse checkPassword(User user) {
+	public AuthenticationResponse checkPassword(User user) {
 		int result = 0;
 		int userID = -1;
 		String sid = null;
@@ -130,7 +91,7 @@ public class UserStore implements UserDataProvider {
 			SIDlist.put(sid, userID);
 			result = 3;
 		}
-		return new LoginResponse(result, sid);
+		return new AuthenticationResponse(result, sid);
 	}
 
 	/**
@@ -150,7 +111,7 @@ public class UserStore implements UserDataProvider {
 	}
 
 	@Override
-	public int logOut(LoginResponse r) {
+	public int logOut(AuthenticationResponse r) {
 		System.out.println("Logged out userID:" + SIDlist.remove(r.getSID()));
 		return 0;
 	}
@@ -165,5 +126,6 @@ public class UserStore implements UserDataProvider {
 		}
 		return id;
 	}
+
 
 }

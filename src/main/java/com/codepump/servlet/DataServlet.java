@@ -1,4 +1,4 @@
-package servlets;
+package com.codepump.servlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -9,29 +9,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import serializer.CodeItemSerializerAll;
-import serializer.CodeItemSerializerNormal;
-
+import com.codepump.controller.ServerController;
+import com.codepump.data.CodeItem;
+import com.codepump.deserializer.CodeItemDeserializer;
+import com.codepump.serializer.CodeItemSerializerAll;
+import com.codepump.serializer.CodeItemSerializerNormal;
+import com.codepump.service.CodeService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 
-import data.CodeItem;
-import datastore.CodeDataProvider;
-import datastore.MemoryStore;
-import datastore.UserDataProvider;
-import datastore.UserStore;
-import deserializer.CodeItemDeserializer;
-
 @WebServlet(value = "/data")
-public class PumpController extends HttpServlet {
+public class DataServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Gson gsonGetNormal;
 	private Gson gsonGetAll; // For replyWithAll
 	private Gson gsonPost;
-	public static CodeDataProvider datastore = new MemoryStore();
-	public static UserDataProvider userstore = new UserStore();
+	public static CodeService codeServ;
 
 	@Override
 	public void init() throws ServletException {
@@ -46,6 +41,9 @@ public class PumpController extends HttpServlet {
 	    gsonBuilder.registerTypeAdapter(CodeItem.class,
 	            new CodeItemDeserializer());
 	    gsonPost = gsonBuilder.create();
+	    
+	    // Services
+	    codeServ =ServerController.codeServer;
 	}
 
 	@Override
@@ -59,7 +57,6 @@ public class PumpController extends HttpServlet {
 				replyWithAllItems(resp);
 			} else {
 				replyWithSingleItem(resp, idString);
-				System.out.println(idString);
 			}
 
 		} else {
@@ -72,7 +69,7 @@ public class PumpController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			CodeItem item = gsonPost.fromJson(req.getReader(), CodeItem.class);
-			datastore.addCode(item);
+			codeServ.addCode(item);
 			System.out.println("Added item");
 			System.out.println(item);
 			resp.setHeader("Content-Type", "application/json");
@@ -86,21 +83,21 @@ public class PumpController extends HttpServlet {
 	}
 
 	private void replyWithAllItems(HttpServletResponse resp) throws IOException {
-		List<CodeItem> allContent = datastore.findAllItems();
+		List<CodeItem> allContent = codeServ.findAllItems();
 		resp.getWriter().write(gsonGetAll.toJson(allContent));
-		System.out.println("returning all items");
-		System.out.println(allContent);
+//		System.out.println("returning all items");
+//		System.out.println(allContent);
 	}
 
 	private void replyWithSingleItem(HttpServletResponse resp, String idString)
 			throws IOException {
 		int id = Integer.parseInt(idString);
-		CodeItem item = datastore.findItemById(id);
+		CodeItem item = codeServ.findItemById(id);
 		resp.getWriter().write(gsonGetNormal.toJson(item));
 	}
 
-	public CodeDataProvider getDatastore() {
-		return datastore;
+	public CodeService getDatastore() {
+		return codeServ;
 	}
 
 }

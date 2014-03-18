@@ -1,4 +1,4 @@
-package util;
+package com.codepump.util;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

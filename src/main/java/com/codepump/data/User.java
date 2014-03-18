@@ -1,4 +1,4 @@
-package data;
+package com.codepump.data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -88,6 +88,14 @@ public class User implements java.io.Serializable {
 		this.password = getHash(password);
 	}
 
+	/**
+	 * Hashes the input string with MD5. Reversed username is used as salt.
+	 * 
+	 * @param text
+	 *            password
+	 * @return MD5 hash
+	 * @author juhanr
+	 */
 	private String getHash(String text) {
 		try {
 			String salt = new StringBuffer(this.username).reverse().toString();

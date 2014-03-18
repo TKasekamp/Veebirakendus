@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>tk.codepump</groupId>
+	<groupId>com.codepump</groupId>
 	<artifactId>codepump</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
@@ -9,20 +9,13 @@
 	<url>https://codepump2.herokuapp.com</url>
 	<dependencies>
 
-<!-- 
+		<!-- Implementation of servlet library -->
 		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>6.0</version>
+			<groupId>org.eclipse.jetty.orbit</groupId>
+			<artifactId>javax.servlet</artifactId>
+			<version>3.0.0.v201112011016</version>
 		</dependency>
- -->
 
-<dependency>
-	<groupId>org.eclipse.jetty.orbit</groupId>
-	<artifactId>javax.servlet</artifactId>
-	<version>3.0.0.v201112011016</version>
-</dependency>
-            
 
 		<!-- Gson library -->
 		<dependency>
@@ -31,7 +24,7 @@
 			<version>2.2.4</version>
 		</dependency>
 
-		<!-- PostgreSQL database -->
+		<!-- PostgreSQL database driver -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -44,8 +37,6 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>4.3.4.Final</version>
 		</dependency>
-
-
 		<dependency>
 			<groupId>org.jboss.logging</groupId>
 			<artifactId>jboss-logging</artifactId>

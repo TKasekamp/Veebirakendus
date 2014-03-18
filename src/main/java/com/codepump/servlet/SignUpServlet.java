@@ -1,4 +1,4 @@
-package servlets;
+package com.codepump.servlet;
 
 import java.io.IOException;
 
@@ -8,29 +8,29 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.codepump.controller.ServerController;
+import com.codepump.data.User;
+import com.codepump.deserializer.UserDeserializer;
+import com.codepump.service.UserService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 
-import data.User;
-import datastore.UserDataProvider;
-import deserializer.UserLoginDeserializer;
-
 @WebServlet(value = "/signup")
-public class SignUpController extends HttpServlet {
+public class SignUpServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Gson gson;
-	private UserDataProvider datastore;
+	private static UserService userServ;
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
 	    GsonBuilder gsonBuilder = new GsonBuilder();
 	    gsonBuilder.registerTypeAdapter(User.class,
-	            new UserLoginDeserializer());
+	            new UserDeserializer());
 	    gson = gsonBuilder.create();
-		datastore = PumpController.userstore;
+		userServ = ServerController.userServer;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class SignUpController extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			User user = gson.fromJson(req.getReader(), User.class);
-			datastore.addUser(user);
+			userServ.addUser(user);
 			System.out.println("Adding user");
 			System.out.println(user);
 		} catch (JsonParseException ex) {

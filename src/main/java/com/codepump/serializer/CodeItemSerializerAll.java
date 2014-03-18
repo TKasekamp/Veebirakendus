@@ -1,17 +1,16 @@
-package serializer;
+package com.codepump.serializer;
 
 import java.lang.reflect.Type;
 
+import com.codepump.data.CodeItem;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 
-import data.CodeItem;
-
 /**
  * Returns a Json object with the id and name of a CodeItem object. Used to
- * create a list of all items in source.html
+ * populate the header list.
  * 
  * @author TKasekamp
  * 

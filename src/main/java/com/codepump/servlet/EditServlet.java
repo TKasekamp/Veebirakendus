@@ -1,4 +1,4 @@
-package servlets;
+package com.codepump.servlet;
 
 import java.io.IOException;
 
@@ -8,41 +8,35 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.codepump.data.CodeItem;
+import com.codepump.service.CodeService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 
-import data.LoginResponse;
-import datastore.UserDataProvider;
-
-@WebServlet(value = "/logout")
-public class LogOutController extends HttpServlet {
+@WebServlet(value = "/edit")
+public class EditServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Gson gson;
-	private static UserDataProvider datastore;
+	public CodeService datastore;
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
 		gson = new GsonBuilder().create();
-		datastore = PumpController.userstore;
+		this.datastore = DataServlet.codeServ;
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-
-			// Using LoginResponse here is terrible, has to be fixed
-			LoginResponse r = gson.fromJson(req.getReader(),
-					LoginResponse.class);
-			int response = datastore.logOut(r);
-			resp.setHeader("Content-Type", "application/json");
-			// What the response is is not really important as long as there is
-			// a response
-			resp.getWriter().write(
-					"{\"response\":\"" + Integer.toString(response) + "\"}");
+			// TODO authentication
+			CodeItem item = gson.fromJson(req.getReader(), CodeItem.class);
+			System.out.println(item);
+			datastore.editCode(item);
+			System.out.println("Edit success");
 
 		} catch (JsonParseException ex) {
 			System.err.println(ex);

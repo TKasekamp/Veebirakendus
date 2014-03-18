@@ -1,4 +1,4 @@
-package datastore;
+package com.codepump.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,18 +8,20 @@ import java.util.Map;
 
 import org.hibernate.Session;
 
-import data.CodeItem;
-import util.HibernateUtil;
+import com.codepump.controller.ServerController;
+import com.codepump.data.CodeItem;
+import com.codepump.service.CodeService;
+import com.codepump.util.HibernateUtil;
 
-public class MemoryStore implements CodeDataProvider {
+public class CodeServiceImpl implements CodeService {
 
 	private Session session;
 	private Map<Integer, CodeItem> items;
 	private int codeCounter; // useless
 
-	public static boolean USE_DATABASE = false; // CHANGE THIS WHEN DEPLOYING
+	private final boolean USE_DATABASE = ServerController.USE_DATABASE;
 
-	public MemoryStore() {
+	public CodeServiceImpl() {
 
 		if (USE_DATABASE) {
 			session = HibernateUtil.currentSession();

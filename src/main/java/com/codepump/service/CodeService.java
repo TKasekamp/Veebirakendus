@@ -1,10 +1,15 @@
-package datastore;
+package com.codepump.service;
 
 import java.util.List;
 
-import data.CodeItem;
+import com.codepump.data.CodeItem;
 
-public interface CodeDataProvider {
+/**
+ * Handles all codeitem related requests from the database.
+ * @author TKasekamp
+ *
+ */
+public interface CodeService {
 
 	public CodeItem findItemById(int id);
 

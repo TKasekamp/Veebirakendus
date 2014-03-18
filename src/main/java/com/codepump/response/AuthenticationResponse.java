@@ -1,27 +1,29 @@
-package data;
+package com.codepump.response;
 
 /**
  * Used in response to a login attempt. <br>
  * 0 - there is no such user <br>
  * 1 - user and password are correct, but already logged in. NOT USED<br>
  * 2 - wrong password <br>
- * 3 - user succesfully logged in
+ * 3 - user succesfully logged in<br>
+ * 
+ * Also used to remove logged in users. <br>
+ * Returns Integer and String SID
  * 
  * @author TKasekamp
  * 
  */
-public class LoginResponse {
+public class AuthenticationResponse {
 	private int response;
 	private String SID;
 
-	public LoginResponse(int response, String sID) {
+	public AuthenticationResponse(int response, String sID) {
 		super();
 		this.response = response;
 		SID = sID;
 	}
 
-	public LoginResponse() {
-		// TODO Auto-generated constructor stub
+	public AuthenticationResponse() {
 	}
 
 	public int getResponse() {
@@ -42,7 +44,7 @@ public class LoginResponse {
 
 	@Override
 	public String toString() {
-		return "LoginResponse [response=" + response + ", SID=" + SID + "]";
+		return "AuthenticationResponse [response=" + response + ", SID=" + SID + "]";
 	}
 
 }
