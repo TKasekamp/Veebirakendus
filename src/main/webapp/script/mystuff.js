@@ -20,6 +20,19 @@ function loadCode(){
 			console.error('failed to load items: ' + text);
 		}
 	});
+	$.ajax('/recent',{
+		dataType: 'json',
+		data: mystuff.objectify(),
+		success: function(items){
+			var tag = $("#recent");
+			for(var i = 0; i < items.length; i++){
+				tag.append("<p><a href=\"source.html?id=" + items[i].code_id + "\">" + items[i].code_name + " - " + items[i].created_date + "</a></p>");
+			}
+		},
+		error: function(req,text){
+			console.error("failed to load items: " + text);
+		}
+	});
 };
 
 $(function() {
