@@ -1,12 +1,25 @@
 package data;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import java.math.BigInteger;
+import java.security.*;
+
 /**
- * Basic user class. Password has to be hashed at some point
+ * Basic user class.
  * 
  * @author TKasekamp
  * 
  */
-public class User {
+@SuppressWarnings("serial")
+@Entity
+@Table(name = "WEBAPP_USER")
+public class User implements java.io.Serializable {
 
 	private int id;
 	private String username;
@@ -17,7 +30,7 @@ public class User {
 		super();
 		this.username = name;
 		this.email = email;
-		this.password = password;
+		this.password = getHash(password);
 	}
 
 	public User(int id, String name, String email, String password) {
@@ -25,19 +38,21 @@ public class User {
 		this.id = id;
 		this.username = name;
 		this.email = email;
-		this.password = password;
+		this.password = getHash(password);
 	}
 
 	public User() {
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", Name=" + username + ", Email=" + email
-				+ ", Password=" + password + "]";
+				+ ", Password=" + getHash(password) + "]";
 	}
 
+	@Id
+	@Column(name = "USER_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return id;
 	}
@@ -46,6 +61,7 @@ public class User {
 		this.id = id;
 	}
 
+	@Column(name = "USER_NAME", nullable = false, length = 100)
 	public String getName() {
 		return username;
 	}
@@ -54,6 +70,7 @@ public class User {
 		this.username = name;
 	}
 
+	@Column(name = "USER_EMAIL", length = 50)
 	public String getEmail() {
 		return email;
 	}
@@ -62,12 +79,32 @@ public class User {
 		this.email = email;
 	}
 
+	@Column(name = "USER_PASSWORD", nullable = false, length = 50)
 	public String getPassword() {
-		return password;
+		return getHash(password);
 	}
 
 	public void setPassword(String password) {
-		this.password = password;
+		this.password = getHash(password);
+	}
+
+	private String getHash(String text) {
+		try {
+			String salt = new StringBuffer(this.username).reverse().toString();
+			text += salt;
+			MessageDigest m = MessageDigest.getInstance("MD5");
+			m.reset();
+			m.update(text.getBytes());
+			byte[] digest = m.digest();
+			BigInteger bigInt = new BigInteger(1, digest);
+			String hashedText = bigInt.toString(16);
+			while (hashedText.length() < 32) {
+				hashedText = "0" + hashedText;
+			}
+			return hashedText;
+		} catch (Exception e) {
+			return text;
+		}
 	}
 
 }

@@ -74,15 +74,9 @@ public class CodeItem implements java.io.Serializable {
 		return "{\"id\":\"" + Integer.toString(id) + "\"}";
 	}
 
-	@Override
-	public String toString() {
-		return "CodeItem [id=" + id + ", name=" + name + ", text=" + text
-				+ ", language=" + language + ", privacy=" + privacy + "]";
-	}
-
 	@Id
-	@Column(name = "ID")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name = "CODE_ID")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Integer getId() {
 		return id;
 	}
@@ -90,6 +84,7 @@ public class CodeItem implements java.io.Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	@Column(name = "CODE_NAME", nullable = false, length = 100)
 	public String getName() {
 		return name;
@@ -98,6 +93,7 @@ public class CodeItem implements java.io.Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	@Column(name = "CODE_TEXT", nullable = false)
 	public String getText() {
 		return text;
@@ -106,6 +102,7 @@ public class CodeItem implements java.io.Serializable {
 	public void setText(String text) {
 		this.text = text;
 	}
+
 	@Column(name = "CODE_LANGUAGE", nullable = false, length = 20)
 	public String getLanguage() {
 		return language;
@@ -114,6 +111,7 @@ public class CodeItem implements java.io.Serializable {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
+
 	@Column(name = "PRIVACY", nullable = false, length = 10)
 	public String getPrivacy() {
 		return privacy;
@@ -122,6 +120,7 @@ public class CodeItem implements java.io.Serializable {
 	public void setPrivacy(String privacy) {
 		this.privacy = privacy;
 	}
+
 	@Column(name = "USER_ID")
 	public Integer getUserId() {
 		return UserId;
@@ -130,6 +129,7 @@ public class CodeItem implements java.io.Serializable {
 	public void setUserId(Integer userId) {
 		UserId = userId;
 	}
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATED_DATE", nullable = false, length = 7)
 	public Date getSaveDate() {
@@ -139,6 +139,7 @@ public class CodeItem implements java.io.Serializable {
 	public void setSaveDate(Date saveDate) {
 		this.createdDate = saveDate;
 	}
+
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EXPIRE_DATE", nullable = false, length = 7)
 	public Date getExpireDate() {
@@ -147,6 +148,14 @@ public class CodeItem implements java.io.Serializable {
 
 	public void setExpireDate(Date expireDate) {
 		this.expireDate = expireDate;
+	}
+
+	@Override
+	public String toString() {
+		return "CodeItem [id=" + id + ", name=" + name + ", text=" + text
+				+ ", language=" + language + ", privacy=" + privacy
+				+ ", UserId=" + UserId + ", createdDate=" + createdDate
+				+ ", expireDate=" + expireDate + "]";
 	}
 
 }
