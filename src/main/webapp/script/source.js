@@ -9,13 +9,15 @@ var code = {
 var source = {
 	objectify: function(t1){
 		return{
-			id : t1
+			id : t1,
+			SID : getCookie()
 		};
 	},
 	objectify2: function(t1,t2){
 		return{
 			id : t1,
-			text : t2
+			text : t2,
+			SID : getCookie()
 		};
 	}
 };

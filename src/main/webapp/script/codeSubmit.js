@@ -5,7 +5,8 @@ var submit = {
 			name: t1,
 			text: t2,
 			language: t3,
-			privacy: t4
+			privacy: t4,
+			SID : getCookie()
 		};
 	}
 };

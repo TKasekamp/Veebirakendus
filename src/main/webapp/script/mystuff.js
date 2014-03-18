@@ -1,6 +1,15 @@
+var mystuff = {
+	objectify : function(){
+		return{
+			SID : getCookie()
+		};
+	}
+};
+
 function loadCode(){
 	$.ajax('/data', {
 		dataType: 'json',
+		data: mystuff.objectify(),
 		success: function (itemsJson) {
 			var tag = $('.down');
 			for (var i = 0; i < itemsJson.length; i++) {
