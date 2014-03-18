@@ -12,9 +12,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 
+import data.CodeItem;
 import data.LoginResponse;
 import data.User;
 import datastore.UserDataProvider;
+import deserializer.CodeItemDeserializer;
+import deserializer.UserLoginDeserializer;
 
 @WebServlet(value = "/login")
 public class LoginController extends HttpServlet {
@@ -26,7 +29,10 @@ public class LoginController extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		gson = new GsonBuilder().create();
+	    GsonBuilder gsonBuilder = new GsonBuilder();
+	    gsonBuilder.registerTypeAdapter(User.class,
+	            new UserLoginDeserializer());
+	    gson = gsonBuilder.create();
 		datastore = PumpController.userstore;
 	}
 

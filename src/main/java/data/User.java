@@ -47,7 +47,7 @@ public class User implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", Name=" + username + ", Email=" + email
-				+ ", Password=" + getHash(password) + "]";
+				+ ", Password=" + password + "]";
 	}
 
 	@Id
@@ -81,7 +81,7 @@ public class User implements java.io.Serializable {
 
 	@Column(name = "USER_PASSWORD", nullable = false, length = 50)
 	public String getPassword() {
-		return getHash(password);
+		return password;
 	}
 
 	public void setPassword(String password) {

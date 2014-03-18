@@ -30,6 +30,7 @@ public class UserStore implements UserDataProvider {
 			users.put(2, new User(2, "test", "the1whokn0cks@gmail.com",
 					"qwerty"));
 			userCounter = 3;
+			System.out.println("Users are: " + users.toString());
 
 		}
 		SIDlist = new HashMap<>();
@@ -88,18 +89,20 @@ public class UserStore implements UserDataProvider {
 			try {
 				System.out.println("Got user from DB");
 				System.out.println(dataset.get(0));
-					if (dataset.get(0).getPassword().equals(user.getPassword())) {
-						result = 1;
-						userID = dataset.get(0).getId();
-					} else {
-						result = 2;
-					}
+				if (dataset.get(0).getPassword().equals(user.getPassword())) {
+					result = 1;
+					userID = dataset.get(0).getId();
+				} else {
+					result = 2;
+				}
 			} catch (IndexOutOfBoundsException e) {
 				// This means there is no such user in DB
 			}
-			
+
 		} else {
+			System.out.println("Trying to log in: " + user.toString());
 			for (User value : users.values()) {
+
 				if (value.getName().equals(user.getName())) {
 					if (value.getPassword().equals(user.getPassword())) {
 						result = 1;
@@ -150,6 +153,17 @@ public class UserStore implements UserDataProvider {
 	public int logOut(LoginResponse r) {
 		System.out.println("Logged out userID:" + SIDlist.remove(r.getSID()));
 		return 0;
+	}
+
+	@Override
+	public int getUserWithSID(String SID) {
+		int id = -1;
+		try {
+			id = SIDlist.get(SID);
+		} catch (Exception e) {
+			System.out.println("no such user logged in");
+		}
+		return id;
 	}
 
 }

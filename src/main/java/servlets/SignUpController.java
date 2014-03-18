@@ -14,6 +14,7 @@ import com.google.gson.JsonParseException;
 
 import data.User;
 import datastore.UserDataProvider;
+import deserializer.UserLoginDeserializer;
 
 @WebServlet(value = "/signup")
 public class SignUpController extends HttpServlet {
@@ -25,7 +26,10 @@ public class SignUpController extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		gson = new GsonBuilder().create();
+	    GsonBuilder gsonBuilder = new GsonBuilder();
+	    gsonBuilder.registerTypeAdapter(User.class,
+	            new UserLoginDeserializer());
+	    gson = gsonBuilder.create();
 		datastore = PumpController.userstore;
 	}
 
