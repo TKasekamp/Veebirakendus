@@ -3,6 +3,7 @@ package com.codepump.service;
 import java.util.List;
 
 import com.codepump.data.CodeItem;
+import com.codepump.tempobject.RecentItem;
 
 /**
  * Handles all codeitem related requests from the database.
@@ -30,5 +31,11 @@ public interface CodeService {
 	 *            CodeItem
 	 */
 	public void editCode(CodeItem item);
+	
+	/**
+	 * The most recent codes in the database.
+	 * @return List of RecentItems
+	 */
+	public List<RecentItem> getRecentItems();
 
 }

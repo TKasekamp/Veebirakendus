@@ -24,5 +24,6 @@
 		<!--  Mapping -->
 		<mapping class="com.codepump.data.CodeItem"></mapping>
 		<mapping class="com.codepump.data.User"></mapping> 
+		<mapping class="com.codepump.tempobject.RecentItem"></mapping>
 	</session-factory>
 </hibernate-configuration>

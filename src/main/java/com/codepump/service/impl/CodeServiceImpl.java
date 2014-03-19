@@ -6,11 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+
 import org.hibernate.Session;
 
 import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
+import com.codepump.data.User;
 import com.codepump.service.CodeService;
+import com.codepump.tempobject.RecentItem;
 import com.codepump.util.HibernateUtil;
 
 public class CodeServiceImpl implements CodeService {
@@ -29,11 +33,11 @@ public class CodeServiceImpl implements CodeService {
 		} else {
 			items = new HashMap<>();
 			items.put(1, new CodeItem(1, "hello",
-					"public static void Hello(String s);", "java", "Public"));
+					"public static void Hello(String s);", "java", "Public", new Date(), new Date(), new User(100,"Test","dumbass","parool")));
 			items.put(2, new CodeItem(2, "bla", "print(\"bla\")", "python",
-					"Public"));
+					"Public", new Date(), new Date(), new User(100,"Test","dumbass","parool")));
 			items.put(3,
-					new CodeItem(3, "haha", "Hello::Hello", "c", "Private"));
+					new CodeItem(3, "haha", "Hello::Hello", "c", "Private", new Date(), new Date(), new User(100,"Test","dumbass","parool")));
 			codeCounter = 4;
 		}
 	}
@@ -95,5 +99,25 @@ public class CodeServiceImpl implements CodeService {
 			items.get(item.getId()).setText(item.getText());
 		}
 
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<RecentItem> getRecentItems() {
+		if (USE_DATABASE) {
+			List<RecentItem> results = session.getNamedQuery("findRecentItemsInOrder").list();
+//			System.out.println(results.toString());			
+			return results;
+			
+		} else {
+			ArrayList<RecentItem> dataset = new ArrayList<RecentItem>();
+			for (CodeItem value : items.values()) {
+				if (value.getPrivacy().equals("Public")) {
+					RecentItem r = new RecentItem(value.getId(), value.getName(), value.getLanguage(), value.getSaveDate(), 100, "TEST USER NOT FOR REAL AS I CAN'T BE BOTHERED");
+					dataset.add(r);
+				}
+			}
+			return dataset;
+		}
 	}
 }

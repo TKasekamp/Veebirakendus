@@ -25,7 +25,6 @@ public class User implements java.io.Serializable {
 	private String username;
 	private String email;
 	private String password;
-
 	public User(String name, String email, String password) {
 		super();
 		this.username = name;
@@ -51,7 +50,7 @@ public class User implements java.io.Serializable {
 	}
 
 	@Id
-	@Column(name = "USER_ID")
+	@Column(name = "USER_ID", unique=true)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return id;
@@ -114,5 +113,6 @@ public class User implements java.io.Serializable {
 			return text;
 		}
 	}
+
 
 }

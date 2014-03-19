@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 
 import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
+import com.codepump.data.User;
 import com.codepump.service.AuthenicationService;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -44,7 +45,9 @@ public class CodeItemDeserializer implements JsonDeserializer<CodeItem> {
 		code.setText(text);
 		code.setLanguage(language);
 		code.setPrivacy(privacy);
-		code.setUserId(id);
+		User u = new User();
+		u.setId(id);
+		code.setUser(u);
 		return code;
 	}
 }

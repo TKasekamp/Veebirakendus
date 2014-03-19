@@ -26,7 +26,7 @@ function loadCode(){
 		success: function(items){
 			var tag = $("#recent");
 			for(var i = 0; i < items.length; i++){
-				tag.append("<p><a href=\"source.html?id=" + items[i].code_id + "\">" + items[i].code_name + " - " + items[i].created_date + "</a></p>");
+				tag.append("<p><a href=\"source.html?id=" + items[i].codeID + "\">" + items[i].codeName + " - " + items[i].createDate + "</a></p>");
 			}
 		},
 		error: function(req,text){

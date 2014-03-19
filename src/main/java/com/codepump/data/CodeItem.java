@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -14,6 +16,7 @@ import javax.persistence.TemporalType;
 /**
  * Represents one item of code in the DB.<br>
  * <code>UserID</code> will be set to -1 if no user is specified.
+ * Object User of this class will hold the user_ID.
  * 
  * @author TKasekamp
  * 
@@ -27,25 +30,12 @@ public class CodeItem implements java.io.Serializable {
 	private String text;
 	private String language;
 	private String privacy;
-	private Integer UserId; // who it belongs to
 	private Date createdDate; // when this code was made
 	private Date expireDate;
+	private User user; 
 
 	public CodeItem() {
 	}
-
-//	public CodeItem(Integer id, String name, String text) {
-//		super();
-//		this.name = name;
-//		this.text = text;
-//		this.id = id;
-//	}
-
-//	public CodeItem(String name, String text) {
-//		super();
-//		this.name = name;
-//		this.text = text;
-//	}
 
 	public CodeItem(Integer id, String name, String text, String language,
 			String privacy) {
@@ -55,18 +45,22 @@ public class CodeItem implements java.io.Serializable {
 		this.text = text;
 		this.language = language;
 		this.privacy = privacy;
-		this.UserId = -1;
 		this.createdDate = new Date();
 		this.expireDate = new Date();
 	}
 
-//	public CodeItem(String name, String text, String language, String privacy) {
-//		super();
-//		this.name = name;
-//		this.text = text;
-//		this.language = language.toLowerCase();
-//		this.privacy = privacy;
-//	}
+	public CodeItem(Integer id, String name, String text, String language,
+			String privacy, Date createdDate, Date expireDate, User user) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.text = text;
+		this.language = language;
+		this.privacy = privacy;
+		this.createdDate = createdDate;
+		this.expireDate = expireDate;
+		this.user = user;
+	}
 
 	/**
 	 * Generates a string with id. It can be done with a costum com.codepump.serializer, but
@@ -125,14 +119,6 @@ public class CodeItem implements java.io.Serializable {
 		this.privacy = privacy;
 	}
 
-	@Column(name = "USER_ID")
-	public Integer getUserId() {
-		return UserId;
-	}
-
-	public void setUserId(Integer userId) {
-		UserId = userId;
-	}
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATED_DATE", nullable = false, length = 7)
@@ -154,12 +140,22 @@ public class CodeItem implements java.io.Serializable {
 		this.expireDate = expireDate;
 	}
 
+	@ManyToOne
+	@JoinColumn(name = "user_id", nullable = true)
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 	@Override
 	public String toString() {
 		return "CodeItem [id=" + id + ", name=" + name + ", text=" + text
 				+ ", language=" + language + ", privacy=" + privacy
-				+ ", UserId=" + UserId + ", createdDate=" + createdDate
-				+ ", expireDate=" + expireDate + "]";
+				+ ", createdDate=" + createdDate + ", expireDate=" + expireDate
+				+ ", user=" + user + "]";
 	}
 
 }
