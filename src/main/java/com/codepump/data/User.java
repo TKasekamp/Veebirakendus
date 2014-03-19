@@ -25,11 +25,12 @@ public class User implements java.io.Serializable {
 	private String username;
 	private String email;
 	private String password;
+
 	public User(String name, String email, String password) {
 		super();
 		this.username = name;
 		this.email = email;
-		this.password = getHash(password);
+		this.password = password;
 	}
 
 	public User(int id, String name, String email, String password) {
@@ -37,7 +38,7 @@ public class User implements java.io.Serializable {
 		this.id = id;
 		this.username = name;
 		this.email = email;
-		this.password = getHash(password);
+		this.password = password;
 	}
 
 	public User() {
@@ -50,7 +51,7 @@ public class User implements java.io.Serializable {
 	}
 
 	@Id
-	@Column(name = "USER_ID", unique=true)
+	@Column(name = "USER_ID", unique = true)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public int getId() {
 		return id;
@@ -84,6 +85,10 @@ public class User implements java.io.Serializable {
 	}
 
 	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public void hashPassword() {
 		this.password = getHash(password);
 	}
 
@@ -110,9 +115,9 @@ public class User implements java.io.Serializable {
 			}
 			return hashedText;
 		} catch (Exception e) {
+			e.getStackTrace();
 			return text;
 		}
 	}
-
 
 }

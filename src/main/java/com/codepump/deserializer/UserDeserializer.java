@@ -13,7 +13,9 @@ import com.google.gson.JsonParseException;
  * User Json Deserializer. <br>
  * Constructs a User object with username, password and email. If no email is
  * provided sets it to <code>null</code>. Used in user registration and user
- * login.
+ * login.<br>
+ * 
+ * <b>NB!</b> User password is hashed here.
  * 
  * @author TKasekamp
  * 
@@ -35,6 +37,7 @@ public class UserDeserializer implements JsonDeserializer<User> {
 		user.setName(username);
 		user.setPassword(password);
 		user.setEmail(email);
+		user.hashPassword();
 		return user;
 	}
 }

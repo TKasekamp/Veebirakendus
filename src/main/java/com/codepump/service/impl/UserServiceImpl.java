@@ -29,6 +29,9 @@ public class UserServiceImpl implements UserService {
 			users.put(2, new User(2, "test", "the1whokn0cks@gmail.com",
 					"qwerty"));
 			userCounter = 3;
+			for (User user : users.values()) {
+				user.hashPassword();
+			}
 			System.out.println("Users are: " + users.toString());
 
 		}
