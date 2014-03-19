@@ -32,18 +32,18 @@ public class DataServlet extends HttpServlet {
 	public void init() throws ServletException {
 		super.init();
 		// Configure GSON
-	    gsonGetNormal = new GsonBuilder().registerTypeAdapter(CodeItem.class,
+		gsonGetNormal = new GsonBuilder().registerTypeAdapter(CodeItem.class,
 				new CodeItemSerializerNormal()).create();
-	    gsonGetAll = new GsonBuilder().registerTypeAdapter(CodeItem.class,
+		gsonGetAll = new GsonBuilder().registerTypeAdapter(CodeItem.class,
 				new CodeItemSerializerAll()).create();
-	    // Deserializer
-	    GsonBuilder gsonBuilder = new GsonBuilder();
-	    gsonBuilder.registerTypeAdapter(CodeItem.class,
-	            new CodeItemDeserializer());
-	    gsonPost = gsonBuilder.create();
-	    
-	    // Services
-	    codeServ =ServerController.codeServer;
+		// Deserializer
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(CodeItem.class,
+				new CodeItemDeserializer());
+		gsonPost = gsonBuilder.create();
+
+		// Services
+		codeServ = ServerController.codeServer;
 	}
 
 	@Override
@@ -85,8 +85,7 @@ public class DataServlet extends HttpServlet {
 	private void replyWithAllItems(HttpServletResponse resp) throws IOException {
 		List<CodeItem> allContent = codeServ.findAllItems();
 		resp.getWriter().write(gsonGetAll.toJson(allContent));
-//		System.out.println("returning all items");
-//		System.out.println(allContent);
+		System.out.println("wanted all public stuff");
 	}
 
 	private void replyWithSingleItem(HttpServletResponse resp, String idString)
@@ -94,10 +93,6 @@ public class DataServlet extends HttpServlet {
 		int id = Integer.parseInt(idString);
 		CodeItem item = codeServ.findItemById(id);
 		resp.getWriter().write(gsonGetNormal.toJson(item));
-	}
-
-	public CodeService getDatastore() {
-		return codeServ;
 	}
 
 }

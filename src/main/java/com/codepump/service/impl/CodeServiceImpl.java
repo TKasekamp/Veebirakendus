@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
 import org.hibernate.Session;
 
 import com.codepump.controller.ServerController;
@@ -33,11 +31,15 @@ public class CodeServiceImpl implements CodeService {
 		} else {
 			items = new HashMap<>();
 			items.put(1, new CodeItem(1, "hello",
-					"public static void Hello(String s);", "java", "Public", new Date(), new Date(), new User(100,"Test","dumbass","parool")));
+					"public static void Hello(String s);", "java", "Public",
+					new Date(), new Date(), new User(100, "Test", "dumbass",
+							"parool")));
 			items.put(2, new CodeItem(2, "bla", "print(\"bla\")", "python",
-					"Public", new Date(), new Date(), new User(100,"Test","dumbass","parool")));
-			items.put(3,
-					new CodeItem(3, "haha", "Hello::Hello", "c", "Private", new Date(), new Date(), new User(100,"Test","dumbass","parool")));
+					"Public", new Date(), new Date(), new User(100, "Test",
+							"dumbass", "parool")));
+			items.put(3, new CodeItem(3, "haha", "Hello::Hello", "c",
+					"Private", new Date(), new Date(), new User(100, "Test",
+							"dumbass", "parool")));
 			codeCounter = 4;
 		}
 	}
@@ -105,19 +107,55 @@ public class CodeServiceImpl implements CodeService {
 	@Override
 	public List<RecentItem> getRecentItems() {
 		if (USE_DATABASE) {
-			List<RecentItem> results = session.getNamedQuery("findRecentItemsInOrder").list();
-//			System.out.println(results.toString());			
+			List<RecentItem> results = session.getNamedQuery(
+					"findRecentItemsInOrder").list();
+			// System.out.println(results.toString());
 			return results;
-			
+
 		} else {
 			ArrayList<RecentItem> dataset = new ArrayList<RecentItem>();
 			for (CodeItem value : items.values()) {
 				if (value.getPrivacy().equals("Public")) {
-					RecentItem r = new RecentItem(value.getId(), value.getName(), value.getLanguage(), value.getSaveDate(), 100, "TEST USER NOT FOR REAL AS I CAN'T BE BOTHERED");
+					RecentItem r = new RecentItem(value.getId(),
+							value.getName(), value.getLanguage(),
+							value.getSaveDate(), 100,
+							"TEST USER NOT FOR REAL AS I CAN'T BE BOTHERED");
 					dataset.add(r);
 				}
 			}
 			return dataset;
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CodeItem> getAllUserItems(String SID) {
+		int userID;
+		try {
+			userID = ServerController.authenticationServer.getUserWithSID(SID);
+		} catch (Exception e) {
+			// If the cookie is tampered I don't really know what will come out.
+			// Catch just in case.
+			e.printStackTrace();
+			return null;
+		}
+		if (USE_DATABASE) {
+			List<CodeItem> dataset = session
+					.createSQLQuery(
+							"select * FROM CodeItem as c JOIN webapp_user as w on w.user_id = c.user_id where c.user_id='"
+									+ Integer.toString(userID) + "'")
+					.addEntity(CodeItem.class).list();
+			System.out.println(dataset.toString());
+			return dataset;
+		} else {
+			ArrayList<CodeItem> dataset = new ArrayList<CodeItem>();
+			for (CodeItem value : items.values()) {
+				if (value.getUser().getId() == userID) {
+					dataset.add(value);
+				}
+			}
+			return dataset;
+		}
+
 	}
 }

@@ -37,5 +37,11 @@ public interface CodeService {
 	 * @return List of RecentItems
 	 */
 	public List<RecentItem> getRecentItems();
+	
+	/**
+	 * Uses AuthenticationService to find the id of this user. Then searches the DB for all code made by this user.
+	 * @return All CodeItems by this user.
+	 */
+	public List<CodeItem> getAllUserItems(String SID);
 
 }

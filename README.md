@@ -25,3 +25,12 @@ Mine käsurealt kausta Veebirakendus.
 mvn package && java -jar target/dependency/jetty-runner.jar --port 8080 target/*.war
 mvn jetty:run
 ```
+
+##Andmebaas
+Hetkel pakkub codepump kolme kohta andmete hoidmiseks:
+* Serveri mälu
+* Localhost andmebaas
+* Heroku andmebaas
+
+Alla tõmmates on codepump seadistatud kasutama Heroku andmebaasi. Localhost seadistus asub hibernate.hbm.xml failis, kuid on välja kommenteeritud.
+Serveri mälu saab kasutada, kui klassis com.codepump.controller.Servercontroller seada USE_DATABASE =false. Põhifunktsioonid töötavad serveri mälus, kuid nende arendamine pole prioriteet.

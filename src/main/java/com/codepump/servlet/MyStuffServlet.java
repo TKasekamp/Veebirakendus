@@ -10,23 +10,32 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.codepump.controller.ServerController;
-import com.codepump.serializer.RecentItemSerializer;
+import com.codepump.data.CodeItem;
+
+import com.codepump.serializer.CodeItemSerializerAll;
+
 import com.codepump.service.CodeService;
-import com.codepump.tempobject.RecentItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-@WebServlet(value = "/recent")
-public class RecentServlet extends HttpServlet {
+@WebServlet(value = "/mystuff")
+public class MyStuffServlet extends HttpServlet {
+
 	private static final long serialVersionUID = 1L;
-	private Gson gson;
-	private static CodeService codeServ;
+
+	private Gson gsonGetAll; // For replyWithAll
+
+	public static CodeService codeServ;
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		gson = new GsonBuilder().registerTypeAdapter(RecentItem.class,
-				new RecentItemSerializer()).create();
+
+		// Configure GSON
+		gsonGetAll = new GsonBuilder().registerTypeAdapter(CodeItem.class,
+				new CodeItemSerializerAll()).create();
+
+		// Services
 		codeServ = ServerController.codeServer;
 	}
 
@@ -35,21 +44,18 @@ public class RecentServlet extends HttpServlet {
 			throws ServletException, IOException {
 		resp.setHeader("Content-Type", "application/json");
 
-		String idString = req.getParameter("id");
-		if (idString != null) {
-			if (idString.equals("")) {
-				replyWithRecentItems(resp);
-			} 
+		String SID = req.getParameter("SID");
+		if (SID != null) {
+			replyWithAllUserItems(resp, SID);
 
-		} else {
-			replyWithRecentItems(resp);
 		}
 	}
 
-	private void replyWithRecentItems(HttpServletResponse resp)
+	private void replyWithAllUserItems(HttpServletResponse resp, String SID)
 			throws IOException {
-		List<RecentItem> allContent = codeServ.getRecentItems();
-		resp.getWriter().write(gson.toJson(allContent));
+		List<CodeItem> allContent = codeServ.getAllUserItems(SID);
+		resp.getWriter().write(gsonGetAll.toJson(allContent));
+
 	}
 
 }

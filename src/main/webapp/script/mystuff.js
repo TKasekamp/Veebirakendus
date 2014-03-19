@@ -23,7 +23,7 @@ function recent(){
 };
 
 function loadCode(){
-	$.ajax('/data', {
+	$.ajax('/mystuff', {
 		dataType: 'json',
 		data: mystuff.objectify(),
 		success: function (itemsJson) {
