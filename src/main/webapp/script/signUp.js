@@ -20,11 +20,10 @@ $(function() {
             type: 'POST',
             data: JSON.stringify(objekt), // pack the bid object into json string
             success: function(objekt) {
-				console.log("Fuck off");
+				window.location.href = "index.html";
             },
             error: function(req, text) {
 				objekt.name = "Uploading failed. Failed to connect to server";
-                loadSubmitted(objekt);
             }
         });
 		}
