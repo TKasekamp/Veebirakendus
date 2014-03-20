@@ -1,6 +1,7 @@
 window.fbAsyncInit = function() {
 	FB.init({
 		appId : '221920274674013',
+		channelUrl : 'https://codepump2.herokuapp.com/'
 		status : true, // check login status
 		cookie : true,
 		xfbml : true,
