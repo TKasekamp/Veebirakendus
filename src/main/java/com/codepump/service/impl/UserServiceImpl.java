@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.codepump.controller.ServerController;
@@ -69,9 +70,25 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public UserStatisticsItem findUserStatistics(String SID) {
-		return null;
+		int userID = ServerController.authenticationServer.getUserWithSID(SID);
+		// userID will be set to -1 if no such SID can be found. This is the
+		// public user and as such Statistics should not work
+		if (userID == -1) {
+			return null;
+		}
+		if (USE_DATABASE) {
+			// Creating a query and setting a parameter after.
+			Query q = session.getNamedQuery("thisUserStatistics");
+			q.setParameter("t_id", userID);
+			List<UserStatisticsItem> dataset = q.list();
+			return dataset.get(0);
+		} else {
+			// TODO for someone who cares about it
+			return null;
+		}
 		
 	}
 

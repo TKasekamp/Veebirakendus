@@ -13,10 +13,12 @@ public interface UserService {
 	public User findUserById(int id);
 
 	public void addUser(User item);
-	
+
 	/**
 	 * Returns statistics about this's users activities.
-	 * @param SID Cookie value
+	 * 
+	 * @param SID
+	 *            Cookie value
 	 */
 	public UserStatisticsItem findUserStatistics(String SID);
 }

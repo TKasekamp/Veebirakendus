@@ -43,8 +43,8 @@ function loadCode(){
 			var tag = $('#statistics');
 			var tag2 = $('#statistics2');
 			tag.empty();
-			tag.append(statistics.name + "s stuff");
-			tag2.append("You have: " + statistics.count + " pastes");
+			tag.append(statistics.username + "s stuff");
+			tag2.append("You have: " + statistics.createdItems + " pastes");
 		},
 		error: function (req, text) {
 			console.error('failed to load items: ' + text);

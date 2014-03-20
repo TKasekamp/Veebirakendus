@@ -2,7 +2,7 @@
  * When full release, remove the comment tags
  */
 
-
+/*
 
 function httpsRedirect(){
 	if (window.location.protocol != "https:")
@@ -11,3 +11,4 @@ function httpsRedirect(){
 
 httpsRedirect();
 
+*/

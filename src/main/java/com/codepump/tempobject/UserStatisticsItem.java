@@ -31,8 +31,6 @@ public class UserStatisticsItem implements Serializable{
 	public UserStatisticsItem() {
 	}
 
-
-
 	public UserStatisticsItem(int userID, String username, int createdItems,
 			String favouriteLanguage) {
 		super();
