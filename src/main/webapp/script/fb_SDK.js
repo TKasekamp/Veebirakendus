@@ -5,7 +5,7 @@ window.fbAsyncInit = function() {
 		status : true, // check login status
 		cookie : true,
 		xfbml : true,
-		oauth: true
+		oauth : true
 	});
 
 	FB.Event.subscribe('auth.authResponseChange', function(response) {
@@ -24,7 +24,7 @@ function testAPI() {
 	FB.api('/me', function(response) {
 		console.log('Good to see you, ' + response.name + '.');
 	});
-}
+};
 
 (function(d, s, id) {
 	var js, fjs = d.getElementsByTagName(s)[0];
@@ -35,3 +35,9 @@ function testAPI() {
 	js.src = "https://connect.facebook.net/en_US/all.js#xfbml=1&appId=221920274674013";
 	fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
+
+function Logout() {
+	FB.logout(function() {
+		document.location.reload();
+	});
+}
