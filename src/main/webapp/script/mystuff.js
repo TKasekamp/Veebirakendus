@@ -36,6 +36,20 @@ function loadCode(){
 			console.error('failed to load items: ' + text);
 		}
 	});
+	$.ajax('/statistics', {
+		dataType: 'json',
+		data: mystuff.objectify(),
+		success: function (statistics) {
+			var tag = $('#statistics');
+			var tag2 = $('#statistics2');
+			tag.empty();
+			tag.append(statistics.name + "s stuff");
+			tag2.append("You have: " + statistics.count + " pastes");
+		},
+		error: function (req, text) {
+			console.error('failed to load items: ' + text);
+		}
+	});
 	recent();
 };
 
