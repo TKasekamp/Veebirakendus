@@ -3,7 +3,7 @@ window.fbAsyncInit = function() {
 		appId : '221920274674013',
 		status : true, // check login status
 		cookie : true,
-		xfbml : true
+		xfbml : true,
 		oauth: true
 	});
 
