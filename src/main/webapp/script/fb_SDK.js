@@ -62,7 +62,7 @@ window.fbAsyncInit = function() {
 	js = d.createElement('script');
 	js.id = id;
 	js.async = true;
-	js.src = "http://connect.facebook.net/en_US/all.js";
+	js.src = "http://connect.facebook.net/et_EE/all.js#xfbml=1&appId=221920274674013";
 	ref.parentNode.insertBefore(js, ref);
 }(document));
 
