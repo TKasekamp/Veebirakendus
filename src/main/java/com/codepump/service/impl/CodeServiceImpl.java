@@ -6,12 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 
 import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.service.CodeService;
+import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
 import com.codepump.util.HibernateUtil;
 
@@ -113,6 +115,7 @@ public class CodeServiceImpl implements CodeService {
 			return results;
 
 		} else {
+			// TODO for someone to fix. RecentItem should get values from users
 			ArrayList<RecentItem> dataset = new ArrayList<RecentItem>();
 			for (CodeItem value : items.values()) {
 				if (value.getPrivacy().equals("Public")) {
@@ -129,29 +132,27 @@ public class CodeServiceImpl implements CodeService {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CodeItem> getAllUserItems(String SID) {
-		int userID;
-		try {
-			userID = ServerController.authenticationServer.getUserWithSID(SID);
-		} catch (Exception e) {
-			// If the cookie is tampered I don't really know what will come out.
-			// Catch just in case.
-			e.printStackTrace();
+	public List<MyStuffListItem> getAllUserItems(String SID) {
+		int userID = ServerController.authenticationServer.getUserWithSID(SID);
+
+		// userID will be set to -1 if no such SID can be found. This is the
+		// public user and as such MyStuff should not work
+		if (userID == -1) {
 			return null;
 		}
 		if (USE_DATABASE) {
-			List<CodeItem> dataset = session
-					.createSQLQuery(
-							"select * FROM CodeItem as c JOIN webapp_user as w on w.user_id = c.user_id where c.user_id='"
-									+ Integer.toString(userID) + "'")
-					.addEntity(CodeItem.class).list();
+			// Creating a query and setting a parameter after.
+			Query q = session.getNamedQuery("thisUserCodeByID");
+			q.setParameter("t_id", userID);
+			List<MyStuffListItem> dataset = q.list();
+
 			System.out.println(dataset.toString());
 			return dataset;
 		} else {
-			ArrayList<CodeItem> dataset = new ArrayList<CodeItem>();
+			ArrayList<MyStuffListItem> dataset = new ArrayList<MyStuffListItem>();
 			for (CodeItem value : items.values()) {
 				if (value.getUser().getId() == userID) {
-					dataset.add(value);
+					dataset.add(new MyStuffListItem(value.getId(), value.getName(), value.getLanguage(), value.getSaveDate()));
 				}
 			}
 			return dataset;

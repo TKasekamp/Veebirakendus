@@ -3,6 +3,7 @@ package com.codepump.service;
 import java.util.List;
 
 import com.codepump.data.CodeItem;
+import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
 
 /**
@@ -42,6 +43,6 @@ public interface CodeService {
 	 * Uses AuthenticationService to find the id of this user. Then searches the DB for all code made by this user.
 	 * @return All CodeItems by this user.
 	 */
-	public List<CodeItem> getAllUserItems(String SID);
+	public List<MyStuffListItem> getAllUserItems(String SID);
 
 }

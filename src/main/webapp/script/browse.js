@@ -31,5 +31,4 @@ function loadCode(){
 
 $(function() {
 	loadCode();
-	recent();
 });

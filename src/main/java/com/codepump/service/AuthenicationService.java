@@ -27,8 +27,9 @@ public interface AuthenicationService {
 
 	/**
 	 * Finds the ID of the user with this SID.
+	 * If no such user is found, returns -1 that marks Public user.
 	 * @param SID cookie value
-	 * @return User ID
+	 * @return User ID or -1 for Public user
 	 */
 	public int getUserWithSID(String SID);
 

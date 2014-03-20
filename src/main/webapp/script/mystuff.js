@@ -29,7 +29,7 @@ function loadCode(){
 		success: function (itemsJson) {
 			var tag = $('.down');
 			for (var i = 0; i < itemsJson.length; i++) {
-				tag.append("<li><a href=\"source.html?id=" + itemsJson[i].id + "\">" + itemsJson[i].name + "</a></li>");
+				tag.append("<li><a href=\"source.html?id=" + itemsJson[i].codeID + "\">" + itemsJson[i].codeName + "</a></li>");
 			}
 		},
 		error: function (req, text) {
