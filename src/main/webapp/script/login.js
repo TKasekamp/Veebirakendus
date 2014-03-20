@@ -49,11 +49,14 @@ $(document).ready(function () {
 	else{
 		$("a#login").click(function () {
 			var temp = $("div.login");
+			var temp2 = $("div.fb-login-button");
 			if (temp.css("visibility") == "hidden") {
 				temp.css("visibility", "visible");
+				temp2.css("display", "inline");
 			}
 			else {
 				temp.css("visibility", "hidden");
+				temp2.css("display", "none");
 			}
 		});
 		
