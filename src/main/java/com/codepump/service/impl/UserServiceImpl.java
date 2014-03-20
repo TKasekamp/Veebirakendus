@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import com.codepump.controller.ServerController;
 import com.codepump.data.User;
 import com.codepump.service.UserService;
+import com.codepump.tempobject.UserStatisticsItem;
 import com.codepump.util.HibernateUtil;
 
 public class UserServiceImpl implements UserService {
@@ -66,6 +67,12 @@ public class UserServiceImpl implements UserService {
 		} else {
 			return users.get(id);
 		}
+	}
+
+	@Override
+	public UserStatisticsItem findUserStatistics(String SID) {
+		return null;
+		
 	}
 
 }
