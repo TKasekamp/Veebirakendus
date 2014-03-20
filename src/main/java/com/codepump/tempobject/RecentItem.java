@@ -24,7 +24,7 @@ public class RecentItem implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -6503631209142487572L;
-	private int codeId;
+	private int codeID;
 	private String codeName;
 	private String codeLanguage;
 	private Date createDate;
@@ -37,7 +37,7 @@ public class RecentItem implements Serializable {
 	public RecentItem(int codeId, String codeName, String codeLanguage,
 			Date createDate, int user_id, String user_name) {
 		super();
-		this.codeId = codeId;
+		this.codeID = codeId;
 		this.codeName = codeName;
 		this.codeLanguage = codeLanguage;
 		this.createDate = createDate;
@@ -48,11 +48,11 @@ public class RecentItem implements Serializable {
 	@Id
 	@Column(name = "CODE_ID")
 	public int getCodeId() {
-		return codeId;
+		return codeID;
 	}
 
 	public void setCodeId(int codeId) {
-		this.codeId = codeId;
+		this.codeID = codeId;
 	}
 
 	@Column(name = "CODE_NAME")
@@ -102,7 +102,7 @@ public class RecentItem implements Serializable {
 
 	@Override
 	public String toString() {
-		return "RecentItem [codeId=" + codeId + ", codeName=" + codeName
+		return "RecentItem [codeId=" + codeID + ", codeName=" + codeName
 				+ ", codeLanguage=" + codeLanguage + ", createDate="
 				+ createDate + ", userID=" + userID + ", userName="
 				+ userName + "]";

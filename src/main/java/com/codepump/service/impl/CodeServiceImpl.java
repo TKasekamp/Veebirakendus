@@ -98,7 +98,12 @@ public class CodeServiceImpl implements CodeService {
 	@Override
 	public void editCode(CodeItem item) {
 		if (USE_DATABASE) {
-			// TODO this
+			// This way no SQL injection in this function
+			CodeItem code = findItemById(item.getId());
+			code.setText(item.getText());
+			session.getTransaction().begin();
+			session.update(code);
+			session.getTransaction().commit();			
 		} else {
 			items.get(item.getId()).setText(item.getText());
 		}
