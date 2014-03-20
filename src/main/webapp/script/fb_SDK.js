@@ -62,7 +62,7 @@ window.fbAsyncInit = function() {
 	js = d.createElement('script');
 	js.id = id;
 	js.async = true;
-	js.src = "script/fb_all.js";
+	js.src = "http://connect.facebook.net/en_US/all.js";
 	ref.parentNode.insertBefore(js, ref);
 }(document));
 
@@ -81,6 +81,6 @@ function testAPI() {
 		return;
 	js = d.createElement(s);
 	js.id = id;
-	js.src = "script/fb_all.js";
+	js.src = "http://connect.facebook.net/et_EE/all.js#xfbml=1&appId=221920274674013";
 	fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
