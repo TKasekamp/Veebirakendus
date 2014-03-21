@@ -1,3 +1,5 @@
+var user = null;
+
 (function() {
 	var po = document.createElement('script');
 	po.type = 'text/javascript';
@@ -28,9 +30,12 @@ function gLogout() {
 }
 
 function gLoginStatus() {
-	if (status.google_logged_in) {
-		console.log('User is logged in.');
-	} else {
-		console.log('User is not logged in.');
-	}
+	gapi.client.load('plus', 'v1', function() {
+		var request = gapi.client.plus.people.get({
+			'userId' : 'me'
+		});
+		request.execute(function(resp) {
+			console.log('Logged in as:' + resp.displayName);
+		});
+	});
 };
