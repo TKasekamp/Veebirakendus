@@ -1,17 +1,17 @@
 var login = {
-	objectify : function(t1,t2){
-		return{
+	objectify : function(t1, t2) {
+		return {
 			username : t1,
 			password : t2
 		};
 	}
 };
 
-function getCookie(){
+function getCookie() {
 	var lst = document.cookie.split(";");
 	var cookie = "";
-	for(var i = 0; i < lst.length; i++){
-		if(lst[i].indexOf("SID") != -1){
+	for (var i = 0; i < lst.length; i++) {
+		if (lst[i].indexOf("SID") != -1) {
 			var temp = lst[i].split("=");
 			cookie = temp[1];
 		}
@@ -19,71 +19,80 @@ function getCookie(){
 	return cookie;
 };
 
-function objectify(t1){
+function objectify(t1) {
 	return {
 		SID : t1
 	};
 };
 
-$(document).ready(function () {
-	if(getCookie()){
-		var button = $("a#login");
-		button.html("Log Out");
-		button.click(function() {
-			$.ajax('/logout', {
-				type: 'POST',
-				data: JSON.stringify(objectify(getCookie())), // pack the bid object into json string
-				success: function(objekt) {
-					document.cookie = 'SID=';
-					location.reload();
-				},
-				error: function(req, text) {
-					alert("Failed to log out, try again");
-					console.log("Failed to connect to server");
-				}
-			});
-			
-		});
-		
-	}
-	else{
-		$("a#login").click(function () {
-			var temp = $("div.login");
-			var fbLoginButton = $("div.fb-login-button");
-			var gLoginButton = $("#g-signin-button");
-			if (temp.css("display") == "none") {
-				temp.css("display", "inline");
-				fbLoginButton.css("display", "inline");
-				gLoginButton.css("display", "inline");
-			}
-			else {
-				temp.css("display", "none");
-				fbLoginButton.css("display", "none");
-				gLoginButton.css("display", "none");
-			}
-		});
-		
-		$("#loginarea").click(function (){
-			var user = $("#username").val();
-			var pass = $("#password").val();
-			var objekt = login.objectify(user,pass);
-			$.ajax('/login', {
-				type: 'POST',
-				data: JSON.stringify(objekt), // pack the bid object into json string
-				success: function(objekt) {
-					if(objekt.response == 0 || objekt.response == 1 || objekt.response == 2){
-						alert("Wrong username / password");
-					}
-					else if(objekt.response == 3){
-						document.cookie = 'SID=' + objekt.SID;
-						location.reload();
-					}
-				},
-				error: function(req, text) {
-					console.log("Failed to connect to server");
-				}
-			});
-		});
-	}
-});
+$(document).ready(
+		function() {
+			if (getCookie()) {
+				var button = $("a#login");
+				button.html("Log Out");
+				button.click(function() {
+					$.ajax('/logout', {
+						type : 'POST',
+						data : JSON.stringify(objectify(getCookie())), // pack
+																		// the
+																		// bid
+																		// object
+																		// into
+																		// json
+																		// string
+						success : function(objekt) {
+							document.cookie = 'SID=';
+							location.reload();
+						},
+						error : function(req, text) {
+							alert("Failed to log out, try again");
+							console.log("Failed to connect to server");
+						}
+					});
 
+				});
+
+			} else {
+				$("a#login").click(function() {
+					var temp = $("div.login");
+					var fbLoginButton = $("div.fb-login-button");
+					var gLoginButton = $("#g-signin-button");
+					if (temp.css("display") == "none") {
+						temp.css("display", "inline");
+						// fbLoginButton.css("display", "inline");
+						if (loggedInAs == null)
+							gLoginButton.css("display", "inline");
+					} else {
+						temp.css("display", "none");
+						// fbLoginButton.css("display", "none");
+						gLoginButton.css("display", "none");
+					}
+				});
+
+				$("#loginarea").click(
+						function() {
+							var user = $("#username").val();
+							var pass = $("#password").val();
+							var objekt = login.objectify(user, pass);
+							$.ajax('/login', {
+								type : 'POST',
+								data : JSON.stringify(objekt), // pack the bid
+																// object into
+																// json string
+								success : function(objekt) {
+									if (objekt.response == 0
+											|| objekt.response == 1
+											|| objekt.response == 2) {
+										alert("Wrong username / password");
+									} else if (objekt.response == 3) {
+										document.cookie = 'SID=' + objekt.SID;
+										location.reload();
+									}
+								},
+								error : function(req, text) {
+									console.log("Failed to connect to server");
+								}
+							});
+						});
+			}
+		});

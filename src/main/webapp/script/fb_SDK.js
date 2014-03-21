@@ -45,7 +45,7 @@ function fbLogout() {
 function fbLoginStatus() {
 	FB.getLoginStatus(function(response) {
 		if (response.status === 'connected') {
-			console.log('User is logged in.');
+			console.log('User is logged in to Facebook.');
 			var uid = response.authResponse.userID;
 			var accessToken = response.authResponse.accessToken;
 		} else if (response.status === 'not_authorized') {

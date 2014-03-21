@@ -1,4 +1,4 @@
-var user = null;
+var loggedInAs;
 
 (function() {
 	var po = document.createElement('script');
@@ -15,6 +15,17 @@ function signinCallback(authResult) {
 		// Hide the sign-in button now that the user is authorized, for example:
 		document.getElementById('g-signin-button').setAttribute('style',
 				'display: none');
+		gapi.client.load('plus', 'v1', function() {
+			var request = gapi.client.plus.people.get({
+				'userId' : 'me'
+			});
+			request.execute(function(resp) {
+				loggedInAs = resp.displayName;
+				console.log('Welcome, ' + loggedInAs);
+				console.log('To logout, type "gLogout()"');
+				console.log('To check login status, type "gLoginStatus()"');
+			});
+		});
 	} else {
 		// Update the app to reflect a signed out user
 		// Possible error values:
@@ -22,6 +33,7 @@ function signinCallback(authResult) {
 		// "access_denied" - User denied access to your app
 		// "immediate_failed" - Could not automatically log in the user
 		console.log('Sign-in state: ' + authResult['error']);
+		loggedInAs = null;
 	}
 };
 
@@ -34,8 +46,6 @@ function gLoginStatus() {
 		var request = gapi.client.plus.people.get({
 			'userId' : 'me'
 		});
-		request.execute(function(resp) {
-			console.log('Logged in as:' + resp.displayName);
-		});
+		console.log('Logged in as: ' + loggedInAs);
 	});
 };
