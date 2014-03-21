@@ -67,9 +67,9 @@ public class CodeServiceImpl implements CodeService {
 	public CodeItem findItemById(int id) {
 		if (USE_DATABASE) {
 			// TODO Guard from SQL injection
-			List<CodeItem> dataset = session.createQuery(
-					"from CodeItem where CODE_ID='" + Integer.toString(id)
-							+ "'").list();
+			List<CodeItem> dataset = session
+					.createQuery("from CodeItem where CODE_ID=:id")
+					.setParameter("id", id).list();
 			return dataset.get(0);
 		} else {
 			return items.get(id);
@@ -103,7 +103,7 @@ public class CodeServiceImpl implements CodeService {
 			code.setText(item.getText());
 			session.getTransaction().begin();
 			session.update(code);
-			session.getTransaction().commit();			
+			session.getTransaction().commit();
 		} else {
 			items.get(item.getId()).setText(item.getText());
 		}
@@ -151,13 +151,15 @@ public class CodeServiceImpl implements CodeService {
 			q.setParameter("t_id", userID);
 			List<MyStuffListItem> dataset = q.list();
 
-			System.out.println(dataset.toString());
+//			System.out.println(dataset.toString());
 			return dataset;
 		} else {
 			ArrayList<MyStuffListItem> dataset = new ArrayList<MyStuffListItem>();
 			for (CodeItem value : items.values()) {
 				if (value.getUser().getId() == userID) {
-					dataset.add(new MyStuffListItem(value.getId(), value.getName(), value.getLanguage(), value.getSaveDate()));
+					dataset.add(new MyStuffListItem(value.getId(), value
+							.getName(), value.getLanguage(), value
+							.getSaveDate()));
 				}
 			}
 			return dataset;

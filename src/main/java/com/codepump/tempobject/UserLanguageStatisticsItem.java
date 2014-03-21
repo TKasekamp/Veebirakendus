@@ -41,7 +41,6 @@ public class UserLanguageStatisticsItem implements Serializable {
 		this.language = language;
 	}
 
-	@Id
 	@Column(name = "USER_ID")
 	public int getUserID() {
 		return userID;
@@ -68,7 +67,7 @@ public class UserLanguageStatisticsItem implements Serializable {
 	public void setCreatedItems(int createdItems) {
 		this.createdItems = createdItems;
 	}
-
+	@Id
 	@Column(name = "LANGUAGE")
 	public String getLanguage() {
 		return language;

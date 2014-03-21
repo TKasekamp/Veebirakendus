@@ -61,9 +61,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findUserById(int id) {
 		if (USE_DATABASE) {
-			// TODO Guard from SQL injection
 			List<User> dataset = session.createQuery(
-					"from User where USER_ID='" + Integer.toString(id) + "'")
+					"from User where USER_ID=:id").setParameter("id", id)
 					.list();
 			return dataset.get(0);
 		} else {
@@ -85,6 +84,7 @@ public class UserServiceImpl implements UserService {
 			Query q = session.getNamedQuery("thisUserLanguageStatistics");
 			q.setParameter("t_id", userID);
 			List<UserLanguageStatisticsItem> dataset = q.list();
+//			System.out.println(dataset.toString());
 			// UserStatisticsItem is the container for this query's results
 			return new UserStatisticsItem(dataset);
 		} else {

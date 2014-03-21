@@ -18,15 +18,15 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 	private final boolean USE_DATABASE = ServerController.USE_DATABASE;
 	private Session session;
 	private static Map<Integer, User> users = UserServiceImpl.users;
-	
+
 	public AuthenticationServiceImpl() {
 		if (USE_DATABASE) {
 			session = HibernateUtil.currentSession();
 
-		} 
+		}
 		SIDlist = new HashMap<>();
 	}
-	
+
 	/**
 	 * Finds a name from the list and checks password. <br>
 	 * 0 - there is no such user <br>
@@ -42,11 +42,10 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 
 		// Find user
 		if (USE_DATABASE) {
-			// TODO Guard from SQL injection
 			@SuppressWarnings("unchecked")
-			List<User> dataset = session.createQuery(
-					"from User where USER_NAME='" + user.getName() + "'")
-					.list();
+			List<User> dataset = session
+					.createQuery("from User where USER_NAME = :userName")
+					.setParameter("userName", user.getName()).list();
 			try {
 				System.out.println("Got user from DB");
 				System.out.println(dataset.get(0));
@@ -126,6 +125,5 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 		}
 		return id;
 	}
-
 
 }
