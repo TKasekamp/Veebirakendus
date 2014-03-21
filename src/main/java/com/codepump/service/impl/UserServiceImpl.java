@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import com.codepump.controller.ServerController;
 import com.codepump.data.User;
 import com.codepump.service.UserService;
+import com.codepump.tempobject.UserLanguageStatisticsItem;
 import com.codepump.tempobject.UserStatisticsItem;
 import com.codepump.util.HibernateUtil;
 
@@ -81,10 +82,11 @@ public class UserServiceImpl implements UserService {
 		}
 		if (USE_DATABASE) {
 			// Creating a query and setting a parameter after.
-			Query q = session.getNamedQuery("thisUserStatistics");
+			Query q = session.getNamedQuery("thisUserLanguageStatistics");
 			q.setParameter("t_id", userID);
-			List<UserStatisticsItem> dataset = q.list();
-			return dataset.get(0);
+			List<UserLanguageStatisticsItem> dataset = q.list();
+			// UserStatisticsItem is the container for this query's results
+			return new UserStatisticsItem(dataset);
 		} else {
 			// TODO for someone who cares about it
 			return null;

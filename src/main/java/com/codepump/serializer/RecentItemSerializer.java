@@ -24,8 +24,6 @@ public class RecentItemSerializer implements JsonSerializer<RecentItem> {
 	public JsonElement serialize(RecentItem src, Type typeOfSrc,
 			JsonSerializationContext context) {
 		JsonObject obj = new JsonObject();
-
-
 		obj.addProperty("codeID", src.getCodeId());
 		obj.addProperty("codeName", src.getCodeName());
 		obj.addProperty("codeLangauge", src.getCodeLanguage());

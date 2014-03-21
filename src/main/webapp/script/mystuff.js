@@ -43,7 +43,7 @@ function loadCode(){
 			var tag = $('#statistics');
 			var tag2 = $('#statistics2');
 			tag.empty();
-			tag.append(statistics.username + "s stuff");
+			tag.append(statistics.userName + "s stuff");
 			tag2.append("You have: " + statistics.createdItems + " pastes");
 		},
 		error: function (req, text) {

@@ -9,7 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.codepump.controller.ServerController;
+import com.codepump.serializer.UserLanguageStatisticsSerializer;
+import com.codepump.serializer.UserStatisticsSerializer;
 import com.codepump.service.UserService;
+import com.codepump.tempobject.UserLanguageStatisticsItem;
 import com.codepump.tempobject.UserStatisticsItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -19,7 +22,7 @@ public class UserStatisticsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
-	private Gson gsonGetAll;
+	private Gson gson;
 
 	public static UserService userServ;
 
@@ -28,7 +31,11 @@ public class UserStatisticsServlet extends HttpServlet {
 		super.init();
 
 		// Configure GSON
-		gsonGetAll = new GsonBuilder().create();
+		gson = new GsonBuilder()
+				.registerTypeAdapter(UserLanguageStatisticsItem.class,
+						new UserLanguageStatisticsSerializer())
+				.registerTypeAdapter(UserStatisticsItem.class,
+						new UserStatisticsSerializer()).create();
 
 		// Services
 		userServ = ServerController.userServer;
@@ -42,14 +49,13 @@ public class UserStatisticsServlet extends HttpServlet {
 		String SID = req.getParameter("SID");
 		if (SID != null) {
 			replyWithUserStatistics(resp, SID);
-
 		}
 	}
 
 	private void replyWithUserStatistics(HttpServletResponse resp, String SID)
 			throws IOException {
 		UserStatisticsItem allContent = userServ.findUserStatistics(SID);
-		resp.getWriter().write(gsonGetAll.toJson(allContent));
+		resp.getWriter().write(gson.toJson(allContent));
 
 	}
 
