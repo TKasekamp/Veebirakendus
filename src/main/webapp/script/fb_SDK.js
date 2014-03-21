@@ -36,8 +36,22 @@ function testAPI() {
 	fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-function Logout() {
+function fbLogout() {
 	FB.logout(function() {
 		document.location.reload();
+	});
+}
+
+function fbLoginStatus() {
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			console.log('User is logged in.');
+			var uid = response.authResponse.userID;
+			var accessToken = response.authResponse.accessToken;
+		} else if (response.status === 'not_authorized') {
+			console.log("User is logged in, but hasn't authorized the app.");
+		} else {
+			console.log('User is not logged in.');
+		}
 	});
 }

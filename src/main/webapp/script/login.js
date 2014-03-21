@@ -49,14 +49,17 @@ $(document).ready(function () {
 	else{
 		$("a#login").click(function () {
 			var temp = $("div.login");
-			var temp2 = $("div.fb-login-button");
-			if (temp.css("visibility") == "hidden") {
-				temp.css("visibility", "visible");
-				temp2.css("display", "inline");
+			var fbLoginButton = $("div.fb-login-button");
+			var gLoginButton = $("#g-signin-button");
+			if (temp.css("display") == "none") {
+				temp.css("display", "inline");
+				fbLoginButton.css("display", "inline");
+				gLoginButton.css("display", "inline");
 			}
 			else {
-				temp.css("visibility", "hidden");
-				temp2.css("display", "none");
+				temp.css("display", "none");
+				fbLoginButton.css("display", "none");
+				gLoginButton.css("display", "none");
 			}
 		});
 		
