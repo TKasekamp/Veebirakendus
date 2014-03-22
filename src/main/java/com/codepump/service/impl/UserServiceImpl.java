@@ -1,5 +1,6 @@
 package com.codepump.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -88,8 +89,11 @@ public class UserServiceImpl implements UserService {
 			// UserStatisticsItem is the container for this query's results
 			return new UserStatisticsItem(dataset);
 		} else {
-			// TODO for someone who cares about it
-			return null;
+			List<UserLanguageStatisticsItem> dataset = new ArrayList<UserLanguageStatisticsItem>();
+			dataset.add(new UserLanguageStatisticsItem(2, "test", 2, "Java"));
+			dataset.add(new UserLanguageStatisticsItem(2, "test", 4, "Python"));
+			dataset.add(new UserLanguageStatisticsItem(2, "test", 2, "SQL"));
+			return new UserStatisticsItem(dataset);
 		}
 		
 	}
