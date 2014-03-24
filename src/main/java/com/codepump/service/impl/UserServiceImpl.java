@@ -46,12 +46,11 @@ public class UserServiceImpl implements UserService {
 	public int addUser(User item) {
 		int result = 0;
 		if (USE_DATABASE) {
-			if(findUserByName(item.getName()) == null) {
+			if (findUserByName(item.getName()) == null) {
 				session.getTransaction().begin();
 				session.save(item);
-				session.getTransaction().commit();				
-			}
-			else  {
+				session.getTransaction().commit();
+			} else {
 				result = 1;
 			}
 
@@ -93,7 +92,11 @@ public class UserServiceImpl implements UserService {
 			Query q = session.getNamedQuery("thisUserLanguageStatistics");
 			q.setParameter("t_id", userID);
 			List<UserLanguageStatisticsItem> dataset = q.list();
-			// System.out.println(dataset.toString());
+			// As the dataset is empty, creating new item by searching for user
+			if (dataset.size() == 0) {
+				User user = findUserById(userID);
+				return new UserStatisticsItem(user.getId(), user.getName(), 0);
+			}
 			// UserStatisticsItem is the container for this query's results
 			return new UserStatisticsItem(dataset);
 		} else {

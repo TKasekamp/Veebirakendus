@@ -24,12 +24,12 @@ public class UserStatisticsItem implements Serializable {
 	public UserStatisticsItem() {
 	}
 
-	public UserStatisticsItem(int userID, String username, int createdItems,
-			String favouriteLanguage) {
+	public UserStatisticsItem(int userID, String username, int createdItems) {
 		super();
 		this.userID = userID;
 		this.username = username;
 		this.createdItems = createdItems;
+		languageStatistics = null;
 	}
 
 	/**

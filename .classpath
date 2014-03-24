@@ -16,5 +16,8 @@
 	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/jboss-transaction-api_1.2_spec-1.0.0.Final.jar"/>
 	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/xml-apis-1.0.b2.jar"/>
 	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/javax.servlet-3.0.0.v201112011016.jar"/>
+	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/javax.servlet-api-3.1.0.jar"/>
+	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/websocket-api-9.1.2.v20140210.jar"/>
+	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/websocket-servlet-9.1.2.v20140210.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
