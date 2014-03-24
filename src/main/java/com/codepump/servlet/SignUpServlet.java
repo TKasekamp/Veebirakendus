@@ -38,9 +38,19 @@ public class SignUpServlet extends HttpServlet {
 			throws ServletException, IOException {
 		try {
 			User user = gson.fromJson(req.getReader(), User.class);
-			userServ.addUser(user);
-			System.out.println("Adding user");
-			System.out.println(user);
+			int result = userServ.addUser(user);
+			resp.setHeader("Content-Type", "application/json");
+			if (result == 0) {
+				System.out.println("Adding user");
+				System.out.println(user);		
+				resp.getWriter().write(
+						"{\"response\":\"User created\"}");
+			}
+			else {
+				System.out.println("user already exists");
+				resp.getWriter().write(
+						"{\"response\":\"A user with this name already exists\"}");
+			}
 		} catch (JsonParseException ex) {
 			System.err.println(ex);
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());

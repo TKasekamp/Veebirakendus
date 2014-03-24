@@ -43,11 +43,18 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addUser(User item) {
+	public int addUser(User item) {
+		int result = 0;
 		if (USE_DATABASE) {
-			session.getTransaction().begin();
-			session.save(item);
-			session.getTransaction().commit();
+			if(findUserByName(item.getName()) == null) {
+				session.getTransaction().begin();
+				session.save(item);
+				session.getTransaction().commit();				
+			}
+			else  {
+				result = 1;
+			}
+
 		} else {
 			item.setId(userCounter); // temp hack
 			users.put(userCounter, item);
@@ -55,6 +62,7 @@ public class UserServiceImpl implements UserService {
 			System.out.println("Added user. List now contains:");
 			System.out.println(users);
 		}
+		return result;
 
 	}
 
@@ -62,9 +70,9 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User findUserById(int id) {
 		if (USE_DATABASE) {
-			List<User> dataset = session.createQuery(
-					"from User where USER_ID=:id").setParameter("id", id)
-					.list();
+			List<User> dataset = session
+					.createQuery("from User where USER_ID=:id")
+					.setParameter("id", id).list();
 			return dataset.get(0);
 		} else {
 			return users.get(id);
@@ -85,7 +93,7 @@ public class UserServiceImpl implements UserService {
 			Query q = session.getNamedQuery("thisUserLanguageStatistics");
 			q.setParameter("t_id", userID);
 			List<UserLanguageStatisticsItem> dataset = q.list();
-//			System.out.println(dataset.toString());
+			// System.out.println(dataset.toString());
 			// UserStatisticsItem is the container for this query's results
 			return new UserStatisticsItem(dataset);
 		} else {
@@ -95,7 +103,20 @@ public class UserServiceImpl implements UserService {
 			dataset.add(new UserLanguageStatisticsItem(2, "test", 2, "SQL"));
 			return new UserStatisticsItem(dataset);
 		}
-		
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public User findUserByName(String username) {
+		List<User> dataset = session
+				.createQuery("from User where USER_NAME = :userName")
+				.setParameter("userName", username).list();
+		if (dataset.size() == 1) {
+			return dataset.get(0);
+		} else {
+			return null;
+		}
 	}
 
 }
