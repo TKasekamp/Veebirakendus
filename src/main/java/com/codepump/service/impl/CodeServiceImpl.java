@@ -59,14 +59,13 @@ public class CodeServiceImpl implements CodeService {
 			items.put(codeCounter, item);
 			codeCounter++;
 		}
-
+		
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public CodeItem findItemById(int id) {
 		if (USE_DATABASE) {
-			// TODO Guard from SQL injection
 			List<CodeItem> dataset = session
 					.createQuery("from CodeItem where CODE_ID=:id")
 					.setParameter("id", id).list();
