@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.codepump.data.CodeItem;
 import com.codepump.service.CodeService;
+import com.codepump.tempobject.EditContainer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
@@ -32,11 +32,10 @@ public class EditServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-			// TODO authentication
-			CodeItem item = gson.fromJson(req.getReader(), CodeItem.class);
+			EditContainer item = gson.fromJson(req.getReader(),
+					EditContainer.class);
 			System.out.println(item);
 			datastore.editCode(item);
-			System.out.println("Edit success");
 
 		} catch (JsonParseException ex) {
 			System.err.println(ex);

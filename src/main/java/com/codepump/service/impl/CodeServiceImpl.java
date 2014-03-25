@@ -13,6 +13,7 @@ import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.service.CodeService;
+import com.codepump.tempobject.EditContainer;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
 import com.codepump.util.HibernateUtil;
@@ -59,7 +60,7 @@ public class CodeServiceImpl implements CodeService {
 			items.put(codeCounter, item);
 			codeCounter++;
 		}
-		
+
 	}
 
 	@SuppressWarnings("unchecked")
@@ -95,16 +96,19 @@ public class CodeServiceImpl implements CodeService {
 	}
 
 	@Override
-	public void editCode(CodeItem item) {
-		if (USE_DATABASE) {
-			// This way no SQL injection in this function
-			CodeItem code = findItemById(item.getId());
-			code.setText(item.getText());
-			session.getTransaction().begin();
-			session.update(code);
-			session.getTransaction().commit();
-		} else {
-			items.get(item.getId()).setText(item.getText());
+	public void editCode(EditContainer item) {
+		if (ServerController.authenticationServer.authoriseEdit(item)) {
+			if (USE_DATABASE) {
+				// this is not efficient, but creating a direct update query
+				// kind of crashed the server
+				CodeItem code = findItemById(item.getId());
+				code.setText(item.getText());
+				session.getTransaction().begin();
+				session.update(code);
+				session.getTransaction().commit();
+			} else {
+				items.get(item.getId()).setText(item.getText());
+			}
 		}
 
 	}
@@ -115,7 +119,6 @@ public class CodeServiceImpl implements CodeService {
 		if (USE_DATABASE) {
 			List<RecentItem> results = session.getNamedQuery(
 					"findRecentItemsInOrder").list();
-			// System.out.println(results.toString());
 			return results;
 
 		} else {
@@ -150,7 +153,7 @@ public class CodeServiceImpl implements CodeService {
 			q.setParameter("t_id", userID);
 			List<MyStuffListItem> dataset = q.list();
 
-//			System.out.println(dataset.toString());
+			// System.out.println(dataset.toString());
 			return dataset;
 		} else {
 			ArrayList<MyStuffListItem> dataset = new ArrayList<MyStuffListItem>();

@@ -8,9 +8,11 @@ import java.util.Random;
 import org.hibernate.Session;
 
 import com.codepump.controller.ServerController;
+import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.response.AuthenticationResponse;
 import com.codepump.service.AuthenicationService;
+import com.codepump.tempobject.EditContainer;
 import com.codepump.util.HibernateUtil;
 
 public class AuthenticationServiceImpl implements AuthenicationService {
@@ -124,6 +126,19 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 			System.out.println("no such user logged in");
 		}
 		return id;
+	}
+
+	@Override
+	public boolean authoriseEdit(EditContainer item) {
+		if (item.getSID() == null) {
+			return false;
+		}
+		int userID = getUserWithSID(item.getSID());
+		CodeItem code = ServerController.codeServer.findItemById(item.getId());
+		if (userID == code.getUser().getId()) {
+			return true;
+		}
+		return false;
 	}
 
 }
