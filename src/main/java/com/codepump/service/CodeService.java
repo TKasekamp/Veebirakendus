@@ -52,5 +52,8 @@ public interface CodeService {
 	 * @return All CodeItems by this user.
 	 */
 	public List<MyStuffListItem> getAllUserItems(String SID);
+	
+	
+	public RecentItem getLastRecentItem();
 
 }

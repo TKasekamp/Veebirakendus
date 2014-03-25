@@ -136,6 +136,21 @@ public class CodeServiceImpl implements CodeService {
 			return dataset;
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public RecentItem getLastRecentItem() {
+		if (USE_DATABASE) {
+			List<RecentItem> results = session.createSQLQuery(
+					"select c.code_id, c.code_name,  c.code_language, "
+		+ "c.created_date, w.user_name, w.user_id FROM CodeItem as c JOIN webapp_user as w on w.user_id = c.user_id where c.privacy = 'Public' ORDER BY c.created_date DESC LIMIT 1").addEntity(RecentItem.class).list();
+			return results.get(0);
+
+		} else {
+			// TODO for someone to fix. RecentItem should get values from users			
+			return new RecentItem(100, "haha", "Java", new Date(), 100, "test");
+		}		
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

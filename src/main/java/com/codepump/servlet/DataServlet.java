@@ -75,7 +75,12 @@ public class DataServlet extends HttpServlet {
 			resp.setHeader("Content-Type", "application/json");
 			// resp.getWriter().write(gson.toJson(item));
 			resp.getWriter().write(item.JsonID());
-//			RecentSocketController.find(req.getServletContext()).broadcast("hello");
+//			System.out.println(codeServ.getLastRecentItem());
+			try {
+				RecentSocketController.find(req.getServletContext()).loadMostRecent();
+			} catch (NullPointerException e) {
+				System.out.println("Tartu, we have a problem. Actually no twats are looking at our websockets.");
+			}
 		} catch (JsonParseException ex) {
 			System.err.println(ex);
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());

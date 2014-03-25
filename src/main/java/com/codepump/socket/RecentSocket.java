@@ -30,6 +30,7 @@ public class RecentSocket {
     public void onOpen(Session session) {
         this.session = session;
         controller.getSockets().add(this);
+        controller.onStartLoad();
     }
 
     @OnWebSocketClose
