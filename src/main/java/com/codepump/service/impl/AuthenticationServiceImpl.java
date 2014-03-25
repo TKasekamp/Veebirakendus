@@ -130,10 +130,10 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 
 	@Override
 	public boolean authoriseEdit(EditContainer item) {
-		if (item.getSID() == null) {
+		int userID = getUserWithSID(item.getSID());
+		if (userID == -1) {
 			return false;
 		}
-		int userID = getUserWithSID(item.getSID());
 		CodeItem code = ServerController.codeServer.findItemById(item.getId());
 		if (userID == code.getUser().getId()) {
 			return true;
