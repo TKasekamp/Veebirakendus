@@ -95,16 +95,10 @@ public class RecentSocketController extends WebSocketServlet implements WebSocke
         return (RecentSocketController) context.getAttribute(RecentSocketController.class.getName());
     }
     
-    public void onStartLoad() {
+    public String onStartLoad() {
 		List<RecentItem> allContent = codeServ.getRecentItems();
-		
-        for (RecentSocket socket : sockets) {
-            try {
-                socket.send(gson.toJson(allContent));
-            } catch (IOException e) {
-                System.out.println("failed to broadcast to " + socket);
-            }
-        }    	
+		return gson.toJson(allContent);
+        
     }
 
 }
