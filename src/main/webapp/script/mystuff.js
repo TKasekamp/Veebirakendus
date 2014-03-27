@@ -12,6 +12,7 @@ function recent(){
 		data: mystuff.objectify(),
 		success: function(items){
 			var tag = $("#recent");
+			tag.empty();
 			for(var i = 0; i < items.length; i++){
 				tag.append("<p><a href=\"source.html?id=" + items[i].codeID + "\">" + items[i].codeName + " - " + items[i].createDate + "</a></p>");
 			}
