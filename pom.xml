@@ -99,6 +99,12 @@
 			<version>9.1.2.v20140210</version>
 		</dependency>
 
+		<!-- Velocity -->
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+		</dependency>
 
 	</dependencies>
 	<build>

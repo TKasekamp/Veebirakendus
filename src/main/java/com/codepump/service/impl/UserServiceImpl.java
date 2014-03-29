@@ -92,6 +92,8 @@ public class UserServiceImpl implements UserService {
 			Query q = session.getNamedQuery("thisUserLanguageStatistics");
 			q.setParameter("t_id", userID);
 			List<UserLanguageStatisticsItem> dataset = q.list();
+			// Without this the query will always return the same things
+			session.clear();
 			// As the dataset is empty, creating new item by searching for user
 			if (dataset.size() == 0) {
 				User user = findUserById(userID);

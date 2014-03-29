@@ -19,5 +19,8 @@
 	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/javax.servlet-api-3.1.0.jar"/>
 	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/websocket-api-9.1.2.v20140210.jar"/>
 	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/websocket-servlet-9.1.2.v20140210.jar"/>
+	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/commons-lang-2.4.jar"/>
+	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/velocity-1.7.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

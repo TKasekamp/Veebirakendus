@@ -79,7 +79,7 @@ public class UserLanguageStatisticsItem implements Serializable {
 
 	@Override
 	public String toString() {
-		return "UserStatisticsItem [userID=" + userID + ", username="
+		return "UserLanguageStatisticsItem [userID=" + userID + ", username="
 				+ username + ", createdItems=" + createdItems
 				+ ", favouriteLanguage=" + language + "]";
 	}
