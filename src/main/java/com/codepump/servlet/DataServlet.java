@@ -86,13 +86,14 @@ public class DataServlet extends HttpServlet {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
 		}
 	}
-
+	@Deprecated
 	private void replyWithAllItems(HttpServletResponse resp) throws IOException {
 		List<CodeItem> allContent = codeServ.findAllItems();
 		resp.getWriter().write(gsonGetAll.toJson(allContent));
 		System.out.println("wanted all public stuff");
 	}
 
+	@Deprecated
 	private void replyWithSingleItem(HttpServletResponse resp, String idString)
 			throws IOException {
 		int id = Integer.parseInt(idString);

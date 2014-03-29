@@ -49,7 +49,7 @@ function loadCode(){
     };
 
 $(function() {
-	loadCode();
+	//loadCode();
 	//createWebsocket();
-	recent();
+	//recent();
 });

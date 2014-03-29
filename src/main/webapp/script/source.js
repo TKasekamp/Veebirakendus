@@ -82,8 +82,9 @@ function edit(){
 };
 
 $(function() {
-	loadFile();
-	
+//	loadFile(); 
+	SyntaxHighlighter.highlight();
+	// TODO fix edit
 	$("#edit").click(function(){
 		edit();
 	});

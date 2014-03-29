@@ -25,7 +25,7 @@ public class UserStatisticsSerializer implements
 			JsonSerializationContext context) {
 		JsonObject obj = new JsonObject();
 		obj.addProperty("userID", arg0.getUserID());
-		obj.addProperty("userName", arg0.getUsername());
+		obj.addProperty("userName", arg0.getUserName());
 		obj.addProperty("createdItems", arg0.getCreatedItems());
 		final JsonElement jsonLangauage = context.serialize(arg0
 				.getLanguageStatistics());

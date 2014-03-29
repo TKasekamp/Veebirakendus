@@ -17,7 +17,7 @@ public class UserStatisticsItem implements Serializable {
 	 */
 	private static final long serialVersionUID = -5921914751621125681L;
 	private int userID;
-	private String username;
+	private String userName;
 	private int createdItems;
 	private List<UserLanguageStatisticsItem> languageStatistics;
 
@@ -27,7 +27,7 @@ public class UserStatisticsItem implements Serializable {
 	public UserStatisticsItem(int userID, String username, int createdItems) {
 		super();
 		this.userID = userID;
-		this.username = username;
+		this.userName = username;
 		this.createdItems = createdItems;
 		languageStatistics = null;
 	}
@@ -42,7 +42,7 @@ public class UserStatisticsItem implements Serializable {
 	 */
 	public UserStatisticsItem(List<UserLanguageStatisticsItem> dataset) {
 		this.userID = dataset.get(0).getUserID();
-		this.username = dataset.get(0).getUsername();
+		this.userName = dataset.get(0).getUsername();
 		this.languageStatistics = dataset;
 		this.createdItems = 0;
 		for (UserLanguageStatisticsItem item : dataset) {
@@ -58,12 +58,12 @@ public class UserStatisticsItem implements Serializable {
 		this.userID = userID;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUserName(String username) {
+		this.userName = username;
 	}
 
 	public int getCreatedItems() {
@@ -85,8 +85,8 @@ public class UserStatisticsItem implements Serializable {
 
 	@Override
 	public String toString() {
-		return "UserStatisticsItem [userID=" + userID + ", username="
-				+ username + ", createdItems=" + createdItems
+		return "UserStatisticsItem [userID=" + userID + ", userName="
+				+ userName + ", createdItems=" + createdItems
 				+ ", languageStatistics=" + languageStatistics + "]";
 	}
 

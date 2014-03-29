@@ -56,12 +56,12 @@ function loadCode(){
 
 $(function() {
 	if(getCookie()){
-		loadCode();
+		//loadCode();
 	}
 	else{
-		var tag = $(".content");
-		tag.empty();
-		tag.append("<h4>This page is for logged in users only. Please log in to view this page</h4>");
-		recent();
+		//var tag = $(".content");
+		//tag.empty();
+		//tag.append("<h4>This page is for logged in users only. Please log in to view this page</h4>");
+		//recent();
 	}
 });

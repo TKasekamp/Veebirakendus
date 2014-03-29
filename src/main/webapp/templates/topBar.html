@@ -1,0 +1,36 @@
+	<nav class="top-bar" data-topbar>
+		<ul class="title-area">
+			<!-- Title Area -->
+			<li class="name">
+				<h1>
+					<a href="index.html"> CodePump #2 </a>
+				</h1>
+			</li>
+			<li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+		</ul>
+
+		<section class="top-bar-section">
+			
+		<!-- Right Nav Section -->
+			<ul class="right">
+				#if($haveUser == true)
+				<li class="divider"></li>
+				<li><a href="#">Hello $user.getName()</a></li>
+				#end							
+				<li class="divider"></li>
+				<li class="has-dropdown"><a href="mystuff.html">My stuff</a>
+					<ul class="dropdown">
+						<li><label>My code</label></li>
+						<li><a href="mystuff.html">My stuff</a></li>
+						<li class="divider"></li>
+						<li><label>Browse code</label></li>
+						<li><a href="browse.html">Browse code</a></li>
+					</ul></li>
+				<li class="divider"></li>
+				<li><a href="signup.html" id="signup">Sign Up</a></li>
+				<li class="divider"></li>
+				<li><a href="#" id="login">Log in</a></li>
+				<li class="divider"></li>
+			</ul>
+		</section>
+	</nav>

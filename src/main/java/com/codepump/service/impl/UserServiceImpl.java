@@ -124,4 +124,14 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public User findUserBySID(String SID) {
+		int userID = ServerController.authenticationServer.getUserWithSID(SID);
+		if (userID == -1) {
+			return null;
+		}
+		User user = findUserById(userID);
+		return user;
+	}
+
 }

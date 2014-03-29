@@ -10,6 +10,11 @@ import com.codepump.tempobject.UserStatisticsItem;
  * 
  */
 public interface UserService {
+	/**
+	 * Searches for this user in the DB. 
+	 * @param id
+	 * @return User
+	 */
 	public User findUserById(int id);
 
 	/**
@@ -39,4 +44,15 @@ public interface UserService {
 	 *            Cookie value
 	 */
 	public UserStatisticsItem findUserStatistics(String SID);
+
+	/**
+	 * First checks if there is such an user logged in. Uses the ID to then get
+	 * this user from DB.
+	 * 
+	 * @param SID
+	 *            session ID
+	 * @return null if no such user logged in <br>
+	 *         User if succesful
+	 */
+	public User findUserBySID(String SID);
 }
