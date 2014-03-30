@@ -42,10 +42,5 @@ function gLogout() {
 }
 
 function gLoginStatus() {
-	gapi.client.load('plus', 'v1', function() {
-		var request = gapi.client.plus.people.get({
-			'userId' : 'me'
-		});
-		console.log('Logged in as: ' + loggedInAs);
-	});
+	console.log('Logged in as: ' + loggedInAs);
 };
