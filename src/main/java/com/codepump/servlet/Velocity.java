@@ -121,7 +121,7 @@ public class Velocity extends HttpServlet {
 				context.put("language", item.getLanguage().toLowerCase());
 				context.put("code", item);
 				// For edit button
-				if (authServ.authoriseEdit(SID, id)) {
+				if ((user != null) && (item.getUser().getId() == user.getId())) {
 					canChange = true;
 				}
 
