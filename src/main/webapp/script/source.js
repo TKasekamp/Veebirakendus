@@ -2,18 +2,11 @@ var editing = false;
 
 var code = {
 	id : "",
-	text : "",
-	lang : ""
+	text : ""
 };
 
 var source = {
-	objectify: function(t1){
-		return{
-			id : t1,
-			SID : getCookie()
-		};
-	},
-	objectify2: function(t1,t2){
+	objectify: function(t1,t2){
 		return{
 			id : t1,
 			text : t2,
@@ -22,27 +15,10 @@ var source = {
 	}
 };
 
-function loadFile(){
-	code.id = gup('id');
-	var objekt = source.objectify(code.id);
-	$.ajax('/data', {
-		dataType: 'json',
-		data: objekt,
-		success: function (item) {
-			var name = $('h3#name');
-			var tag = $('pre');
-			name.html(item.name);
-			tag.attr("class", "brush: " + item.language.toLowerCase());
-			tag.html(item.text);
-			SyntaxHighlighter.highlight();
-			code.text = item.text;
-			code.lang = item.language.toLowerCase();
-		},
-		error: function (req, text) {
-			console.error('failed to load item: ' + text);
-		}
-	});
-};
+function evaluate() {
+	code.text = $("#codearea").val();
+	code.id = gup("id");
+}
 
 function edit(){
 	var button = $("#edit");
@@ -56,7 +32,7 @@ function edit(){
 		SyntaxHighlighter.highlight();
 		position.fadeToggle();
 		editing = false;
-		var objekt = source.objectify2(code.id,code.text);
+		var objekt = source.objectify(code.id,code.text);
 		$.ajax('/edit', {
             type: 'POST',
             data: JSON.stringify(objekt), // pack the bid object into json string
@@ -82,9 +58,8 @@ function edit(){
 };
 
 $(function() {
-//	loadFile(); 
+	evaluate();
 	SyntaxHighlighter.highlight();
-	// TODO fix edit
 	$("#edit").click(function(){
 		edit();
 	});
