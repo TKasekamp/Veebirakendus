@@ -141,4 +141,17 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 		return false;
 	}
 
+	@Override
+	public boolean authoriseEdit(String SID, int codeID) {
+		int userID = getUserWithSID(SID);
+		if (userID == -1) {
+			return false;
+		}
+		CodeItem code = ServerController.codeServer.findItemById(codeID);
+		if (userID == code.getUser().getId()) {
+			return true;
+		}
+		return false;
+	}
+
 }

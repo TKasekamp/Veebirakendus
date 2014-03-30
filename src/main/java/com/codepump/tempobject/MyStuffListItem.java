@@ -1,13 +1,14 @@
 package com.codepump.tempobject;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedNativeQuery;
-
 
 /**
  * Class to transport values from both tables to the user. <br>
@@ -18,7 +19,7 @@ import javax.persistence.NamedNativeQuery;
  */
 @Entity
 @NamedNativeQuery(name = "thisUserCodeByID", query = "select c.code_id, c.code_name, c.code_language, c.created_date FROM CodeItem as c JOIN webapp_user as w on w.user_id = c.user_id where c.user_id = :t_id ORDER BY c.created_date DESC", resultClass = MyStuffListItem.class)
-public class MyStuffListItem implements Serializable{
+public class MyStuffListItem implements Serializable {
 
 	/**
 	 * This has to be here
@@ -28,10 +29,13 @@ public class MyStuffListItem implements Serializable{
 	private String codeName;
 	private String codeLanguage;
 	private Date createDate;
-	
+
+	private static final DateFormat FORMAT = new SimpleDateFormat(
+			"HH:mm:ss dd.MM.yyyy");
+
 	public MyStuffListItem() {
 	}
-	
+
 	public MyStuffListItem(int codeId, String codeName, String codeLanguage,
 			Date createDate) {
 		super();
@@ -40,12 +44,13 @@ public class MyStuffListItem implements Serializable{
 		this.codeLanguage = codeLanguage;
 		this.createDate = createDate;
 	}
-	
+
 	@Id
 	@Column(name = "CODE_ID")
 	public int getCodeId() {
 		return codeId;
 	}
+
 	public void setCodeId(int codeId) {
 		this.codeId = codeId;
 	}
@@ -58,7 +63,7 @@ public class MyStuffListItem implements Serializable{
 	public void setCodeName(String codeName) {
 		this.codeName = codeName;
 	}
-	
+
 	@Column(name = "CODE_LANGUAGE")
 	public String getCodeLanguage() {
 		return codeLanguage;
@@ -84,6 +89,13 @@ public class MyStuffListItem implements Serializable{
 				+ createDate + "]";
 	}
 
-
+	/**
+	 * Formats the creation date to "HH:mm:ss dd.MM.yyyy"
+	 * 
+	 * @return String format of date
+	 */
+	public String prettyCreateDate() {
+		return FORMAT.format(createDate);
+	}
 
 }

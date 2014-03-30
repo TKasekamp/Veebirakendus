@@ -16,7 +16,8 @@ import com.codepump.tempobject.RecentItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-@WebServlet(value = "/recent")
+//@WebServlet(value = "/recent")
+@Deprecated
 public class RecentServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Gson gson;

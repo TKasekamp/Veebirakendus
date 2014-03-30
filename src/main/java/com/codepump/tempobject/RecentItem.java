@@ -1,6 +1,8 @@
 package com.codepump.tempobject;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -30,6 +32,9 @@ public class RecentItem implements Serializable {
 	private Date createDate;
 	private int userID;
 	private String userName;
+
+	private static final DateFormat FORMAT = new SimpleDateFormat(
+			"HH:mm:ss dd.MM.yyyy");
 
 	public RecentItem() {
 	}
@@ -104,8 +109,17 @@ public class RecentItem implements Serializable {
 	public String toString() {
 		return "RecentItem [codeId=" + codeID + ", codeName=" + codeName
 				+ ", codeLanguage=" + codeLanguage + ", createDate="
-				+ createDate + ", userID=" + userID + ", userName="
-				+ userName + "]";
+				+ createDate + ", userID=" + userID + ", userName=" + userName
+				+ "]";
+	}
+
+	/**
+	 * Formats the creation date to "HH:mm:ss dd.MM.yyyy"
+	 * 
+	 * @return String format of date
+	 */
+	public String prettyCreateDate() {
+		return FORMAT.format(createDate);
 	}
 
 }

@@ -54,4 +54,17 @@ public interface AuthenicationService {
 	 */
 	public boolean authoriseEdit(EditContainer item);
 
+	/**
+	 * Gets the user's ID with SID and compares it to the userID of this code.
+	 * 
+	 * @param SID
+	 *            Session ID from Cookie
+	 * @param codeID
+	 *            ID of code to be displayed
+	 * @return true if SID belongs to the creator of this code<br>
+	 *         false if there is no SID or it doesn't belong to the owner of
+	 *         this code. False if code made by Public user.
+	 */
+	public boolean authoriseEdit(String SID, int codeID);
+
 }

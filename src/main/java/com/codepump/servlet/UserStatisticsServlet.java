@@ -17,7 +17,8 @@ import com.codepump.tempobject.UserStatisticsItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-@WebServlet(value = "/statistics")
+//@WebServlet(value = "/statistics")
+@Deprecated
 public class UserStatisticsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -39,6 +40,7 @@ public class UserStatisticsServlet extends HttpServlet {
 
 		// Services
 		userServ = ServerController.userServer;
+		System.out.println("Statistics");
 	}
 
 	@Override

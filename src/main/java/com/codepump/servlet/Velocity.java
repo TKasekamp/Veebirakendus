@@ -7,6 +7,7 @@ import org.apache.velocity.app.VelocityEngine;
 import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
+import com.codepump.service.AuthenicationService;
 import com.codepump.service.CodeService;
 import com.codepump.service.UserService;
 import com.codepump.tempobject.MyStuffListItem;
@@ -34,6 +35,7 @@ public class Velocity extends HttpServlet {
 	private VelocityEngine engine;
 	private static CodeService codeServ;
 	private static UserService userServ;
+	private static AuthenicationService authServ;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -41,6 +43,7 @@ public class Velocity extends HttpServlet {
 		engine = createTemplateEngine(config.getServletContext());
 		codeServ = ServerController.codeServer;
 		userServ = ServerController.userServer;
+		authServ = ServerController.authenticationServer;
 	}
 
 	private VelocityEngine createTemplateEngine(ServletContext context) {
@@ -110,12 +113,17 @@ public class Velocity extends HttpServlet {
 
 		else if (uri.equals("/source.html")) {
 			String idString = req.getParameter("id");
+			boolean canChange = false;
 			try {
 				int id = Integer.parseInt(idString);
 				CodeItem item = codeServ.findItemById(id);
 				// Setting to lower case here
 				context.put("language", item.getLanguage().toLowerCase());
 				context.put("code", item);
+				// For edit button
+				if (authServ.authoriseEdit(SID, id)) {
+					canChange = true;
+				}
 
 			} catch (Exception e) {
 				// If here then no such code was found in DB.
@@ -126,6 +134,7 @@ public class Velocity extends HttpServlet {
 				item.setText("");
 				context.put("code", item);
 			}
+			context.put("canChange", canChange);
 		}
 
 		else if (uri.equals("/mystuff.html")) {
