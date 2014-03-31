@@ -16,19 +16,20 @@ var source = {
 };
 
 function evaluate() {
-	code.text = $("#codearea").val();
+	code.text = $("#content").html();
 	code.id = gup("id");
+	code.lang = $("#content").attr("class");
 }
 
 function edit(){
 	var button = $("#edit");
 	if(editing){
 		button.html("Edit");
+		code.text = $("#codearea").val();
 		var position = $(".content");
-		code.text = $('#codearea').val();
 		position.hide();
 		position.empty();
-		position.append("<pre class=\"brush: " + code.lang + "\">" + code.text + "</pre>");
+		position.append("<pre class=\"" + code.lang + "\" id=\"content\">" + code.text + "</pre>");
 		SyntaxHighlighter.highlight();
 		position.fadeToggle();
 		editing = false;
