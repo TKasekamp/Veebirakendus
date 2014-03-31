@@ -17,7 +17,7 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collection;
 
-public final class GoogleAuthHelper {
+public final class GoogleAuth {
 
 	/**
 	 * Please provide a value for the CLIENT_ID constant before proceeding, set this up at https://code.google.com/apis/console/
@@ -47,7 +47,7 @@ public final class GoogleAuthHelper {
 	/**
 	 * Constructor initializes the Google Authorization Code Flow with CLIENT ID, SECRET, and SCOPE 
 	 */
-	public GoogleAuthHelper() {
+	public GoogleAuth() {
 		flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT,
 				JSON_FACTORY, CLIENT_ID, CLIENT_SECRET, SCOPE).build();
 
@@ -101,7 +101,6 @@ public final class GoogleAuthHelper {
 		return jsonIdentity;
 
 	}
-
 
 
 }

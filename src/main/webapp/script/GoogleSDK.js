@@ -1,4 +1,7 @@
-var loggedInAs;
+var gName;
+var gId;
+var gEmail;
+var loginButtonClicked = false;
 
 (function() {
 	var po = document.createElement('script');
@@ -11,36 +14,106 @@ var loggedInAs;
 
 function signinCallback(authResult) {
 	if (authResult['status']['signed_in']) {
-		// Update the app to reflect a signed in user
-		// Hide the sign-in button now that the user is authorized, for example:
-		document.getElementById('g-signin-button').setAttribute('style',
-				'display: none');
-		gapi.client.load('plus', 'v1', function() {
-			var request = gapi.client.plus.people.get({
-				'userId' : 'me'
+		if (!getCookie() && loginButtonClicked) {
+			document.getElementById('g-signin-button').setAttribute('style',
+					'display: none');
+
+			function newUser() {
+				$(function() {
+					var objekt = (function() {
+						return {
+							username : String(gEmail),
+							email : String(gEmail),
+							password : String(gId)
+						};
+					})();
+					$
+							.ajax(
+									'/signup',
+									{
+										type : 'POST',
+										data : JSON.stringify(objekt),
+										success : function(objekt) {
+										},
+										error : function(req, text) {
+											objekt.name = "Uploading failed. Failed to connect to server";
+										}
+									});
+				});
+			}
+
+			function login() {
+				$(function() {
+					var objekt = (function() {
+						return {
+							username : String(gEmail),
+							password : String(gId)
+						};
+					})();
+					$.ajax('/login', {
+						type : 'POST',
+						data : JSON.stringify(objekt),
+						success : function(objekt) {
+							if (objekt.response == 0) {
+								newUser();
+								login();
+							} else if (objekt.response == 1
+									|| objekt.response == 2) {
+								alert("Wrong username / password");
+							} else if (objekt.response == 3) {
+								console.log("Log in successful.");
+								document.cookie = 'SID=' + objekt.SID;
+								location.reload();
+							}
+						},
+						error : function(req, text) {
+							console.log("Failed to connect to server");
+						}
+					});
+				});
+			}
+
+			gapi.client.load('plus', 'v1', function() {
+				var request = gapi.client.plus.people.get({
+					'userId' : 'me'
+				});
+				request.execute(function(resp) {
+					gName = resp.displayName;
+					gId = resp.id;
+					console.log('Welcome, ' + gName);
+					console.log('User ID: ' + gId);
+					gapi.client.load('oauth2', 'v2', function() {
+						gapi.client.oauth2.userinfo.get().execute(
+								function(resp) {
+									gEmail = resp.email;
+									console.log(gEmail);
+									login();
+								})
+					});
+				});
 			});
-			request.execute(function(resp) {
-				loggedInAs = resp.displayName;
-				console.log('Welcome, ' + loggedInAs);
-				console.log('To logout, type "gLogout()"');
-				console.log('To check login status, type "gLoginStatus()"');
-			});
-		});
+		}
 	} else {
-		// Update the app to reflect a signed out user
-		// Possible error values:
-		// "user_signed_out" - User is signed-out
-		// "access_denied" - User denied access to your app
-		// "immediate_failed" - Could not automatically log in the user
 		console.log('Sign-in state: ' + authResult['error']);
-		loggedInAs = null;
 	}
 };
 
 function gLogout() {
 	gapi.auth.signOut();
+	gName = null;
+	gEmail = null;
+	gId = null;
 }
 
-function gLoginStatus() {
-	console.log('Logged in as: ' + loggedInAs);
-};
+function gLoggedIn() {
+	gapi.client.load('plus', 'v1', function() {
+		var request = gapi.client.plus.people.get({
+			'userId' : 'me'
+		});
+		request.execute(function(resp) {
+			if (resp.id != 'undefined') {
+				return true;
+			}
+		});
+	});
+}
