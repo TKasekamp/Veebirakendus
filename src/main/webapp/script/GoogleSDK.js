@@ -15,9 +15,6 @@ var loginButtonClicked = false;
 function signinCallback(authResult) {
 	if (authResult['status']['signed_in']) {
 		if (!getCookie() && loginButtonClicked) {
-			document.getElementById('g-signin-button').setAttribute('style',
-					'display: none');
-
 			function newUser() {
 				$(function() {
 					var objekt = (function() {
