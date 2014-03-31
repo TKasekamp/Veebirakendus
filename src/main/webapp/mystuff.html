@@ -52,7 +52,7 @@
 						<ul class="down">
 						## This is MyStuffItem
 						#foreach( $code in $myStuffList )
-						<li><a href="\source.html?id=$code.getCodeId()"/>$code.getCodeName() - $code.prettyCreateDate()</a></li>
+						<li><a href="source.html?id=$code.getCodeId()"/>$code.getCodeName() - $code.prettyCreateDate()</a></li>
 						#end
 						</ul>
 					</div>
@@ -70,7 +70,7 @@
 			<div id="recent">
 			## This is RecentItem
 			#foreach( $code in $recentList )
-			<p><a href="\source.html?id=$code.getCodeId()"/>$code.getCodeName() - $code.prettyCreateDate()</a></p>
+			<p><a href="source.html?id=$code.getCodeId()"/>$code.getCodeName() - $code.prettyCreateDate()</a></p>
 			#end
 			</div>
 			<br />
