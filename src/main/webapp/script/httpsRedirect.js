@@ -9,4 +9,4 @@ function httpsRedirect() {
 						.substring(window.location.protocol.length);
 };
 
-//httpsRedirect();
+httpsRedirect();

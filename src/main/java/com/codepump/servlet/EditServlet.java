@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.codepump.controller.ServerController;
 import com.codepump.service.CodeService;
 import com.codepump.tempobject.EditContainer;
 import com.google.gson.Gson;
@@ -19,13 +20,13 @@ public class EditServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Gson gson;
-	public CodeService datastore;
+	private static CodeService datastore;
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
 		gson = new GsonBuilder().create();
-		this.datastore = DataServlet.codeServ;
+		datastore = ServerController.codeServer;
 	}
 
 	@Override
