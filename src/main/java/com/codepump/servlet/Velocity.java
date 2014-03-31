@@ -7,7 +7,6 @@ import org.apache.velocity.app.VelocityEngine;
 import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
-import com.codepump.service.AuthenicationService;
 import com.codepump.service.CodeService;
 import com.codepump.service.UserService;
 import com.codepump.tempobject.MyStuffListItem;
@@ -35,7 +34,6 @@ public class Velocity extends HttpServlet {
 	private VelocityEngine engine;
 	private static CodeService codeServ;
 	private static UserService userServ;
-	private static AuthenicationService authServ;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -43,7 +41,6 @@ public class Velocity extends HttpServlet {
 		engine = createTemplateEngine(config.getServletContext());
 		codeServ = ServerController.codeServer;
 		userServ = ServerController.userServer;
-		authServ = ServerController.authenticationServer;
 	}
 
 	private VelocityEngine createTemplateEngine(ServletContext context) {
