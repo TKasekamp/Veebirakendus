@@ -1,6 +1,6 @@
 // Websocket function. SANDER MUST MAEK BETTER. NAO!
 function createWebsocket() {
-	var socketAddr = window.location.origin.replace("http", "ws") + "/feed";
+	var socketAddr = window.location.origin.replace("https", "ws") + "/feed";
     var websocket = new WebSocket(socketAddr);
     websocket.onopen = function() { console.log("socket up!"); };
     websocket.onclose = function() { console.log("socket closed!"); };
