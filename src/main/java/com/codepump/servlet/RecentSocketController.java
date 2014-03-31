@@ -42,11 +42,13 @@ public class RecentSocketController extends WebSocketServlet implements WebSocke
 	private Gson gson;
 
     public void loadMostRecent() {
-		RecentItem r = codeServ.getLastRecentItem();
-		System.out.println(r.toString());
-		// TODO clean up this hack
-		List<RecentItem> list= new ArrayList<RecentItem>();
-		list.add(r);
+    	List<RecentItem> list = codeServ.getRecentItems();
+//		RecentItem r = codeServ.getLastRecentItem();
+//		System.out.println(r.toString());
+//		// TODO clean up this hack
+//		List<RecentItem> list= new ArrayList<RecentItem>();
+//		list.add(r);
+    	System.out.println("Sending items through socket!");
         for (RecentSocket socket : sockets) {
             try {
                 socket.send(gson.toJson(list));
@@ -54,6 +56,7 @@ public class RecentSocketController extends WebSocketServlet implements WebSocke
                 System.out.println("failed to broadcast to " + socket);
             }
         }
+        System.out.println("Finished sending!");
     }
 
     public List<RecentSocket> getSockets() {
