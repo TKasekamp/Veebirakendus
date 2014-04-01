@@ -32,12 +32,6 @@ public class RecentSocket {
 		this.session = session;
 		controller.getSockets().add(this);
 		session.setIdleTimeout(TimeUnit.HOURS.toMillis(10));
-//		try {
-//			send(controller.onStartLoad());
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
 	}
 
 	@OnWebSocketClose

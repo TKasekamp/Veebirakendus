@@ -46,8 +46,8 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 		if (USE_DATABASE) {
 			@SuppressWarnings("unchecked")
 			List<User> dataset = session
-					.createQuery("from User where USER_NAME = :userName")
-					.setParameter("userName", user.getName()).list();
+					.createQuery("from User where USER_EMAIL = :email")
+					.setParameter("email", user.getEmail()).list();
 			try {
 				System.out.println("Got user from DB");
 				System.out.println(dataset.get(0));
@@ -65,7 +65,7 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 			System.out.println("Trying to log in: " + user.toString());
 			for (User value : users.values()) {
 
-				if (value.getName().equals(user.getName())) {
+				if (value.getEmail().equals(user.getEmail())) {
 					if (value.getPassword().equals(user.getPassword())) {
 						result = 1;
 						userID = value.getId();

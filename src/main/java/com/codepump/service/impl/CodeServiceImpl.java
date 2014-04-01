@@ -55,6 +55,7 @@ public class CodeServiceImpl implements CodeService {
 			session.getTransaction().begin();
 			session.save(item);
 			session.getTransaction().commit();
+			session.clear();
 		} else {
 			item.setId(codeCounter); // temp hack
 			items.put(codeCounter, item);
@@ -80,9 +81,8 @@ public class CodeServiceImpl implements CodeService {
 	@Override
 	public List<CodeItem> findAllItems() {
 		if (USE_DATABASE) {
-			session.clear();
 			List<CodeItem> dataset = session.createQuery(
-					"from CodeItem where PRIVACY='Public'").list();
+					"from CodeItem where PRIVACY='Public' order by created_date desc").list();
 			return dataset;
 		} else {
 			ArrayList<CodeItem> dataset = new ArrayList<CodeItem>();

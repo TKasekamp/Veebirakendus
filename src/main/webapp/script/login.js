@@ -1,7 +1,7 @@
 var login = {
 	objectify : function(t1, t2) {
 		return {
-			username : t1,
+			email : t1,
 			password : t2
 		};
 	}
@@ -74,9 +74,9 @@ $(document).ready(
 
 				$("#loginarea").click(
 						function() {
-							var user = $("#username").val();
+							var email = $("#email").val();
 							var pass = $("#password").val();
-							var objekt = login.objectify(user, pass);
+							var objekt = login.objectify(email, pass);
 							$.ajax('/login', {
 								type : 'POST',
 								data : JSON.stringify(objekt), // pack the bid
@@ -86,7 +86,7 @@ $(document).ready(
 									if (objekt.response == 0
 											|| objekt.response == 1
 											|| objekt.response == 2) {
-										alert("Wrong username / password");
+										alert("Wrong email / password");
 									} else if (objekt.response == 3) {
 										document.cookie = 'SID=' + objekt.SID;
 										location.reload();

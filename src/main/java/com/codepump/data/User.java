@@ -61,7 +61,7 @@ public class User implements java.io.Serializable {
 		this.id = id;
 	}
 
-	@Column(name = "USER_NAME", nullable = false, length = 100)
+	@Column(name = "USER_NAME", nullable = false, length = 50)
 	public String getName() {
 		return username;
 	}
@@ -70,7 +70,7 @@ public class User implements java.io.Serializable {
 		this.username = name;
 	}
 
-	@Column(name = "USER_EMAIL", length = 50)
+	@Column(name = "USER_EMAIL", unique = true, nullable = false, length = 50)
 	public String getEmail() {
 		return email;
 	}
@@ -79,7 +79,7 @@ public class User implements java.io.Serializable {
 		this.email = email;
 	}
 
-	@Column(name = "USER_PASSWORD", nullable = false, length = 50)
+	@Column(name = "USER_PASSWORD", nullable = false, length = 32)
 	public String getPassword() {
 		return password;
 	}
@@ -93,7 +93,7 @@ public class User implements java.io.Serializable {
 	}
 
 	/**
-	 * Hashes the input string with MD5. Reversed username is used as salt.
+	 * Hashes the input string with MD5. Reversed email is used as salt.
 	 * 
 	 * @param text
 	 *            password
@@ -102,7 +102,7 @@ public class User implements java.io.Serializable {
 	 */
 	private String getHash(String text) {
 		try {
-			String salt = new StringBuffer(this.username).reverse().toString();
+			String salt = new StringBuffer(this.email).reverse().toString();
 			text += salt;
 			MessageDigest m = MessageDigest.getInstance("MD5");
 			m.reset();

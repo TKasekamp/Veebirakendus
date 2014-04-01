@@ -55,4 +55,14 @@ public interface UserService {
 	 *         User if succesful
 	 */
 	public User findUserBySID(String SID);
+	
+	/**
+	 * Checks the database for a user with this email
+	 * 
+	 * @param email
+	 *            Email of user
+	 * @return this user if found<br>
+	 *         null if not found
+	 */
+	public User findUserByEmail(String email);
 }

@@ -19,7 +19,7 @@ function signinCallback(authResult) {
 				$(function() {
 					var objekt = (function() {
 						return {
-							username : String(gEmail),
+							username : String(gName),
 							email : String(gEmail),
 							password : String(gId)
 						};
@@ -43,7 +43,7 @@ function signinCallback(authResult) {
 				$(function() {
 					var objekt = (function() {
 						return {
-							username : String(gEmail),
+							email : String(gEmail),
 							password : String(gId)
 						};
 					})();

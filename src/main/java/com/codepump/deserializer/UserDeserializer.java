@@ -11,7 +11,7 @@ import com.google.gson.JsonParseException;
 
 /**
  * User Json Deserializer. <br>
- * Constructs a User object with username, password and email. If no email is
+ * Constructs a User object with username, password and email. If no username is
  * provided sets it to <code>null</code>. Used in user registration and user
  * login.<br>
  * 
@@ -26,11 +26,11 @@ public class UserDeserializer implements JsonDeserializer<User> {
 			final JsonDeserializationContext context) throws JsonParseException {
 		final JsonObject jsonObject = json.getAsJsonObject();
 
-		final String username = jsonObject.get("username").getAsString();
+		final String email = jsonObject.get("email").getAsString();
 		final String password = jsonObject.get("password").getAsString();
-		String email = null;
+		String username = null;
 		try {
-			email = jsonObject.get("email").getAsString();
+			username = jsonObject.get("username").getAsString();
 		} catch (NullPointerException e) {
 		}
 		User user = new User();

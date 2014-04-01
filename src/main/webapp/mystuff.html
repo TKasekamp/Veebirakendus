@@ -39,7 +39,6 @@
 		<div class="large-9 columns">
 			#if($haveUser == true)		
 			<h3 id="statistics">$stat.getUserName()'s stuff</h3>
-			<h5 id="statistics2">You have created $stat.getCreatedItems() items.</h5>
 			#else
 			<h3 id="statistics">My stuff</h3>
 			<h4>This page is for logged in users only. Please log in to view this page.</h4>			
@@ -71,7 +70,19 @@
 			#foreach( $code in $recentList )
 			<p><a href="source.html?id=$code.getCodeId()"/>$code.getCodeName() - $code.prettyCreateDate()</a></p>
 			#end
+			</div>		
+			
+			#if($haveUser == true)	
+			<br />
+			<h5>Statistics</h5>
+			<div id="stats">
+			<h6 id="statistics2">You have created a total of $stat.getCreatedItems() items.</h6>
+			#foreach( $statLang in $stat.getLanguageStatistics() )
+			<p>You have made $statLang.getCreatedItems() codes in $statLang.getLanguage().</p>
+			#end
 			</div>
+			#end
+			
 			<br />
 			<p>
 				<a href="" data-reveal-id="mapModal"><img alt="reklaam"

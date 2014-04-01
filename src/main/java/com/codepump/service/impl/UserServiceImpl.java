@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
 	public int addUser(User item) {
 		int result = 0;
 		if (USE_DATABASE) {
-			if (findUserByName(item.getName()) == null) {
+			if (findUserByEmail(item.getEmail()) == null) {
 				session.getTransaction().begin();
 				session.save(item);
 				session.getTransaction().commit();
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
 			q.setParameter("t_id", userID);
 			List<UserLanguageStatisticsItem> dataset = q.list();
 			// Without this the query will always return the same things
-			session.clear();
+			//session.clear();
 			// As the dataset is empty, creating new item by searching for user
 			if (dataset.size() == 0) {
 				User user = findUserById(userID);
@@ -133,5 +133,19 @@ public class UserServiceImpl implements UserService {
 		User user = findUserById(userID);
 		return user;
 	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public User findUserByEmail(String email) {
+		List<User> dataset = session
+				.createQuery("from User where USER_EMAIL = :email")
+				.setParameter("email", email).list();
+		if (dataset.size() == 1) {
+			return dataset.get(0);
+		} else {
+			return null;
+		}
+	}
+	
 
 }
