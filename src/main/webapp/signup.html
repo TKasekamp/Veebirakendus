@@ -44,6 +44,11 @@
 				<section class="section">
 					<form action="/signup" method="post">
 						<h5 class="title" id="cAccount">Create account</h5>
+						#if($result == 1)
+						<p>Passwords do not match!</p>
+						#elseif($result == 2)
+						<p>This email already in use!</p>
+						#end
 						<div class="content" data-slug="panel1">
 							<div class="row collapse">
 								<div class="large-2 columns">

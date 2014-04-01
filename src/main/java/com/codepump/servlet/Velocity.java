@@ -146,6 +146,21 @@ public class Velocity extends HttpServlet {
 
 			context.put("recentList", codeServ.getRecentItems());
 		}
+		else if (uri.equals("/signup.html")) {
+			int result = 0;
+			try {
+				String r = req.getParameter("result");	
+
+				if(r.equals("pass")) {
+					result = 1;
+				}
+				else if (r.equals("userexists")) {
+					result = 2;
+				}
+			} catch (Exception e) {
+			}
+			context.put("result", result);
+		}
 
 		context.put("haveUser", haveUser);
 		return context;

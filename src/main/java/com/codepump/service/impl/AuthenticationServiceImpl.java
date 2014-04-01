@@ -12,6 +12,7 @@ import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.response.AuthenticationResponse;
 import com.codepump.service.AuthenicationService;
+import com.codepump.service.UserService;
 import com.codepump.tempobject.EditContainer;
 import com.codepump.util.HibernateUtil;
 
@@ -20,6 +21,7 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 	private final boolean USE_DATABASE = ServerController.USE_DATABASE;
 	private Session session;
 	private static Map<Integer, User> users = UserServiceImpl.users;
+	private static UserService userServ;
 
 	public AuthenticationServiceImpl() {
 		if (USE_DATABASE) {
@@ -27,6 +29,7 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 
 		}
 		SIDlist = new HashMap<>();
+		userServ = ServerController.userServer;
 	}
 
 	/**
@@ -152,6 +155,21 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public String directLogin(String email) {
+		User user = userServ.findUserByEmail(email);
+		String sid = null;
+		while (true) {
+			sid = generateSID();
+			if (!SIDlist.containsKey(sid)) {
+				break;
+			}
+		}
+
+		SIDlist.put(sid, user.getId());		
+		return sid;
 	}
 
 }
