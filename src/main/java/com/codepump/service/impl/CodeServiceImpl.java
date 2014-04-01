@@ -80,6 +80,7 @@ public class CodeServiceImpl implements CodeService {
 	@Override
 	public List<CodeItem> findAllItems() {
 		if (USE_DATABASE) {
+			session.clear();
 			List<CodeItem> dataset = session.createQuery(
 					"from CodeItem where PRIVACY='Public'").list();
 			return dataset;
