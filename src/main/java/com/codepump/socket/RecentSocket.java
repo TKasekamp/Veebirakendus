@@ -9,7 +9,6 @@ import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 import com.codepump.servlet.RecentSocketController;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 @WebSocket
 public class RecentSocket {
@@ -31,7 +30,6 @@ public class RecentSocket {
 	public void onOpen(Session session) {
 		this.session = session;
 		controller.getSockets().add(this);
-		session.setIdleTimeout(TimeUnit.HOURS.toMillis(10));
 	}
 
 	@OnWebSocketClose

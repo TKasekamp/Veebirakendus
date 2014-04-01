@@ -40,6 +40,8 @@ public class RecentSocketController extends WebSocketServlet implements
 	private ServletContext context;
 	private CodeService codeServ;
 	private Gson gson;
+	@SuppressWarnings("unused")
+	private Pinger pinger;
 
 	public void loadMostRecent() {
 		List<RecentItem> list = codeServ.getRecentItems();
@@ -71,6 +73,7 @@ public class RecentSocketController extends WebSocketServlet implements
 		gson = new GsonBuilder().registerTypeAdapter(RecentItem.class,
 				new RecentItemSerializer()).create();
 		codeServ = ServerController.codeServer;
+		pinger = new Pinger();
 
 	}
 
@@ -95,5 +98,40 @@ public class RecentSocketController extends WebSocketServlet implements
 		return (RecentSocketController) context
 				.getAttribute(RecentSocketController.class.getName());
 	}
+	
+	public void sendMessage(String text){
+		for (RecentSocket socket : sockets) {
+			try {
+				socket.send(text);
+			} catch (IOException e) {
+				System.out.println("failed to broadcast to " + socket);
+			}
+		}
+	}
+
+	/**
+	 * Class to keep the connection open. Credit to Jaan Janno.
+	 * https://github.com/JaanJanno/OnTime/blob/master/app/controllers/chat/ChatSocket.java
+	 */
+	private class Pinger extends Thread{
+
+		public Pinger(){
+			this.start();
+		}
+		@Override
+		public synchronized void run() {
+			while(true){
+				sendMessage("");
+				try {
+					Thread.sleep(30000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
+	
 
 }

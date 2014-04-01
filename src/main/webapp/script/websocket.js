@@ -5,12 +5,13 @@ function createWebsocket() {
     websocket.onclose = function() { console.log("socket closed!"); };
    	websocket.onmessage = function(event) {
         console.log("ws received " + event.data);
+        if(!event.data == ""){
         var items = JSON.parse(event.data);
 		var tag = $("#recent");
 		tag.empty();
 		for(var i = 0; i < items.length; i++){
 			tag.append("<p><a href=\"source.html?id=" + items[i].codeID + "\">" + items[i].codeName + " - " + items[i].createDate + "</a></p>");
-		}};};
+		}}};};
 
 $(function() {
 	createWebsocket();
