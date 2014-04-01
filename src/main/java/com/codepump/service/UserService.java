@@ -11,7 +11,8 @@ import com.codepump.tempobject.UserStatisticsItem;
  */
 public interface UserService {
 	/**
-	 * Searches for this user in the DB. 
+	 * Searches for this user in the DB.
+	 * 
 	 * @param id
 	 * @return User
 	 */
@@ -28,7 +29,8 @@ public interface UserService {
 	public User findUserByName(String username);
 
 	/**
-	 * Adds an user to the database. Checks if this user already exists.
+	 * Adds an user to the database. Checks if this user already exists with
+	 * findUserByEmail.
 	 * 
 	 * @param item
 	 *            new User
@@ -55,9 +57,9 @@ public interface UserService {
 	 *         User if succesful
 	 */
 	public User findUserBySID(String SID);
-	
+
 	/**
-	 * Checks the database for a user with this email
+	 * Checks the database for a user with this email.
 	 * 
 	 * @param email
 	 *            Email of user

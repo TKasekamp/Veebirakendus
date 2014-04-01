@@ -66,13 +66,26 @@ public interface AuthenicationService {
 	 *         this code. False if code made by Public user.
 	 */
 	public boolean authoriseEdit(String SID, int codeID);
+
 	/**
 	 * Direct login. <b>ONLY TO BE USED DURING SIGNUP!</b> <br>
 	 * Searches the DB with email to get id of this user<br>
 	 * Then adds the ID to logged in users. <br>
-	 * @param email Email of user
+	 * 
+	 * @param email
+	 *            Email of user
 	 * @return SID Session ID for cookie
 	 */
 	public String directLogin(String email);
+
+	/**
+	 * Google login handler. Tries to log in user. If not found in DB creates a
+	 * new one.<br>
+	 * 
+	 * @param user
+	 *            Google user
+	 * @return SID Session ID for cookie
+	 */
+	public String googleLogin(User user);
 
 }

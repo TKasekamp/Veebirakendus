@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,14 +12,20 @@ import javax.servlet.http.HttpServletResponse;
 import com.codepump.controller.ServerController;
 import com.codepump.data.User;
 import com.codepump.deserializer.UserDeserializer;
-import com.codepump.response.AuthenticationResponse;
 import com.codepump.service.AuthenicationService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
 
-@WebServlet(value = "/login")
-public class LoginServet extends HttpServlet {
+/**
+ * Cause creating new servlets is easier than looking at JSON object parameters.
+ * Deal with it.
+ * 
+ * @author TKasekamp
+ * 
+ */
+@WebServlet(value = "/glogin")
+public class GoogleLoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Gson gson;
@@ -37,12 +44,9 @@ public class LoginServet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-			// Checking user
 			User user = gson.fromJson(req.getReader(), User.class);
-			AuthenticationResponse r = authServ.checkPassword(user);
-			System.out.println("User login result: " + r.toString());
-			resp.setHeader("Content-Type", "application/json");
-			resp.getWriter().write(gson.toJson(r));
+			Cookie c = new Cookie("SID", authServ.googleLogin(user));
+			resp.addCookie(c);
 
 		} catch (JsonParseException ex) {
 			System.err.println(ex);

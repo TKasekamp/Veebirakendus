@@ -168,7 +168,27 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 			}
 		}
 
-		SIDlist.put(sid, user.getId());		
+		SIDlist.put(sid, user.getId());
+		return sid;
+	}
+
+	@Override
+	public String googleLogin(User user) {
+		// First try to look for it
+		User u2 = userServ.findUserByEmail(user.getEmail());
+		// Then add to DB and get ID
+		if (u2 == null) {
+			userServ.addUser(user); // Don't care about result
+			u2 = userServ.findUserByEmail(user.getEmail());
+		}
+		String sid = null;
+		while (true) {
+			sid = generateSID();
+			if (!SIDlist.containsKey(sid)) {
+				break;
+			}
+		}
+		SIDlist.put(sid, u2.getId());
 		return sid;
 	}
 

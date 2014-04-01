@@ -15,7 +15,8 @@ var loginButtonClicked = false;
 function signinCallback(authResult) {
 	if (authResult['status']['signed_in']) {
 		if (!getCookie() && loginButtonClicked) {
-			function newUser() {
+
+			function login() {
 				$(function() {
 					var objekt = (function() {
 						return {
@@ -24,44 +25,13 @@ function signinCallback(authResult) {
 							password : String(gId)
 						};
 					})();
-					$
-							.ajax(
-									'/signup',
-									{
-										type : 'POST',
-										data : JSON.stringify(objekt),
-										success : function(objekt) {
-										},
-										error : function(req, text) {
-											objekt.name = "Uploading failed. Failed to connect to server";
-										}
-									});
-				});
-			}
-
-			function login() {
-				$(function() {
-					var objekt = (function() {
-						return {
-							email : String(gEmail),
-							password : String(gId)
-						};
-					})();
-					$.ajax('/login', {
+					$.ajax('/glogin', {
 						type : 'POST',
 						data : JSON.stringify(objekt),
 						success : function(objekt) {
-							if (objekt.response == 0) {
-								newUser();
-								login();
-							} else if (objekt.response == 1
-									|| objekt.response == 2) {
-								alert("Wrong username / password");
-							} else if (objekt.response == 3) {
 								console.log("Log in successful.");
-								document.cookie = 'SID=' + objekt.SID;
-								location.reload();
-							}
+								//document.cookie = 'SID=' + objekt.SID;
+								location.reload();	
 						},
 						error : function(req, text) {
 							console.log("Failed to connect to server");
@@ -94,6 +64,7 @@ function signinCallback(authResult) {
 		console.log('Sign-in state: ' + authResult['error']);
 	}
 };
+
 
 function gLogout() {
 	gapi.auth.signOut();
