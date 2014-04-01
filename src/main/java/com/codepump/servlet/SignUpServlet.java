@@ -37,19 +37,22 @@ public class SignUpServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		try {
-			User user = gson.fromJson(req.getReader(), User.class);
+			User user = new User(req.getParameter("user"),req.getParameter("email"),req.getParameter("password1"));
+			if(!user.getPassword().equals(req.getParameter("password2"))){
+				resp.sendRedirect("/signup.html");
+				// send variable to enable text "PASSWORDS DO NOT MATCH"
+			}
+			user.hashPassword();
 			int result = userServ.addUser(user);
-			resp.setHeader("Content-Type", "application/json");
 			if (result == 0) {
 				System.out.println("Adding user");
-				System.out.println(user);		
-				resp.getWriter().write(
-						"{\"response\":\"User created\"}");
+				System.out.println(user);
+				resp.sendRedirect("/index.html");
 			}
 			else {
 				System.out.println("user already exists");
-				resp.getWriter().write(
-						"{\"response\":\"A user with this name already exists\"}");
+				resp.sendRedirect("/signup.html");
+				// send variable to enable text "USER ALREADY EXISTS"
 			}
 		} catch (JsonParseException ex) {
 			System.err.println(ex);

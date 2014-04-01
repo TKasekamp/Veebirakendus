@@ -42,44 +42,46 @@
 			<h3>Sign up</h3>
 			<div class="section-container tabs" data-section>
 				<section class="section">
-					<h5 class="title" id="cAccount">Create account</h5>
-					<div class="content" data-slug="panel1">
-						<div class="row collapse">
-							<div class="large-2 columns">
-								<label class="inline"> Username</label>
+					<form action="/signup" method="post">
+						<h5 class="title" id="cAccount">Create account</h5>
+						<div class="content" data-slug="panel1">
+							<div class="row collapse">
+								<div class="large-2 columns">
+									<label class="inline"> Username</label>
+								</div>
+								<div class="large-10 columns">
+									<input type="text" name="user" id="signup-username" placeholder="Example">
+								</div>
 							</div>
-							<div class="large-10 columns">
-								<input type="text" name="user" id="signup-username" placeholder="Example">
+							<div class="row collapse">
+								<div class="large-2 columns">
+									<label class="inline"> Email</label>
+								</div>
+								<div class="large-10 columns">
+									<input type="text" name="email" id="signup-email"
+										placeholder="Example@gmail.com">
+								</div>
 							</div>
+							<div class="row collapse">
+								<div class="large-2 columns">
+									<label class="inline"> Password</label>
+								</div>
+								<div class="large-10 columns">
+									<input type="password" name="password1" id="signup-password" placeholder="">
+								</div>
+							</div>
+							<div class="row collapse">
+								<div class="large-2 columns">
+									<label class="inline"> Password again</label>
+								</div>
+								<div class="large-10 columns">
+									<input type="password" name="password2" id="signup-password2" placeholder="">
+								</div>
+							</div>
+							<button type="submit" class="radius button" id="signup-submit">Create
+								account</button>
 						</div>
-						<div class="row collapse">
-							<div class="large-2 columns">
-								<label class="inline"> Email</label>
-							</div>
-							<div class="large-10 columns">
-								<input type="text" id="signup-email"
-									placeholder="Example@gmail.com">
-							</div>
-						</div>
-						<div class="row collapse">
-							<div class="large-2 columns">
-								<label class="inline"> Password</label>
-							</div>
-							<div class="large-10 columns">
-								<input type="password" id="signup-password" placeholder="">
-							</div>
-						</div>
-						<div class="row collapse">
-							<div class="large-2 columns">
-								<label class="inline"> Password again</label>
-							</div>
-							<div class="large-10 columns">
-								<input type="password" id="signup-password2" placeholder="">
-							</div>
-						</div>
-						<button type="submit" class="radius button" id="signup-submit">Create
-							account</button>
-					</div>
+					</form>
 				</section>
 			</div>
 		</div>
