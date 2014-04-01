@@ -15,7 +15,11 @@
 <link rel="stylesheet" href="shThemeDefault.css" />
 <script src="JQuery-2.0.2.js"></script>
 <script src="script/login.js" type="text/javascript"></script>
+#if($canChange == true)
 <script src="script/source.js" type="text/javascript"></script>
+#else
+<script src="script/source2.js" type="text/javascript"></script>
+#end
 <script src="script/enableTab.js" type="text/javascript"></script>
 <script src="script/linkHandler.js" type="text/javascript"></script>
 <script type="text/javascript" src="script/shCore.js"></script>
@@ -52,7 +56,9 @@
 				</div>
 			</section>
 		</div>
+		#if($canChange == true)
 		<button type="button" class="radius button" id="edit">Edit</button>
+		#end
 
 		<!-- End text area -->
 
