@@ -174,22 +174,13 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 
 	@Override
 	public String googleLogin(User user) {
-		// First try to look for it
-		User u2 = userServ.findUserByEmail(user.getEmail());
-		// Then add to DB and get ID
-		if (u2 == null) {
-			userServ.addUser(user); // Don't care about result
-			u2 = userServ.findUserByEmail(user.getEmail());
+		AuthenticationResponse r = checkPassword(user);
+		// If no user create new one
+		if (r.getResponse() == 0) {
+			userServ.addUser(user);
+			r = checkPassword(user);
 		}
-		String sid = null;
-		while (true) {
-			sid = generateSID();
-			if (!SIDlist.containsKey(sid)) {
-				break;
-			}
-		}
-		SIDlist.put(sid, u2.getId());
-		return sid;
+		return r.getSID();
 	}
 
 }
