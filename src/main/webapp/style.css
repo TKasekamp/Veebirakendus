@@ -55,19 +55,6 @@ button#loginarea {
 	float: right;
 }
 
-div.fb-login-button {
-	display: none;
-}
-
-iframe {
-	margin-top: 5px;
-	position: relative;
-	width: 80px;
-	height: 30px;
-	overflow: hidden;
-	text-align: left;
-}
-
 #g-signin-button {
 	margin-left: 5px;
 	margin-right: 5px;

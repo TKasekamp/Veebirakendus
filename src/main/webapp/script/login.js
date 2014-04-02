@@ -36,13 +36,7 @@ $(document).ready(
 					}
 					$.ajax('/logout', {
 						type : 'POST',
-						data : JSON.stringify(objectify(getCookie())), // pack
-						// the
-						// bid
-						// object
-						// into
-						// json
-						// string
+						data : JSON.stringify(objectify(getCookie())),
 						success : function(objekt) {
 							document.cookie = 'SID=';
 							location.reload();
@@ -59,15 +53,12 @@ $(document).ready(
 				$("a#login").click(function() {
 					loginButtonClicked = true;
 					var temp = $("div.login");
-					var fbLoginButton = $("div.fb-login-button");
 					var gLoginButton = $("#g-signin-button");
 					if (temp.css("display") == "none") {
 						temp.css("display", "inline");
-						// fbLoginButton.css("display", "inline");
 						gLoginButton.css("display", "inline");
 					} else {
 						temp.css("display", "none");
-						// fbLoginButton.css("display", "none");
 						gLoginButton.css("display", "none");
 					}
 				});
@@ -79,9 +70,7 @@ $(document).ready(
 							var objekt = login.objectify(email, pass);
 							$.ajax('/login', {
 								type : 'POST',
-								data : JSON.stringify(objekt), // pack the bid
-								// object into
-								// json string
+								data : JSON.stringify(objekt),
 								success : function(objekt) {
 									if (objekt.response == 0
 											|| objekt.response == 1

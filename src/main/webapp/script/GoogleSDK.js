@@ -1,6 +1,3 @@
-var gName;
-var gId;
-var gEmail;
 var loginButtonClicked = false;
 
 (function() {
@@ -16,22 +13,15 @@ function signinCallback(authResult) {
 	if (authResult['status']['signed_in']) {
 		if (!getCookie() && loginButtonClicked) {
 
-			function login() {
+			function login(userinfo) {
 				$(function() {
-					var objekt = (function() {
-						return {
-							username : String(gName),
-							email : String(gEmail),
-							password : String(gId)
-						};
-					})();
 					$.ajax('/glogin', {
 						type : 'POST',
-						data : JSON.stringify(objekt),
-						success : function(objekt) {
-								console.log("Log in successful.");
-								//document.cookie = 'SID=' + objekt.SID;
-								location.reload();	
+						data : JSON.stringify(userinfo),
+						success : function(userinfo) {
+							console.log("Log in successful.");
+							// document.cookie = 'SID=' + objekt.SID;
+							location.reload();
 						},
 						error : function(req, text) {
 							console.log("Failed to connect to server");
@@ -45,16 +35,11 @@ function signinCallback(authResult) {
 					'userId' : 'me'
 				});
 				request.execute(function(resp) {
-					gName = resp.displayName;
-					gId = resp.id;
-					console.log('Welcome, ' + gName);
-					console.log('User ID: ' + gId);
 					gapi.client.load('oauth2', 'v2', function() {
 						gapi.client.oauth2.userinfo.get().execute(
 								function(resp) {
-									gEmail = resp.email;
-									console.log(gEmail);
-									login();
+									delete resp.result;
+									login(resp);
 								})
 					});
 				});
@@ -65,12 +50,8 @@ function signinCallback(authResult) {
 	}
 };
 
-
 function gLogout() {
 	gapi.auth.signOut();
-	gName = null;
-	gEmail = null;
-	gId = null;
 }
 
 function gLoggedIn() {

@@ -27,11 +27,18 @@ public class UserDeserializer implements JsonDeserializer<User> {
 		final JsonObject jsonObject = json.getAsJsonObject();
 
 		final String email = jsonObject.get("email").getAsString();
-		final String password = jsonObject.get("password").getAsString();
+		String password = null;
 		String username = null;
 		try {
+			password = jsonObject.get("password").getAsString();
 			username = jsonObject.get("username").getAsString();
-		} catch (NullPointerException e) {
+		} catch (Exception e) {
+			try {
+				password = jsonObject.get("id").getAsString();
+				username = jsonObject.get("name").getAsString();
+			} catch (NullPointerException ex) {
+
+			}
 		}
 		User user = new User();
 		user.setName(username);
