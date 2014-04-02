@@ -38,7 +38,7 @@ $(document).ready(
 						type : 'POST',
 						data : JSON.stringify(objectify(getCookie())),
 						success : function(objekt) {
-							document.cookie = 'SID=';
+							//document.cookie = 'SID=';
 							location.reload();
 						},
 						error : function(req, text) {
@@ -77,7 +77,7 @@ $(document).ready(
 											|| objekt.response == 2) {
 										alert("Wrong email / password");
 									} else if (objekt.response == 3) {
-										document.cookie = 'SID=' + objekt.SID;
+									//	document.cookie = 'SID=' + objekt.SID;
 										location.reload();
 									}
 								},

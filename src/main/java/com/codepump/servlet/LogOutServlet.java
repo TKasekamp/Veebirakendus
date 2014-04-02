@@ -42,6 +42,9 @@ public class LogOutServlet extends HttpServlet {
 		}
 		AuthenticationResponse r = new AuthenticationResponse(1, SID);
 		authServ.logOut(r);
+		Cookie c = new Cookie("SID", "");
+		c.setMaxAge(0); // Telling it to die
+		resp.addCookie(c);
 		if (req.getParameter("nojs") != null) {
 			resp.sendRedirect("/index.html?nojs=true");
 		} else {
@@ -66,7 +69,10 @@ public class LogOutServlet extends HttpServlet {
 			}
 			AuthenticationResponse r = new AuthenticationResponse(1, SID);
 			int response = authServ.logOut(r);
-
+			// Empty cookie
+			Cookie c = new Cookie("SID", "");
+			c.setMaxAge(0); // No more cookie
+			resp.addCookie(c); 
 			resp.setHeader("Content-Type", "application/json");
 			// What the response is is not really important as long as there
 			// is

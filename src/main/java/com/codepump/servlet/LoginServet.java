@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,9 +41,15 @@ public class LoginServet extends HttpServlet {
 			// Checking user
 			User user = gson.fromJson(req.getReader(), User.class);
 			AuthenticationResponse r = authServ.checkPassword(user);
+			if (r.getResponse() == 3) {
+				Cookie c = new Cookie("SID", authServ.googleLogin(user));
+				resp.addCookie(c);
+			}
 			System.out.println("User login result: " + r.toString());
 			resp.setHeader("Content-Type", "application/json");
 			resp.getWriter().write(gson.toJson(r));
+//			resp.getWriter()
+//					.write("{\"response\":\"" + r.getResponse() + "\"}");
 
 		} catch (JsonParseException ex) {
 			System.err.println(ex);
