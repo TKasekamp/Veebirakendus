@@ -4,9 +4,7 @@
 <html class="no-js" lang="en"
 	data-useragent="Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0)">
 <head>
-<noscript>
-	<meta http-equiv="refresh" content="0; url=nojs.html" />
-</noscript>
+#parse('templates/noscript.html')
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>CodePump #2</title>
@@ -50,7 +48,11 @@
 						<ul class="down">
 						## This is MyStuffItem
 						#foreach( $code in $myStuffList )
+						#if($nojs ==true)
+						<li><a href="source.html?id=$code.getCodeId()&nojs=true"/>$code.getCodeName() - $code.prettyCreateDate()</a></li>
+						#else
 						<li><a href="source.html?id=$code.getCodeId()"/>$code.getCodeName() - $code.prettyCreateDate()</a></li>
+						#end
 						#end
 						</ul>
 					</div>
@@ -68,7 +70,11 @@
 			<div id="recent">
 			## This is RecentItem
 			#foreach( $code in $recentList )
+			#if($nojs ==true)
+			<p><a href="source.html?id=$code.getCodeId()&nojs=true"/>$code.getCodeName() - $code.prettyCreateDate()</a></p>
+			#else
 			<p><a href="source.html?id=$code.getCodeId()"/>$code.getCodeName() - $code.prettyCreateDate()</a></p>
+			#end
 			#end
 			</div>		
 			

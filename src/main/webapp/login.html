@@ -34,28 +34,19 @@
 
 	<div class="row">
 
-		<!-- Signup -->
+		<!-- Log in -->
 		<div class="large-9 columns">
 
-			<h3>Sign up</h3>
+			<h3>Login</h3>
 			<div class="section-container tabs" data-section>
 				<section class="section">
-					<form action="/signup" method="post">
-						<h5 class="title" id="cAccount">Create account</h5>
-						#if($result == 1)
-						<p>Passwords do not match!</p>
+					<form action="/loginnojs" method="post">
+						#if($result == 0)
+						<p>No such user!</p>
 						#elseif($result == 2)
-						<p>This email already in use!</p>
+						<p>Wrong password!</p>
 						#end
 						<div class="content" data-slug="panel1">
-							<div class="row collapse">
-								<div class="large-2 columns">
-									<label class="inline"> Username</label>
-								</div>
-								<div class="large-10 columns">
-									<input type="text" name="user" id="signup-username" placeholder="Example">
-								</div>
-							</div>
 							<div class="row collapse">
 								<div class="large-2 columns">
 									<label class="inline"> Email</label>
@@ -70,26 +61,17 @@
 									<label class="inline"> Password</label>
 								</div>
 								<div class="large-10 columns">
-									<input type="password" name="password1" id="signup-password" placeholder="">
+									<input type="password" name="password" id="signup-password" placeholder="">
 								</div>
 							</div>
-							<div class="row collapse">
-								<div class="large-2 columns">
-									<label class="inline"> Password again</label>
-								</div>
-								<div class="large-10 columns">
-									<input type="password" name="password2" id="signup-password2" placeholder="">
-								</div>
-							</div>
-							<button type="submit" class="radius button" id="signup-submit">Create
-								account</button>
+							<button type="submit" class="radius button" id="signup-submit">Log in</button>
 						</div>
 					</form>
 				</section>
 			</div>
 		</div>
 
-		<!-- End Signup -->
+		<!-- End Log in -->
 
 
 	<!-- Footer -->

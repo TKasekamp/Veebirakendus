@@ -25,6 +25,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "CODEITEM")
 public class CodeItem implements java.io.Serializable {
+
 	private Integer id;
 	private String name;
 	private String text;
@@ -60,6 +61,13 @@ public class CodeItem implements java.io.Serializable {
 		this.createdDate = createdDate;
 		this.expireDate = expireDate;
 		this.user = user;
+	}
+	public CodeItem(String name, String text, String language, String privacy) {
+		super();
+		this.name = name;
+		this.text = text;
+		this.language = language;
+		this.privacy = privacy;
 	}
 
 	/**

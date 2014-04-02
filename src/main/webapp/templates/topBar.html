@@ -29,7 +29,19 @@
 				<li class="divider"></li>
 				<li><a href="signup.html" id="signup">Sign Up</a></li>
 				<li class="divider"></li>
+				#if($nojs == true)				
+				#if($haveUser == true)
+				<li><a href="/logout?nojs=true" id="login">Log out</a></li>
+				#else
+				<li><a href="login.html?nojs=true" id="login">Log in</a></li>
+				#end
+				#else
+				#if($haveUser == true)
+				<li><a href="#" id="login">Log out</a></li>
+				#else
 				<li><a href="#" id="login">Log in</a></li>
+				#end
+				#end								
 				<li class="divider"></li>
 			</ul>
 		</section>

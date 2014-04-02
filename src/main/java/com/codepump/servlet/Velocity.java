@@ -101,6 +101,12 @@ public class Velocity extends HttpServlet {
 			haveUser = true;
 			context.put("user", user);
 		}
+		
+		//NOJS
+		boolean nojs = false;
+		if (req.getParameter("nojs")!= null) {
+			nojs = true;
+		}
 
 		// Routing
 		if (uri.equals("/browse.html")) {
@@ -161,7 +167,23 @@ public class Velocity extends HttpServlet {
 			}
 			context.put("result", result);
 		}
+		else if (uri.equals("/login.html")) {
+			int result = -1;
+			try {
+				String r = req.getParameter("result");	
 
+				if(r.equals("nouser")) {
+					result = 0;
+				}
+				else if (r.equals("wrongpass")) {
+					result = 2;
+				}
+			} catch (Exception e) {
+			}
+			context.put("result", result);
+		}
+		
+		context.put("nojs", nojs);
 		context.put("haveUser", haveUser);
 		return context;
 	}
