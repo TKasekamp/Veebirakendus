@@ -19,38 +19,10 @@ function getCookie() {
 	return cookie;
 };
 
-function objectify(t1) {
-	return {
-		SID : t1
-	};
-};
-
 $(document).ready(
 		function() {
-			if (getCookie()) {
-				var button = $("a#login");
-				button.html("Log Out");
-				button.click(function() {
-					if (gLoggedIn()) {
-						gLogout();
-					}
-					$.ajax('/logout', {
-						type : 'POST',
-						data : JSON.stringify(objectify(getCookie())),
-						success : function(objekt) {
-							//document.cookie = 'SID=';
-							location.reload();
-						},
-						error : function(req, text) {
-							alert("Failed to log out, try again");
-							console.log("Failed to connect to server");
-						}
-					});
-
-				});
-
-			} else {
-				$("a#login").click(function() {
+			if (!getCookie()) {
+					$("a#login").click(function() {
 					loginButtonClicked = true;
 					var temp = $("div.login");
 					var gLoginButton = $("#g-signin-button");
@@ -64,27 +36,27 @@ $(document).ready(
 				});
 
 				$("#loginarea").click(
-						function() {
-							var email = $("#email").val();
-							var pass = $("#password").val();
-							var objekt = login.objectify(email, pass);
-							$.ajax('/login', {
-								type : 'POST',
-								data : JSON.stringify(objekt),
-								success : function(objekt) {
-									if (objekt.response == 0
-											|| objekt.response == 1
-											|| objekt.response == 2) {
-										alert("Wrong email / password");
-									} else if (objekt.response == 3) {
-									//	document.cookie = 'SID=' + objekt.SID;
-										location.reload();
-									}
-								},
-								error : function(req, text) {
-									console.log("Failed to connect to server");
+					function() {
+						var email = $("#email").val();
+						var pass = $("#password").val();
+						var objekt = login.objectify(email, pass);
+						$.ajax('/login', {
+							type : 'POST',
+							data : JSON.stringify(objekt),
+							success : function(objekt) {
+								if (objekt.response == 0
+										|| objekt.response == 1
+										|| objekt.response == 2) {
+									alert("Wrong email / password");
+								} else if (objekt.response == 3) {
+									location.reload();
 								}
-							});
+							},
+							error : function(req, text) {
+								console.log("Failed to connect to server");
+							}
 						});
+					}
+				);
 			}
 		});
