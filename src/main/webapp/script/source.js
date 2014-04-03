@@ -1,4 +1,18 @@
 var editing = false;
+var current_hash = window.location.hash;
+
+function check_hash() {
+    if ( window.location.hash != current_hash ) {
+        current_hash = window.location.hash;
+		edit();
+    }
+}
+
+function set_hash( new_hash ) {
+    window.location.hash = new_hash;
+}
+
+hashCheck = setInterval( "check_hash()", 50 );
 
 var code = {
 	id : "",
@@ -22,8 +36,8 @@ function evaluate() {
 }
 
 function edit(){
-	var button = $("#edit");
 	if(editing){
+		var button = $("#edit");
 		button.html("Edit");
 		code.text = $("#codearea").val();
 		var position = $(".content");
@@ -46,6 +60,7 @@ function edit(){
         });
 	}
 	else{
+		var button = $("#edit");
 		button.html("Save");
 		var position = $(".content");
 		position.hide();
@@ -62,6 +77,11 @@ $(function() {
 	evaluate();
 	SyntaxHighlighter.highlight();
 	$("#edit").click(function(){
-		edit();
+		if($("#edit").html() == "Edit"){
+			set_hash("edit");
+		}
+		else{
+			set_hash("save");
+		}
 	});
 });
