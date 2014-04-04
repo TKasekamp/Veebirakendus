@@ -1,10 +1,15 @@
-var editing = false;
 var current_hash = window.location.hash;
 
 function check_hash() {
     if ( window.location.hash != current_hash ) {
         current_hash = window.location.hash;
-		edit();
+		console.log(current_hash);
+		if(current_hash == "#edit"){
+			edit();
+		}
+		else{
+			save();
+		}
     }
 }
 
@@ -33,10 +38,17 @@ function evaluate() {
 	code.text = $("#content").html();
 	code.id = gup("id");
 	code.lang = $("#content").attr("class");
+	if(window.location.hash){
+		if(window.location.hash == "#edit"){
+			edit();
+		}
+		else{
+			save();
+		}
+	}
 }
 
-function edit(){
-	if(editing){
+function save(){
 		var button = $("#edit");
 		button.html("Edit");
 		code.text = $("#codearea").val();
@@ -46,7 +58,6 @@ function edit(){
 		position.append("<pre class=\"" + code.lang + "\" id=\"content\">" + code.text + "</pre>");
 		SyntaxHighlighter.highlight();
 		position.fadeToggle();
-		editing = false;
 		var objekt = source.objectify(code.id,code.text);
 		$.ajax('/edit', {
             type: 'POST',
@@ -57,9 +68,10 @@ function edit(){
             error: function(req, text) {
 				console.log(text);
             }
-        });
-	}
-	else{
+		});
+}
+
+function edit(){
 		var button = $("#edit");
 		button.html("Save");
 		var position = $(".content");
@@ -69,8 +81,6 @@ function edit(){
 		$("#codearea").val(code.text);
 		enableTab("codearea");
 		position.fadeToggle();
-		editing = true;
-	}
 };
 
 $(function() {
