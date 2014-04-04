@@ -25,7 +25,7 @@ var pump = {
 		var language = $('#language').find(':selected').text();
 		var privacy = $('#privacy').find(':selected').text();
 		var objekt = submit.objectify(name,text,language,privacy);
-        $.ajax('/data', {
+        $.ajax('/data2', {
             type: 'POST',
             data: JSON.stringify(objekt), // pack the bid object into json string
             success: function(objekt) {
@@ -34,8 +34,7 @@ var pump = {
 				pump.loadSubmitted(objekt);
             },
             error: function(req, text) {
-				var id = $('#resp');
-				id.html("Uploading failed. Failed to connect to server");
+				window.alert("Failed to connect to the server.\nPlease check your internet connection and try again later.");
             }
         });
     }

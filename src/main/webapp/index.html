@@ -13,7 +13,7 @@
 <script src="JQuery-2.0.2.js"></script>
 <script src="script/login.js" type="text/javascript"></script>
 <script src="script/enableTab.js" type="text/javascript"></script>
-<!--<script src="script/codeSubmit.js" type="text/javascript"></script>-->
+<script src="script/codeSubmit.js" type="text/javascript"></script>
 <script src="script/httpsRedirect.js"></script>
 <script src="script/GoogleSDK.js"></script>
 </head>
@@ -44,18 +44,11 @@
 
 			<div class="section-container tabs" data-section>
 				<section class="section">
-				<form method="post" action="/data">
-					## Avoiding NullPointer when processing
-					#if($nojs == true)
-					<input type="hidden" name="nojs" value="true">
-					#else
-					<input type="hidden" name="nojs" value="false">
-					#end
-					<div class="content" id="stuff" data-slug="panel1">
-						<input type="text" name="title" id="codename" placeholder="Untitled" />
-						<textarea rows="20" name="text" id="codearea" placeholder="Code here..."></textarea>
-						<button id="submit1" type="submit" class="radius button">Submit</button>
-					</div>
+				#if($nojs == true)
+				#include('templates/codeSubmit_nojs.html')
+				#else
+				#include('templates/codeSubmit.html')
+				#end
 				</section>
 			</div>
 			<div id="browsing">
