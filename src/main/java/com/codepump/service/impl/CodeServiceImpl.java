@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.hql.internal.ast.QuerySyntaxException;
 
 import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
@@ -81,8 +82,10 @@ public class CodeServiceImpl implements CodeService {
 	@Override
 	public List<CodeItem> findAllItems() {
 		if (USE_DATABASE) {
-			List<CodeItem> dataset = session.createQuery(
-					"from CodeItem where PRIVACY='Public' order by created_date desc").list();
+			List<CodeItem> dataset = session
+					.createQuery(
+							"from CodeItem where PRIVACY='Public' order by created_date desc")
+					.list();
 			return dataset;
 		} else {
 			ArrayList<CodeItem> dataset = new ArrayList<CodeItem>();
@@ -137,20 +140,22 @@ public class CodeServiceImpl implements CodeService {
 			return dataset;
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public RecentItem getLastRecentItem() {
 		if (USE_DATABASE) {
-			List<RecentItem> results = session.createSQLQuery(
-					"select c.code_id, c.code_name,  c.code_language, "
-		+ "c.created_date, w.user_name, w.user_id FROM CodeItem as c JOIN webapp_user as w on w.user_id = c.user_id where c.privacy = 'Public' ORDER BY c.created_date DESC LIMIT 1").addEntity(RecentItem.class).list();
+			List<RecentItem> results = session
+					.createSQLQuery(
+							"select c.code_id, c.code_name,  c.code_language, "
+									+ "c.created_date, w.user_name, w.user_id FROM CodeItem as c JOIN webapp_user as w on w.user_id = c.user_id where c.privacy = 'Public' ORDER BY c.created_date DESC LIMIT 1")
+					.addEntity(RecentItem.class).list();
 			return results.get(0);
 
 		} else {
-			// TODO for someone to fix. RecentItem should get values from users			
+			// TODO for someone to fix. RecentItem should get values from users
 			return new RecentItem(100, "haha", "Java", new Date(), 100, "test");
-		}		
+		}
 	}
 
 	@SuppressWarnings("unchecked")
@@ -183,5 +188,19 @@ public class CodeServiceImpl implements CodeService {
 			return dataset;
 		}
 
+	}
+
+	@Override
+	public void deleteCode(int id) {
+		if (USE_DATABASE) {
+			try {
+				session.createQuery("delete from CodeItem where code_id =:id")
+						.setParameter("id", id).executeUpdate();
+			} catch (QuerySyntaxException e) {
+				e.printStackTrace();
+			}
+		} else {
+			items.remove(id);
+		}
 	}
 }

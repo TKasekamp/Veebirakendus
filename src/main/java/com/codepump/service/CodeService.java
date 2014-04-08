@@ -52,8 +52,15 @@ public interface CodeService {
 	 * @return All CodeItems by this user.
 	 */
 	public List<MyStuffListItem> getAllUserItems(String SID);
-	
-	
+
 	public RecentItem getLastRecentItem();
+
+	/**
+	 * Deletes this code from the DB.
+	 * 
+	 * @param id
+	 *            of code to be deleted.
+	 */
+	public void deleteCode(int id);
 
 }

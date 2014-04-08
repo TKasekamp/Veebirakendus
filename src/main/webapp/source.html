@@ -55,7 +55,14 @@
 		</div>
 		#if(($canChange == true) && ($nojs == false))
 		<button type="button" class="radius button" id="edit">Edit</button>
-		<button type="button" class="radius button" id="delete">Delete</button>
+		#end
+		#if($canChange == true)
+		<form method="post" action="/data">
+		<input type="hidden" name="codeID" value="$code.getId()">
+		<input type="hidden" name="nojs" value="$nojs">
+		<button type="submit" class="radius button" id="delete">Delete</button>
+		</form>
+		<p> Dude, pressing delete will delete this code. For real.</p>
 		#end
 
 		<!-- End text area -->

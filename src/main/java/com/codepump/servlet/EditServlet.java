@@ -35,6 +35,9 @@ public class EditServlet extends HttpServlet {
 		try {
 			EditContainer item = gson.fromJson(req.getReader(),
 					EditContainer.class);
+			EditContainer item2 = gson.fromJson(req.getReader(),
+					EditContainer.class);
+			System.out.println(item2);
 			System.out.println(item);
 			datastore.editCode(item);
 

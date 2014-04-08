@@ -19,7 +19,7 @@ import com.codepump.service.UserService;
 public class DataServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	public static CodeService codeServ;
+	private static CodeService codeServ;
 	private static UserService userServ;
 
 	@Override
@@ -44,7 +44,28 @@ public class DataServlet extends HttpServlet {
 				}
 			}
 		}
+		System.out.println(req.getHeaderNames());
+		if(req.getParameter("codeID") != null) {
+			handleCodeDelete(req, resp, SID);
+			
+		}
+		else {
+			handleCodePost(req, resp, SID);
+		}
+		
+		// Websocket announcement
+		try {
+			RecentSocketController.find(req.getServletContext())
+					.loadMostRecent();
+		} catch (NullPointerException e) {
+			System.out
+					.println("Tartu, we have a problem. Actually no twats are looking at our websockets.");
+		}
+	}
 
+	private void handleCodePost(HttpServletRequest req,
+			HttpServletResponse resp, String SID) throws ServletException,
+			IOException {
 		User user = userServ.findUserBySID(SID);
 		CodeItem item = new CodeItem(req.getParameter("title"),
 				req.getParameter("text"), req.getParameter("language"),
@@ -73,13 +94,20 @@ public class DataServlet extends HttpServlet {
 			resp.sendRedirect("/source.html?id=" + item.getId());
 		}
 
-		// Websocket announcement
-		try {
-			RecentSocketController.find(req.getServletContext())
-					.loadMostRecent();
-		} catch (NullPointerException e) {
-			System.out
-					.println("Tartu, we have a problem. Actually no twats are looking at our websockets.");
+	}
+
+	private void handleCodeDelete(HttpServletRequest req,
+			HttpServletResponse resp, String SID) throws ServletException,
+			IOException {
+		String s = req.getParameter("codeID");
+		System.out.println(s);
+		codeServ.deleteCode(Integer.parseInt(s));
+		// Redirecting
+		if (req.getParameter("nojs").equalsIgnoreCase("true")) {
+			resp.sendRedirect("/mystuff.html?nojs=true");
+			return;
+		} else {
+			resp.sendRedirect("/mystuff.html");
 		}
 
 	}
