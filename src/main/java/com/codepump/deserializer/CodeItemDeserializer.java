@@ -21,7 +21,6 @@ import com.google.gson.JsonParseException;
  * @author TKasekamp
  * 
  */
-@Deprecated
 public class CodeItemDeserializer implements JsonDeserializer<CodeItem> {
 	private static AuthenicationService authServ = ServerController.authenticationServer;
 
