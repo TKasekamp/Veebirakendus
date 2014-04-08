@@ -3,7 +3,6 @@ var current_hash = window.location.hash;
 function check_hash() {
     if ( window.location.hash != current_hash ) {
         current_hash = window.location.hash;
-		console.log(current_hash);
 		if(current_hash == "#edit"){
 			edit();
 		}

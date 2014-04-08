@@ -32,7 +32,9 @@
 	<!-- End Banner -->
 
 	<!-- Main Page Content and Sidebar -->
-
+	#if($nojs == true)
+	<form method="post" action="/data">
+	#end
 	<div class="row">
 
 		<!-- Text area -->
@@ -84,7 +86,6 @@
 						<option value="Private">Private</option>
 					</select>
 				</div>
-				</form>
 			</div>
 			<br />
 			<p>
@@ -94,6 +95,9 @@
 		</div>
 		<!-- End Sidebar -->
 	</div>
+	#if($nojs == true)
+	</form>
+	#end
 
 	<!-- End Main Content and Sidebar -->
 
