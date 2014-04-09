@@ -32,8 +32,8 @@ import java.util.List;
 public class Velocity extends HttpServlet {
 
 	private VelocityEngine engine;
-	private static CodeService codeServ;
-	private static UserService userServ;
+	private UserService userServ;
+	private CodeService codeServ;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -43,6 +43,7 @@ public class Velocity extends HttpServlet {
 		userServ = ServerController.userServer;
 	}
 
+	
 	private VelocityEngine createTemplateEngine(ServletContext context) {
 		// velocity must know where /src/main/webapp is deployed
 		// details in the developer guide (Configuring resource loaders)
@@ -101,10 +102,10 @@ public class Velocity extends HttpServlet {
 			haveUser = true;
 			context.put("user", user);
 		}
-		
-		//NOJS
+
+		// NOJS
 		boolean nojs = false;
-		if (req.getParameter("nojs")!= null) {
+		if (req.getParameter("nojs") != null) {
 			nojs = true;
 		}
 
@@ -151,38 +152,34 @@ public class Velocity extends HttpServlet {
 			}
 
 			context.put("recentList", codeServ.getRecentItems());
-		}
-		else if (uri.equals("/signup.html")) {
+		} else if (uri.equals("/signup.html")) {
 			int result = 0;
 			try {
-				String r = req.getParameter("result");	
+				String r = req.getParameter("result");
 
-				if(r.equals("pass")) {
+				if (r.equals("pass")) {
 					result = 1;
-				}
-				else if (r.equals("userexists")) {
+				} else if (r.equals("userexists")) {
 					result = 2;
 				}
 			} catch (Exception e) {
 			}
 			context.put("result", result);
-		}
-		else if (uri.equals("/login.html")) {
+		} else if (uri.equals("/login.html")) {
 			int result = -1;
 			try {
-				String r = req.getParameter("result");	
+				String r = req.getParameter("result");
 
-				if(r.equals("nouser")) {
+				if (r.equals("nouser")) {
 					result = 0;
-				}
-				else if (r.equals("wrongpass")) {
+				} else if (r.equals("wrongpass")) {
 					result = 2;
 				}
 			} catch (Exception e) {
 			}
 			context.put("result", result);
 		}
-		
+
 		context.put("nojs", nojs);
 		context.put("haveUser", haveUser);
 		return context;

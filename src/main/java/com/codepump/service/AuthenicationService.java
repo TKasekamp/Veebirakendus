@@ -2,7 +2,9 @@ package com.codepump.service;
 
 import com.codepump.data.User;
 import com.codepump.response.AuthenticationResponse;
+import com.codepump.service.impl.AuthenticationServiceImpl;
 import com.codepump.tempobject.EditContainer;
+import com.google.inject.ImplementedBy;
 
 /**
  * Handles logging in and logging out.
@@ -10,6 +12,7 @@ import com.codepump.tempobject.EditContainer;
  * @author TKasekamp
  * 
  */
+@ImplementedBy(value = AuthenticationServiceImpl.class)
 public interface AuthenicationService {
 	/**
 	 * Checks the database for this user and compares the hashes.
@@ -88,4 +91,13 @@ public interface AuthenicationService {
 	 */
 	public String googleLogin(User user);
 
+	/**
+	 * For dependency injection. Used by Google Guice.
+	 * 
+	 * @author TKasekamp
+	 * 
+	 */
+	public interface AuthServiceFactory {
+		public AuthenticationServiceImpl create();
+	}
 }

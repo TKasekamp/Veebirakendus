@@ -1,7 +1,9 @@
 package com.codepump.service;
 
 import com.codepump.data.User;
+import com.codepump.service.impl.UserServiceImpl;
 import com.codepump.tempobject.UserStatisticsItem;
+import com.google.inject.ImplementedBy;
 
 /**
  * Handles the adding of users to the database.
@@ -9,6 +11,7 @@ import com.codepump.tempobject.UserStatisticsItem;
  * @author TKasekamp
  * 
  */
+@ImplementedBy(value = UserServiceImpl.class)
 public interface UserService {
 	/**
 	 * Searches for this user in the DB.
@@ -67,4 +70,14 @@ public interface UserService {
 	 *         null if not found
 	 */
 	public User findUserByEmail(String email);
+
+	/**
+	 * For dependency injection. Used by Google Guice.
+	 * 
+	 * @author TKasekamp
+	 * 
+	 */
+	public interface UserServiceFactory {
+		public UserServiceImpl create();
+	}
 }

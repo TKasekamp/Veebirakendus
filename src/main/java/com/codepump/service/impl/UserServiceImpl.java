@@ -5,15 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-
 import com.codepump.controller.ServerController;
 import com.codepump.data.User;
+import com.codepump.service.AuthenicationService;
+import com.codepump.service.DatabaseService;
 import com.codepump.service.UserService;
 import com.codepump.tempobject.UserLanguageStatisticsItem;
 import com.codepump.tempobject.UserStatisticsItem;
-import com.codepump.util.HibernateUtil;
+import com.google.inject.Inject;
 
 public class UserServiceImpl implements UserService {
 	public static Map<Integer, User> users;
@@ -21,25 +20,32 @@ public class UserServiceImpl implements UserService {
 
 	// Database connection stuff
 	private final boolean USE_DATABASE = ServerController.USE_DATABASE;
-	private Session session;
+	private DatabaseService dbServ;
+	private AuthenicationService authServ;
 
+	/**
+	 * Used when running in server memory.
+	 */
 	public UserServiceImpl() {
-		if (USE_DATABASE) {
-			session = HibernateUtil.currentSession();
-
-		} else {
-			users = new HashMap<>();
-			users.put(1, new User(1, "User", "fuckoff@gmail.com", "12345"));
-			users.put(2, new User(2, "test", "the1whokn0cks@gmail.com",
-					"qwerty"));
-			userCounter = 3;
-			for (User user : users.values()) {
-				user.hashPassword();
-			}
-			System.out.println("Users are: " + users.toString());
-
+		users = new HashMap<>();
+		users.put(1, new User(1, "User", "fuckoff@gmail.com", "12345"));
+		users.put(2, new User(2, "test", "the1whokn0cks@gmail.com", "qwerty"));
+		userCounter = 3;
+		for (User user : users.values()) {
+			user.hashPassword();
 		}
+		System.out.println("Users are: " + users.toString());
+		authServ = new AuthenticationServiceImpl();
+	}
 
+	/**
+	 * Used when DB activated.
+	 * @param dbServ Injected by Guice
+	 */
+	@Inject
+	public UserServiceImpl(final DatabaseService dbServ, final AuthenicationService authServ) {
+		this.dbServ = dbServ;
+		this.authServ = authServ;
 	}
 
 	@Override
@@ -47,9 +53,7 @@ public class UserServiceImpl implements UserService {
 		int result = 0;
 		if (USE_DATABASE) {
 			if (findUserByEmail(item.getEmail()) == null) {
-				session.getTransaction().begin();
-				session.save(item);
-				session.getTransaction().commit();
+				dbServ.saveUser(item);
 			} else {
 				result = 1;
 			}
@@ -65,23 +69,18 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public User findUserById(int id) {
 		if (USE_DATABASE) {
-			List<User> dataset = session
-					.createQuery("from User where USER_ID=:id")
-					.setParameter("id", id).list();
-			return dataset.get(0);
+			return dbServ.findUserById(id);
 		} else {
 			return users.get(id);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public UserStatisticsItem findUserStatistics(String SID) {
-		int userID = ServerController.authenticationServer.getUserWithSID(SID);
+		int userID = authServ.getUserWithSID(SID);
 		// userID will be set to -1 if no such SID can be found. This is the
 		// public user and as such Statistics should not work
 		if (userID == -1) {
@@ -89,11 +88,8 @@ public class UserServiceImpl implements UserService {
 		}
 		if (USE_DATABASE) {
 			// Creating a query and setting a parameter after.
-			Query q = session.getNamedQuery("thisUserLanguageStatistics");
-			q.setParameter("t_id", userID);
-			List<UserLanguageStatisticsItem> dataset = q.list();
-			// Without this the query will always return the same things
-			//session.clear();
+			List<UserLanguageStatisticsItem> dataset = dbServ
+					.findUserLanguageStatistics(userID);
 			// As the dataset is empty, creating new item by searching for user
 			if (dataset.size() == 0) {
 				User user = findUserById(userID);
@@ -111,22 +107,14 @@ public class UserServiceImpl implements UserService {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public User findUserByName(String username) {
-		List<User> dataset = session
-				.createQuery("from User where USER_NAME = :userName")
-				.setParameter("userName", username).list();
-		if (dataset.size() == 1) {
-			return dataset.get(0);
-		} else {
-			return null;
-		}
+		return dbServ.findUserByName(username);
 	}
 
 	@Override
 	public User findUserBySID(String SID) {
-		int userID = ServerController.authenticationServer.getUserWithSID(SID);
+		int userID = authServ.getUserWithSID(SID);
 		if (userID == -1) {
 			return null;
 		}
@@ -134,18 +122,9 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public User findUserByEmail(String email) {
-		List<User> dataset = session
-				.createQuery("from User where USER_EMAIL = :email")
-				.setParameter("email", email).list();
-		if (dataset.size() == 1) {
-			return dataset.get(0);
-		} else {
-			return null;
-		}
+		return dbServ.findUserByEmail(email);
 	}
-	
 
 }

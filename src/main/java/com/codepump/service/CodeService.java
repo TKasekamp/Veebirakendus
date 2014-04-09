@@ -3,9 +3,11 @@ package com.codepump.service;
 import java.util.List;
 
 import com.codepump.data.CodeItem;
+import com.codepump.service.impl.CodeServiceImpl;
 import com.codepump.tempobject.EditContainer;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
+import com.google.inject.ImplementedBy;
 
 /**
  * Handles all codeitem related requests from the database.
@@ -13,6 +15,7 @@ import com.codepump.tempobject.RecentItem;
  * @author TKasekamp
  * 
  */
+@ImplementedBy(value = CodeServiceImpl.class)
 public interface CodeService {
 
 	public CodeItem findItemById(int id);
@@ -62,5 +65,15 @@ public interface CodeService {
 	 *            of code to be deleted.
 	 */
 	public void deleteCode(int id);
+
+	/**
+	 * For dependency injection. Used by Google Guice.
+	 * 
+	 * @author TKasekamp
+	 * 
+	 */
+	public interface CodeServiceFactory {
+		public CodeServiceImpl create();
+	}
 
 }

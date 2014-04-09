@@ -6,33 +6,28 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.hql.internal.ast.QuerySyntaxException;
-
 import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
+import com.codepump.service.AuthenicationService;
 import com.codepump.service.CodeService;
+import com.codepump.service.DatabaseService;
 import com.codepump.tempobject.EditContainer;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
-import com.codepump.util.HibernateUtil;
+import com.google.inject.Inject;
 
 public class CodeServiceImpl implements CodeService {
-
-	private Session session;
-	private Map<Integer, CodeItem> items;
+	private static Map<Integer, CodeItem> items;
 	private int codeCounter; // useless
-
 	private final boolean USE_DATABASE = ServerController.USE_DATABASE;
+	private DatabaseService dbServ;
+	private AuthenicationService authServ;
 
+	/**
+	 * Used when running in server memory.
+	 */
 	public CodeServiceImpl() {
-
-		if (USE_DATABASE) {
-			session = HibernateUtil.currentSession();
-
-		} else {
 			items = new HashMap<>();
 			items.put(1, new CodeItem(1, "hello",
 					"public static void Hello(String s);", "java", "Public",
@@ -45,18 +40,27 @@ public class CodeServiceImpl implements CodeService {
 					"Private", new Date(), new Date(), new User(100, "Test",
 							"dumbass", "parool")));
 			codeCounter = 4;
-		}
+			authServ = new AuthenticationServiceImpl();
 	}
-
+	
+	/**
+	 * Used when DB activated.
+	 * @param dbServ Injected by Guice
+	 * @param authServ Injected by Guice
+	 */
+	@Inject
+	public CodeServiceImpl(final DatabaseService dbServ, final AuthenicationService authServ) {
+		this.dbServ = dbServ;
+		this.authServ = authServ;
+	}
+	
 	@Override
 	public void addCode(CodeItem item) {
 		item.setSaveDate(new Date());
 		item.setExpireDate(new Date());
+		item.setText(escapeChars(item.getText()));
 		if (USE_DATABASE) {
-			session.getTransaction().begin();
-			session.save(item);
-			session.getTransaction().commit();
-			session.clear();
+			dbServ.saveCodeItem(item);
 		} else {
 			item.setId(codeCounter); // temp hack
 			items.put(codeCounter, item);
@@ -65,28 +69,19 @@ public class CodeServiceImpl implements CodeService {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public CodeItem findItemById(int id) {
-		if (USE_DATABASE) {
-			List<CodeItem> dataset = session
-					.createQuery("from CodeItem where CODE_ID=:id")
-					.setParameter("id", id).list();
-			return dataset.get(0);
+		if (USE_DATABASE) {			
+			return dbServ.findCodeItemById(id);
 		} else {
 			return items.get(id);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<CodeItem> findAllItems() {
 		if (USE_DATABASE) {
-			List<CodeItem> dataset = session
-					.createQuery(
-							"from CodeItem where PRIVACY='Public' order by created_date desc")
-					.list();
-			return dataset;
+			return dbServ.getAllCodeItems();
 		} else {
 			ArrayList<CodeItem> dataset = new ArrayList<CodeItem>();
 			for (CodeItem value : items.values()) {
@@ -101,15 +96,14 @@ public class CodeServiceImpl implements CodeService {
 
 	@Override
 	public void editCode(EditContainer item) {
-		if (ServerController.authenticationServer.authoriseEdit(item)) {
+		if (authServ.authoriseEdit(item)) {
+			item.setText(escapeChars(item.getText()));
 			if (USE_DATABASE) {
 				// this is not efficient, but creating a direct update query
 				// kind of crashed the server
 				CodeItem code = findItemById(item.getId());
 				code.setText(item.getText());
-				session.getTransaction().begin();
-				session.update(code);
-				session.getTransaction().commit();
+				dbServ.updateCodeItem(code);
 			} else {
 				items.get(item.getId()).setText(item.getText());
 			}
@@ -117,14 +111,10 @@ public class CodeServiceImpl implements CodeService {
 
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<RecentItem> getRecentItems() {
 		if (USE_DATABASE) {
-			List<RecentItem> results = session.getNamedQuery(
-					"findRecentItemsInOrder").list();
-			return results;
-
+			return dbServ.getRecentItems();
 		} else {
 			// TODO for someone to fix. RecentItem should get values from users
 			ArrayList<RecentItem> dataset = new ArrayList<RecentItem>();
@@ -141,45 +131,32 @@ public class CodeServiceImpl implements CodeService {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
+	@Deprecated
 	public RecentItem getLastRecentItem() {
 		if (USE_DATABASE) {
-			List<RecentItem> results = session
-					.createSQLQuery(
-							"select c.code_id, c.code_name,  c.code_language, "
-									+ "c.created_date, w.user_name, w.user_id FROM CodeItem as c JOIN webapp_user as w on w.user_id = c.user_id where c.privacy = 'Public' ORDER BY c.created_date DESC LIMIT 1")
-					.addEntity(RecentItem.class).list();
-			return results.get(0);
-
+			return null;
 		} else {
 			// TODO for someone to fix. RecentItem should get values from users
 			return new RecentItem(100, "haha", "Java", new Date(), 100, "test");
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public List<MyStuffListItem> getAllUserItems(String SID) {
-		int userID = ServerController.authenticationServer.getUserWithSID(SID);
+		int userId = authServ.getUserWithSID(SID);
 
 		// userID will be set to -1 if no such SID can be found. This is the
 		// public user and as such MyStuff should not work
-		if (userID == -1) {
+		if (userId == -1) {
 			return null;
 		}
 		if (USE_DATABASE) {
-			// Creating a query and setting a parameter after.
-			Query q = session.getNamedQuery("thisUserCodeByID");
-			q.setParameter("t_id", userID);
-			List<MyStuffListItem> dataset = q.list();
-
-			// System.out.println(dataset.toString());
-			return dataset;
+			return dbServ.getAllUserItems(userId);
 		} else {
 			ArrayList<MyStuffListItem> dataset = new ArrayList<MyStuffListItem>();
 			for (CodeItem value : items.values()) {
-				if (value.getUser().getId() == userID) {
+				if (value.getUser().getId() == userId) {
 					dataset.add(new MyStuffListItem(value.getId(), value
 							.getName(), value.getLanguage(), value
 							.getSaveDate()));
@@ -193,14 +170,14 @@ public class CodeServiceImpl implements CodeService {
 	@Override
 	public void deleteCode(int id) {
 		if (USE_DATABASE) {
-			try {
-				session.createQuery("delete from CodeItem where code_id =:id")
-						.setParameter("id", id).executeUpdate();
-			} catch (QuerySyntaxException e) {
-				e.printStackTrace();
-			}
+			dbServ.deleteCodeItem(id);
 		} else {
 			items.remove(id);
 		}
+	}
+	
+	private String escapeChars (String text){
+		text.replaceAll("<", "&lt;");
+		return text;
 	}
 }

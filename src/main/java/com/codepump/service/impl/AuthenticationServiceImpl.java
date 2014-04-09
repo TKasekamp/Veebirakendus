@@ -1,35 +1,37 @@
 package com.codepump.service.impl;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
-
-import org.hibernate.Session;
 
 import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.response.AuthenticationResponse;
 import com.codepump.service.AuthenicationService;
-import com.codepump.service.UserService;
+import com.codepump.service.DatabaseService;
 import com.codepump.tempobject.EditContainer;
-import com.codepump.util.HibernateUtil;
+import com.google.inject.Inject;
 
 public class AuthenticationServiceImpl implements AuthenicationService {
-	private Map<String, Integer> SIDlist; // SID, corresponding user ID
+	private static Map<String, Integer> SIDlist = new HashMap<>(); // SID, corresponding user ID
 	private final boolean USE_DATABASE = ServerController.USE_DATABASE;
-	private Session session;
 	private static Map<Integer, User> users = UserServiceImpl.users;
-	private static UserService userServ;
+	private DatabaseService dbServ;
 
+	/**
+	 * Used when running in server memory.
+	 */
 	public AuthenticationServiceImpl() {
-		if (USE_DATABASE) {
-			session = HibernateUtil.currentSession();
-
-		}
-		SIDlist = new HashMap<>();
-		userServ = ServerController.userServer;
+	}
+	
+	/**
+	 * Used when DB activated.
+	 * @param dbServ Injected by Guice
+	 */
+	@Inject
+	public AuthenticationServiceImpl(final DatabaseService dbServ) {
+		this.dbServ = dbServ;
 	}
 
 	/**
@@ -47,16 +49,13 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 
 		// Find user
 		if (USE_DATABASE) {
-			@SuppressWarnings("unchecked")
-			List<User> dataset = session
-					.createQuery("from User where USER_EMAIL = :email")
-					.setParameter("email", user.getEmail()).list();
+			User dbUser = dbServ.findUserByEmail(user.getEmail());
 			try {
 				System.out.println("Got user from DB");
-				System.out.println(dataset.get(0));
-				if (dataset.get(0).getPassword().equals(user.getPassword())) {
+				System.out.println(dbUser);
+				if (dbUser.getPassword().equals(user.getPassword())) {
 					result = 1;
-					userID = dataset.get(0).getId();
+					userID = dbUser.getId();
 				} else {
 					result = 2;
 				}
@@ -137,7 +136,7 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 		if (userID == -1) {
 			return false;
 		}
-		CodeItem code = ServerController.codeServer.findItemById(item.getId());
+		CodeItem code = dbServ.findCodeItemById(item.getId());
 		if (userID == code.getUser().getId()) {
 			return true;
 		}
@@ -150,7 +149,7 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 		if (userID == -1) {
 			return false;
 		}
-		CodeItem code = ServerController.codeServer.findItemById(codeID);
+		CodeItem code = dbServ.findCodeItemById(codeID);
 		if (userID == code.getUser().getId()) {
 			return true;
 		}
@@ -159,7 +158,7 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 
 	@Override
 	public String directLogin(String email) {
-		User user = userServ.findUserByEmail(email);
+		User user = dbServ.findUserByEmail(email);
 		String sid = null;
 		while (true) {
 			sid = generateSID();
@@ -177,7 +176,7 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 		AuthenticationResponse r = checkPassword(user);
 		// If no user create new one
 		if (r.getResponse() == 0) {
-			userServ.addUser(user);
+			dbServ.saveUser(user);
 			r = checkPassword(user);
 		}
 		return r.getSID();
