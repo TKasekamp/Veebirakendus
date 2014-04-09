@@ -98,6 +98,7 @@ public class CodeServiceImpl implements CodeService {
 	public void editCode(EditContainer item) {
 		if (authServ.authoriseEdit(item)) {
 			item.setText(escapeChars(item.getText()));
+			item.setText(escapeChars(item.getText()));
 			if (USE_DATABASE) {
 				// this is not efficient, but creating a direct update query
 				// kind of crashed the server
