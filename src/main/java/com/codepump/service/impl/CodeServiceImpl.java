@@ -47,11 +47,17 @@ public class CodeServiceImpl implements CodeService {
 			codeCounter = 4;
 		}
 	}
+	
+	private String escapeChars (String text){
+		text.replaceAll("<", "&lt;");
+		return text;
+	}
 
 	@Override
 	public void addCode(CodeItem item) {
 		item.setSaveDate(new Date());
 		item.setExpireDate(new Date());
+		item.setText(escapeChars(item.getText()));
 		if (USE_DATABASE) {
 			session.getTransaction().begin();
 			session.save(item);
@@ -102,6 +108,7 @@ public class CodeServiceImpl implements CodeService {
 	@Override
 	public void editCode(EditContainer item) {
 		if (ServerController.authenticationServer.authoriseEdit(item)) {
+			item.setText(escapeChars(item.getText()));
 			if (USE_DATABASE) {
 				// this is not efficient, but creating a direct update query
 				// kind of crashed the server
