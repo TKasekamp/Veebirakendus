@@ -22,7 +22,7 @@ public class HibernateUtil {
 //	        String databaseUrl = System.getenv("HEROKU_POSTGRESQL_BRONZE_SQL");
 			String databaseUrl = System.getenv("DATABASE_URL");
 	        if (databaseUrl != null) {
-	             herokuConnection(new URI(databaseUrl));
+	             herokuConnection();
 	        } else {
 	             localConnection();
 	        }
@@ -45,10 +45,12 @@ public class HibernateUtil {
 		session = null;
 	}
 	
-	private static void herokuConnection(URI dbUri) {
-		String username = dbUri.getUserInfo().split(":")[0];
-		String password = dbUri.getUserInfo().split(":")[1];
-		String dbUrl = "jdbc:" + dbUri;
+	private static void herokuConnection() {
+		String [] a = System.getenv("DATABASE_URL").split("@");
+		String [] b = a[0].split(":");
+		String username = b[1].replace("//", "");
+		String password = b[2];
+		String db = "jdbc:postgresql://" +a[1];
 		
 		Configuration configuration = new Configuration()
 	    .addClass(com.codepump.data.User.class)
@@ -60,7 +62,7 @@ public class HibernateUtil {
 	    .setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
 	    .setProperty("hibernate.connection.username", username)
 	    .setProperty("hibernate.connection.password", password)
-	    .setProperty("hibernate.connection.url", System.getenv("DATABASE_URL"));
+	    .setProperty("hibernate.connection.url", db);
 		
 		serviceRegistry = new StandardServiceRegistryBuilder()
 		.applySettings(configuration.getProperties()).build();
