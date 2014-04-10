@@ -53,11 +53,11 @@ public class HibernateUtil {
 		String db = "jdbc:postgresql://" +a[1];
 		
 		Configuration configuration = new Configuration()
-	    .addClass(com.codepump.data.User.class)
-	    .addClass(com.codepump.data.CodeItem.class)
-	    .addClass(com.codepump.tempobject.RecentItem.class)
-	    .addClass(com.codepump.tempobject.MyStuffListItem.class)
-	    .addClass(com.codepump.tempobject.UserLanguageStatisticsItem.class)
+	    .addAnnotatedClass(com.codepump.data.User.class)
+	    .addAnnotatedClass(com.codepump.data.CodeItem.class)
+	    .addAnnotatedClass(com.codepump.tempobject.RecentItem.class)
+	    .addAnnotatedClass(com.codepump.tempobject.MyStuffListItem.class)
+	    .addAnnotatedClass(com.codepump.tempobject.UserLanguageStatisticsItem.class)
 	    .setProperty("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect")
 	    .setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
 	    .setProperty("hibernate.connection.username", username)
