@@ -53,7 +53,7 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 				} else {
 					result = 2;
 				}
-			} catch (IndexOutOfBoundsException e) {
+			} catch (Exception e) {
 				// This means there is no such user in DB
 			}
 

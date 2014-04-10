@@ -1,6 +1,5 @@
 package com.codepump.util;
 
-import java.net.URI;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -19,10 +18,9 @@ public class HibernateUtil {
 
 	static {
 		try {
-//	        String databaseUrl = System.getenv("HEROKU_POSTGRESQL_BRONZE_SQL");
 			String databaseUrl = System.getenv("DATABASE_URL");
 	        if (databaseUrl != null) {
-	             herokuConnection();
+	             herokuConnection(databaseUrl);
 	        } else {
 	             localConnection();
 	        }
@@ -45,8 +43,8 @@ public class HibernateUtil {
 		session = null;
 	}
 	
-	private static void herokuConnection() {
-		String [] a = System.getenv("DATABASE_URL").split("@");
+	private static void herokuConnection(String databaseUrl) {
+		String [] a = databaseUrl.split("@");
 		String [] b = a[0].split(":");
 		String username = b[1].replace("//", "");
 		String password = b[2];
