@@ -60,7 +60,7 @@ public class HibernateUtil {
 	    .setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
 	    .setProperty("hibernate.connection.username", username)
 	    .setProperty("hibernate.connection.password", password)
-	    .setProperty("hibernate.connection.url", dbUrl);
+	    .setProperty("hibernate.connection.url", System.getenv("DATABASE_URL"));
 		
 		serviceRegistry = new StandardServiceRegistryBuilder()
 		.applySettings(configuration.getProperties()).build();
