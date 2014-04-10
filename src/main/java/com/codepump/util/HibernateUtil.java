@@ -48,8 +48,7 @@ public class HibernateUtil {
 	private static void herokuConnection(URI dbUri) {
 		String username = dbUri.getUserInfo().split(":")[0];
 		String password = dbUri.getUserInfo().split(":")[1];
-		String dbUrl = "jdbc:postgresql://" + dbUri.getHost()
-					+ ':' + dbUri.getPort() + dbUri.getPath();
+		String dbUrl = "jdbc:" + dbUri;
 		
 		Configuration configuration = new Configuration()
 	    .addClass(com.codepump.data.User.class)
