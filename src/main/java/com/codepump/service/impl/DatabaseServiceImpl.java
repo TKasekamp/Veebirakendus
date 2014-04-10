@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
+import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.service.DatabaseService;
@@ -15,9 +16,11 @@ import com.codepump.util.HibernateUtil;
 
 public class DatabaseServiceImpl implements DatabaseService {
 	private Session session;
+	private final boolean USE_DATABASE = ServerController.USE_DATABASE;
 
 	public DatabaseServiceImpl() {
-		session = HibernateUtil.currentSession();
+		if(USE_DATABASE)
+			session = HibernateUtil.currentSession();
 	}
 
 	@Override

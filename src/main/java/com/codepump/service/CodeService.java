@@ -31,6 +31,16 @@ public interface CodeService {
 	public void addCode(CodeItem item);
 
 	/**
+	 * Adds this code to the DB. Uses SID to find user.
+	 * 
+	 * @param item
+	 *            CodeItem
+	 * @param SID
+	 *            Cookie value
+	 */
+	public void addCode(CodeItem item, String SID);
+
+	/**
 	 * Edits the text of the item with this id in the database.<br>
 	 * Checks with {@link AuthenicationService} to make sure the item belongs to
 	 * the user who made it<br>
@@ -65,15 +75,5 @@ public interface CodeService {
 	 *            of code to be deleted.
 	 */
 	public void deleteCode(int id);
-
-	/**
-	 * For dependency injection. Used by Google Guice.
-	 * 
-	 * @author TKasekamp
-	 * 
-	 */
-	public interface CodeServiceFactory {
-		public CodeServiceImpl create();
-	}
 
 }

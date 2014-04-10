@@ -17,21 +17,15 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 	private static Map<String, Integer> SIDlist = new HashMap<>(); // SID, corresponding user ID
 	private final boolean USE_DATABASE = ServerController.USE_DATABASE;
 	private static Map<Integer, User> users = UserServiceImpl.users;
-	private DatabaseService dbServ;
-
-	/**
-	 * Used when running in server memory.
-	 */
-	public AuthenticationServiceImpl() {
-	}
+	private DatabaseService dbServ; // NULL if USE_DATABASE = true
 	
 	/**
-	 * Used when DB activated.
 	 * @param dbServ Injected by Guice
 	 */
 	@Inject
-	public AuthenticationServiceImpl(final DatabaseService dbServ) {
-		this.dbServ = dbServ;
+	public AuthenticationServiceImpl(DatabaseService dbServ) {
+		if(USE_DATABASE)
+			this.dbServ = dbServ;
 	}
 
 	/**

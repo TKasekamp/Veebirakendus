@@ -28,5 +28,6 @@
 	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/org.apache.commons.logging-1.1.1.v201101211721.jar"/>
 	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/guice-assistedinject-3.0.jar"/>
 	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/guice-multibindings-3.0.jar"/>
+	<classpathentry kind="lib" path="target/codepump-1.0-SNAPSHOT/WEB-INF/lib/guice-servlet-3.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

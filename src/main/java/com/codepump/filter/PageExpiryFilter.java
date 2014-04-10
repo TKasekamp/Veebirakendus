@@ -1,4 +1,4 @@
-package com.codepump.servlet;
+package com.codepump.filter;
 
 import java.io.IOException;
 import java.io.InputStream;

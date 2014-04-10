@@ -20,31 +20,28 @@ public class UserServiceImpl implements UserService {
 
 	// Database connection stuff
 	private final boolean USE_DATABASE = ServerController.USE_DATABASE;
-	private DatabaseService dbServ;
+	private DatabaseService dbServ; // NULL if USE_DATABASE = true
 	private AuthenicationService authServ;
 
 	/**
-	 * Used when running in server memory.
-	 */
-	public UserServiceImpl() {
-		users = new HashMap<>();
-		users.put(1, new User(1, "User", "fuckoff@gmail.com", "12345"));
-		users.put(2, new User(2, "test", "the1whokn0cks@gmail.com", "qwerty"));
-		userCounter = 3;
-		for (User user : users.values()) {
-			user.hashPassword();
-		}
-		System.out.println("Users are: " + users.toString());
-		authServ = new AuthenticationServiceImpl();
-	}
-
-	/**
-	 * Used when DB activated.
-	 * @param dbServ Injected by Guice
+	 * @param dbServ
+	 *            Injected by Guice
 	 */
 	@Inject
-	public UserServiceImpl(final DatabaseService dbServ, final AuthenicationService authServ) {
-		this.dbServ = dbServ;
+	public UserServiceImpl(DatabaseService dbServ, AuthenicationService authServ) {
+		if (USE_DATABASE) {
+			this.dbServ = dbServ;
+		} else {
+			users = new HashMap<>();
+			users.put(1, new User(1, "User", "fuckoff@gmail.com", "12345"));
+			users.put(2, new User(2, "test", "the1whokn0cks@gmail.com",
+					"qwerty"));
+			userCounter = 3;
+			for (User user : users.values()) {
+				user.hashPassword();
+			}
+			System.out.println("Users are: " + users.toString());
+		}
 		this.authServ = authServ;
 	}
 

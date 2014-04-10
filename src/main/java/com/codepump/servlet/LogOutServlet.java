@@ -3,27 +3,32 @@ package com.codepump.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.codepump.controller.ServerController;
 import com.codepump.response.AuthenticationResponse;
 import com.codepump.service.AuthenicationService;
 import com.google.gson.JsonParseException;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-@WebServlet(value = "/logout")
+//@WebServlet(value = "/logout")
+@Singleton
 public class LogOutServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static AuthenicationService authServ;
+	private AuthenicationService authServ;
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		authServ = ServerController.authenticationServer;
+	}
+
+	@Inject
+	public LogOutServlet(AuthenicationService authServ) {
+		this.authServ = authServ;
 	}
 
 	@Override
@@ -72,7 +77,7 @@ public class LogOutServlet extends HttpServlet {
 			// Empty cookie
 			Cookie c = new Cookie("SID", "");
 			c.setMaxAge(0); // No more cookie
-			resp.addCookie(c); 
+			resp.addCookie(c);
 			resp.setHeader("Content-Type", "application/json");
 			// What the response is is not really important as long as there
 			// is

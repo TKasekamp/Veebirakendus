@@ -3,31 +3,31 @@ package com.codepump.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
-import com.codepump.data.User;
 import com.codepump.service.CodeService;
-import com.codepump.service.UserService;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
-@WebServlet(value = "/data")
+//@WebServlet(value = "/data")
+@Singleton
 public class DataServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private static CodeService codeServ;
-	private static UserService userServ;
+	private CodeService codeServ;
 
 	@Override
 	public void init() throws ServletException {
 		super.init();
-		// Services
-		codeServ = ServerController.codeServer;
-		userServ = ServerController.userServer;
+	}
+
+	@Inject
+	public DataServlet(CodeService codeServ) {
+		this.codeServ = codeServ;
 	}
 
 	@Override
@@ -45,14 +45,13 @@ public class DataServlet extends HttpServlet {
 			}
 		}
 		System.out.println(req.getHeaderNames());
-		if(req.getParameter("codeID") != null) {
+		if (req.getParameter("codeID") != null) {
 			handleCodeDelete(req, resp, SID);
-			
-		}
-		else {
+
+		} else {
 			handleCodePost(req, resp, SID);
 		}
-		
+
 		// Websocket announcement
 		try {
 			RecentSocketController.find(req.getServletContext())
@@ -66,23 +65,11 @@ public class DataServlet extends HttpServlet {
 	private void handleCodePost(HttpServletRequest req,
 			HttpServletResponse resp, String SID) throws ServletException,
 			IOException {
-		User user = userServ.findUserBySID(SID);
 		CodeItem item = new CodeItem(req.getParameter("title"),
 				req.getParameter("text"), req.getParameter("language"),
 				req.getParameter("privacy"));
-		// If no user then must be public
-		// Creating new public user
-		System.out.println("Logged in user");
-		System.out.println(user);
-		if (user == null) {
-			user = new User();
-			user.setId(-1);
-			item.setUser(user);
-		} else {
-			item.setUser(user);
-		}
 
-		codeServ.addCode(item);
+		codeServ.addCode(item, SID);
 		System.out.println("Added item");
 		System.out.println(item);
 

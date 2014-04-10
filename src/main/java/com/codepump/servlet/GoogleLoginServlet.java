@@ -3,19 +3,19 @@ package com.codepump.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.codepump.controller.ServerController;
 import com.codepump.data.User;
 import com.codepump.deserializer.UserDeserializer;
 import com.codepump.service.AuthenicationService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 /**
  * Cause creating new servlets is easier than looking at JSON object parameters.
@@ -24,12 +24,13 @@ import com.google.gson.JsonParseException;
  * @author TKasekamp
  * 
  */
-@WebServlet(value = "/glogin")
+// @WebServlet(value = "/glogin")
+@Singleton
 public class GoogleLoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private Gson gson;
-	private static AuthenicationService authServ;
+	private AuthenicationService authServ;
 
 	@Override
 	public void init() throws ServletException {
@@ -37,7 +38,11 @@ public class GoogleLoginServlet extends HttpServlet {
 		GsonBuilder gsonBuilder = new GsonBuilder();
 		gsonBuilder.registerTypeAdapter(User.class, new UserDeserializer());
 		gson = gsonBuilder.create();
-		authServ = ServerController.authenticationServer;
+	}
+
+	@Inject
+	public GoogleLoginServlet(AuthenicationService authServ) {
+		this.authServ = authServ;
 	}
 
 	@Override

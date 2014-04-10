@@ -1,21 +1,21 @@
-package com.codepump.servlet;
+package com.codepump.velocity;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
-import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.service.CodeService;
 import com.codepump.service.UserService;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.UserStatisticsItem;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +28,8 @@ import java.util.List;
 // https://velocity.apache.org/engine/releases/velocity-1.7
 // https://velocity.apache.org/engine/releases/velocity-1.7/user-guide.html
 @SuppressWarnings("serial")
-@WebServlet(value = "*.html")
+// @WebServlet(value = "*.html")
+@Singleton
 public class Velocity extends HttpServlet {
 
 	private VelocityEngine engine;
@@ -39,11 +40,14 @@ public class Velocity extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		engine = createTemplateEngine(config.getServletContext());
-		codeServ = ServerController.codeServer;
-		userServ = ServerController.userServer;
 	}
 
-	
+	@Inject
+	public Velocity(UserService userServ, CodeService codeServ) {
+		this.userServ = userServ;
+		this.codeServ = codeServ;
+	}
+
 	private VelocityEngine createTemplateEngine(ServletContext context) {
 		// velocity must know where /src/main/webapp is deployed
 		// details in the developer guide (Configuring resource loaders)

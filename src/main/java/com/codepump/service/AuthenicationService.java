@@ -91,13 +91,13 @@ public interface AuthenicationService {
 	 */
 	public String googleLogin(User user);
 
-	/**
-	 * For dependency injection. Used by Google Guice.
-	 * 
-	 * @author TKasekamp
-	 * 
-	 */
-	public interface AuthServiceFactory {
-		public AuthenticationServiceImpl create();
-	}
+//	/**
+//	 * For dependency injection. Used by Google Guice.
+//	 * 
+//	 * @author TKasekamp
+//	 * 
+//	 */
+//	public interface AuthServiceFactory {
+//		public AuthenticationServiceImpl create();
+//	}
 }

@@ -2,18 +2,18 @@ package com.codepump.servlet;
 
 import org.eclipse.jetty.websocket.servlet.*;
 
-import com.codepump.controller.ServerController;
 import com.codepump.serializer.RecentItemSerializer;
 import com.codepump.service.CodeService;
 import com.codepump.socket.RecentSocket;
 import com.codepump.tempobject.RecentItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,7 +31,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * You may need to enable websockets at heroku:
  * https://devcenter.heroku.com/articles/heroku-labs-websockets
  */
-@WebServlet(value = "/feed")
+// @WebServlet(value = "/feed")
+@Singleton
 public class RecentSocketController extends WebSocketServlet implements
 		WebSocketCreator {
 
@@ -42,6 +43,11 @@ public class RecentSocketController extends WebSocketServlet implements
 	private Gson gson;
 	@SuppressWarnings("unused")
 	private Pinger pinger;
+
+	@Inject
+	public RecentSocketController(CodeService codeServ) {
+		this.codeServ = codeServ;
+	}
 
 	public void loadMostRecent() {
 		List<RecentItem> list = codeServ.getRecentItems();
@@ -72,7 +78,7 @@ public class RecentSocketController extends WebSocketServlet implements
 		publish(this, context); // so that other servlets could find us
 		gson = new GsonBuilder().registerTypeAdapter(RecentItem.class,
 				new RecentItemSerializer()).create();
-		codeServ = ServerController.codeServer;
+		// codeServ = ServerController.codeServer;
 		pinger = new Pinger();
 
 	}
@@ -98,8 +104,8 @@ public class RecentSocketController extends WebSocketServlet implements
 		return (RecentSocketController) context
 				.getAttribute(RecentSocketController.class.getName());
 	}
-	
-	public void sendMessage(String text){
+
+	public void sendMessage(String text) {
 		for (RecentSocket socket : sockets) {
 			try {
 				socket.send(text);
@@ -111,27 +117,26 @@ public class RecentSocketController extends WebSocketServlet implements
 
 	/**
 	 * Class to keep the connection open. Credit to Jaan Janno.
-	 * https://github.com/JaanJanno/OnTime/blob/master/app/controllers/chat/ChatSocket.java
+	 * https://github.com
+	 * /JaanJanno/OnTime/blob/master/app/controllers/chat/ChatSocket.java
 	 */
-	private class Pinger extends Thread{
+	private class Pinger extends Thread {
 
-		public Pinger(){
+		public Pinger() {
 			this.start();
 		}
+
 		@Override
 		public synchronized void run() {
-			while(true){
+			while (true) {
 				sendMessage("");
 				try {
 					Thread.sleep(30000);
 				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
 	}
-	
-	
 
 }

@@ -21,13 +21,23 @@ public class CodeServiceImpl implements CodeService {
 	private static Map<Integer, CodeItem> items;
 	private int codeCounter; // useless
 	private final boolean USE_DATABASE = ServerController.USE_DATABASE;
-	private DatabaseService dbServ;
+	private DatabaseService dbServ; // NULL if USE_DATABASE = true
 	private AuthenicationService authServ;
 
+
+
 	/**
-	 * Used when running in server memory.
+	 * 
+	 * @param dbServ
+	 *            Injected by Guice
+	 * @param authServ
+	 *            Injected by Guice
 	 */
-	public CodeServiceImpl() {
+	@Inject
+	public CodeServiceImpl(DatabaseService dbServ, AuthenicationService authServ) {
+		if (USE_DATABASE) {
+			this.dbServ = dbServ;
+		} else {
 			items = new HashMap<>();
 			items.put(1, new CodeItem(1, "hello",
 					"public static void Hello(String s);", "java", "Public",
@@ -40,21 +50,12 @@ public class CodeServiceImpl implements CodeService {
 					"Private", new Date(), new Date(), new User(100, "Test",
 							"dumbass", "parool")));
 			codeCounter = 4;
-			authServ = new AuthenticationServiceImpl();
-	}
-	
-	/**
-	 * Used when DB activated.
-	 * @param dbServ Injected by Guice
-	 * @param authServ Injected by Guice
-	 */
-	@Inject
-	public CodeServiceImpl(final DatabaseService dbServ, final AuthenicationService authServ) {
-		this.dbServ = dbServ;
+		}
 		this.authServ = authServ;
 	}
-	
+
 	@Override
+	@Deprecated
 	public void addCode(CodeItem item) {
 		item.setSaveDate(new Date());
 		item.setExpireDate(new Date());
@@ -71,7 +72,7 @@ public class CodeServiceImpl implements CodeService {
 
 	@Override
 	public CodeItem findItemById(int id) {
-		if (USE_DATABASE) {			
+		if (USE_DATABASE) {
 			return dbServ.findCodeItemById(id);
 		} else {
 			return items.get(id);
@@ -97,7 +98,6 @@ public class CodeServiceImpl implements CodeService {
 	@Override
 	public void editCode(EditContainer item) {
 		if (authServ.authoriseEdit(item)) {
-			item.setText(escapeChars(item.getText()));
 			item.setText(escapeChars(item.getText()));
 			if (USE_DATABASE) {
 				// this is not efficient, but creating a direct update query
@@ -176,9 +176,28 @@ public class CodeServiceImpl implements CodeService {
 			items.remove(id);
 		}
 	}
-	
-	private String escapeChars (String text){
+
+	private String escapeChars(String text) {
 		text.replaceAll("<", "&lt;");
 		return text;
+	}
+
+	@Override
+	public void addCode(CodeItem item, String SID) {
+		item.setSaveDate(new Date());
+		item.setExpireDate(new Date());
+		item.setText(escapeChars(item.getText()));
+		
+		User u = new User();
+		u.setId(authServ.getUserWithSID(SID));
+		item.setUser(u);
+		if (USE_DATABASE) {
+			dbServ.saveCodeItem(item);
+		} else {
+			item.setId(codeCounter); // temp hack
+			items.put(codeCounter, item);
+			codeCounter++;
+		}
+		
 	}
 }

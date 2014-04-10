@@ -70,14 +70,4 @@ public interface UserService {
 	 *         null if not found
 	 */
 	public User findUserByEmail(String email);
-
-	/**
-	 * For dependency injection. Used by Google Guice.
-	 * 
-	 * @author TKasekamp
-	 * 
-	 */
-	public interface UserServiceFactory {
-		public UserServiceImpl create();
-	}
 }
