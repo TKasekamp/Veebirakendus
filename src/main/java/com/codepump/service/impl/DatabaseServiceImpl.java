@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 
 import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
@@ -17,130 +18,194 @@ import com.codepump.util.HibernateUtil;
 public class DatabaseServiceImpl implements DatabaseService {
 	private Session session;
 	private final boolean USE_DATABASE = ServerController.USE_DATABASE;
+	private static SessionFactory sessionFactory;
 
 	public DatabaseServiceImpl() {
-		if(USE_DATABASE)
-			session = HibernateUtil.currentSession();
+		if (USE_DATABASE)
+			sessionFactory = HibernateUtil.sessionFactory;
+		
+
 	}
 
 	@Override
 	public void deleteCodeItem(int codeId) {
-		session.getTransaction().begin();
-		session.createSQLQuery("delete from codeitem where code_id =:id")
-				.setParameter("id", codeId).executeUpdate();
-		session.getTransaction().commit();
+		try {
+			session = sessionFactory.openSession();	
+			session.getTransaction().begin();
+			session.createSQLQuery("delete from codeitem where code_id =:id")
+					.setParameter("id", codeId).executeUpdate();
+			session.getTransaction().commit();
+		} finally {
+			session.close();
+		}
 	}
 
 	@Override
 	public CodeItem findCodeItemById(int codeId) {
-		@SuppressWarnings("unchecked")
-		List<CodeItem> dataset = session
-				.createQuery("from CodeItem where CODE_ID=:id")
-				.setParameter("id", codeId).list();
-		if (dataset.size() == 1) {
-			return dataset.get(0);
-		} else {
-			return null;
+		try {
+			session = sessionFactory.openSession();
+			@SuppressWarnings("unchecked")
+			List<CodeItem> dataset = session
+					.createQuery("from CodeItem where CODE_ID=:id")
+					.setParameter("id", codeId).list();
+			if (dataset.size() == 1) {
+				return dataset.get(0);
+			} else {
+				return null;
+			}
+		} finally {
+			session.close();
 		}
 	}
 
 	@Override
 	public List<CodeItem> getAllCodeItems() {
-		@SuppressWarnings("unchecked")
-		List<CodeItem> dataset = session
-				.createQuery(
-						"from CodeItem where PRIVACY='Public' order by created_date desc")
-				.list();
-		return dataset;
+		try {
+			session = sessionFactory.openSession();
+			@SuppressWarnings("unchecked")
+			List<CodeItem> dataset = session
+					.createQuery(
+							"from CodeItem where PRIVACY='Public' order by created_date desc")
+					.list();
+			return dataset;
+		} finally {
+			session.close();
+		}
 	}
 
 	@Override
 	public List<MyStuffListItem> getAllUserItems(int userId) {
-		Query q = session.getNamedQuery("thisUserCodeByID");
-		q.setParameter("t_id", userId);
-		@SuppressWarnings("unchecked")
-		List<MyStuffListItem> dataset = q.list();
-		return dataset;
+		try {
+			session = sessionFactory.openSession();
+			Query q = session.getNamedQuery("thisUserCodeByID");
+			q.setParameter("t_id", userId);
+			@SuppressWarnings("unchecked")
+			List<MyStuffListItem> dataset = q.list();
+			return dataset;
+		} finally {
+			session.close();
+		}
 	}
 
 	@Override
 	public List<RecentItem> getRecentItems() {
-		@SuppressWarnings("unchecked")
-		List<RecentItem> results = session.getNamedQuery(
-				"findRecentItemsInOrder").list();
-		return results;
+		try {
+			session = sessionFactory.openSession();
+			@SuppressWarnings("unchecked")
+			List<RecentItem> results = session.getNamedQuery(
+					"findRecentItemsInOrder").list();
+			return results;
+		} finally {
+			session.close();
+		}
 	}
 
 	@Override
 	public void updateCodeItem(CodeItem code) {
-		session.getTransaction().begin();
-		session.update(code);
-		session.getTransaction().commit();
+		try {
+			session = sessionFactory.openSession();
+			session.getTransaction().begin();
+			session.update(code);
+			session.getTransaction().commit();
+		} finally {
+			session.close();
+		}
 
 	}
 
 	@Override
 	public void saveCodeItem(CodeItem code) {
-		session.getTransaction().begin();
-		session.save(code);
-		session.getTransaction().commit();
-		session.clear();
+		try {
+			session = sessionFactory.openSession();
+			session.getTransaction().begin();
+			session.save(code);
+			session.getTransaction().commit();
+			session.clear();
+		} finally {
+			session.close();
+		}
 
 	}
 
 	@Override
 	public User findUserById(int userId) {
-		@SuppressWarnings("unchecked")
-		List<User> dataset = session.createQuery("from User where USER_ID=:id")
-				.setParameter("id", userId).list();
-		if (dataset.size() == 1) {
-			return dataset.get(0);
-		} else {
-			return null;
+		try {
+			session = sessionFactory.openSession();
+			@SuppressWarnings("unchecked")
+			List<User> dataset = session
+					.createQuery("from User where USER_ID=:id")
+					.setParameter("id", userId).list();
+			if (dataset.size() == 1) {
+				return dataset.get(0);
+			} else {
+				return null;
+			}
+		} finally {
+			session.close();
 		}
 	}
 
 	@Override
 	public User findUserByEmail(String email) {
-		@SuppressWarnings("unchecked")
-		List<User> dataset = session
-				.createQuery("from User where USER_EMAIL = :email")
-				.setParameter("email", email).list();
-		if (dataset.size() == 1) {
-			return dataset.get(0);
-		} else {
-			return null;
+		try {
+			session = sessionFactory.openSession();
+			@SuppressWarnings("unchecked")
+			List<User> dataset = session
+					.createQuery("from User where USER_EMAIL = :email")
+					.setParameter("email", email).list();
+			if (dataset.size() == 1) {
+				return dataset.get(0);
+			} else {
+				return null;
+			}
+		} finally {
+			session.close();
 		}
 	}
 
 	@Override
 	public User findUserByName(String username) {
-		@SuppressWarnings("unchecked")
-		List<User> dataset = session
-				.createQuery("from User where USER_NAME = :userName")
-				.setParameter("userName", username).list();
-		if (dataset.size() == 1) {
-			return dataset.get(0);
-		} else {
-			return null;
+		try {
+			session = sessionFactory.openSession();
+			@SuppressWarnings("unchecked")
+			List<User> dataset = session
+					.createQuery("from User where USER_NAME = :userName")
+					.setParameter("userName", username).list();
+			if (dataset.size() == 1) {
+				return dataset.get(0);
+			} else {
+				return null;
+			}
+		} finally {
+			session.close();
 		}
 	}
 
 	@Override
 	public List<UserLanguageStatisticsItem> findUserLanguageStatistics(
 			int userId) {
-		Query q = session.getNamedQuery("thisUserLanguageStatistics");
-		q.setParameter("t_id", userId);
-		@SuppressWarnings("unchecked")
-		List<UserLanguageStatisticsItem> dataset = q.list();
-		return dataset;
+		try {
+			session = sessionFactory.openSession();
+			Query q = session.getNamedQuery("thisUserLanguageStatistics");
+			q.setParameter("t_id", userId);
+			@SuppressWarnings("unchecked")
+			List<UserLanguageStatisticsItem> dataset = q.list();
+			return dataset;
+		} finally {
+			session.close();
+		}
 	}
 
 	@Override
 	public void saveUser(User user) {
-		session.getTransaction().begin();
-		session.save(user);
-		session.getTransaction().commit();
+		try {
+			session = sessionFactory.openSession();
+			session.getTransaction().begin();
+			session.save(user);
+			session.getTransaction().commit();
+		} finally {
+			session.close();
+		}
 	}
 
 }

@@ -87,7 +87,9 @@
 		</div>
 
 		<!-- End Signup -->
-
+		#if($localDB == true)
+		#include('templates/secondary.html')
+		#end
 
 	<!-- Footer -->
 	#include('templates/footer.html')

@@ -59,8 +59,9 @@
 		</div>
 
 		<!-- End text area -->
-
-
+		#if($localDB == true)
+		#include('templates/secondary.html')
+		#end
 		<!-- Sidebar -->
 
 
@@ -100,6 +101,7 @@
 	#end
 
 	<!-- End Main Content and Sidebar -->
+
 
 	<!-- Footer -->
 	#include('templates/footer.html')

@@ -112,6 +112,14 @@ public class Velocity extends HttpServlet {
 		if (req.getParameter("nojs") != null) {
 			nojs = true;
 		}
+		
+		boolean localDatabase = false;
+		if (haveUser) {
+			if (userServ.findUserById(5).getName().equals("a")) {
+				localDatabase = true;
+			}
+		}
+		
 
 		// Routing
 		if (uri.equals("/browse.html")) {
@@ -184,6 +192,7 @@ public class Velocity extends HttpServlet {
 			context.put("result", result);
 		}
 
+		context.put("localDB", localDatabase);
 		context.put("nojs", nojs);
 		context.put("haveUser", haveUser);
 		return context;
