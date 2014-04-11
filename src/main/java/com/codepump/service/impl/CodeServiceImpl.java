@@ -178,8 +178,16 @@ public class CodeServiceImpl implements CodeService {
 	}
 
 	private String escapeChars(String text) {
-		text.replaceAll("<", "&lt;");
-		return text;
+		char[] temp = text.toCharArray();
+		String out = "";
+		for(int i = 0; i < temp.length;i++){
+			if(temp[i] == '<'){
+				out += "&lt;";
+				continue;
+			}
+			out += temp[i];		
+		}
+		return out;
 	}
 
 	@Override
