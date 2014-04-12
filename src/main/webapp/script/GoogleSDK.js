@@ -15,12 +15,11 @@ function signinCallback(authResult) {
 
 			function login(userinfo) {
 				$(function() {
-					$.ajax('/glogin', {
+					$.ajax('/login/google', {
 						type : 'POST',
 						data : JSON.stringify(userinfo),
 						success : function(userinfo) {
 							console.log("Log in successful.");
-							// document.cookie = 'SID=' + objekt.SID;
 							location.reload();
 						},
 						error : function(req, text) {

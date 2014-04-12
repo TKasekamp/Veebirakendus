@@ -7,7 +7,6 @@ package com.codepump.response;
  * 2 - wrong password <br>
  * 3 - user succesfully logged in<br>
  * 
- * Also used to remove logged in users. <br>
  * Returns Integer and String SID
  * 
  * @author TKasekamp

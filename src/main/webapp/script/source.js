@@ -27,8 +27,7 @@ var source = {
 	objectify: function(t1,t2){
 		return{
 			id : t1,
-			text : t2,
-			SID : getCookie()
+			text : t2
 		};
 	}
 };
@@ -58,9 +57,9 @@ function save(){
 		SyntaxHighlighter.highlight();
 		position.fadeToggle();
 		var objekt = source.objectify(code.id,code.text);
-		$.ajax('/edit', {
+		$.ajax('/edit/ajax', {
             type: 'POST',
-            data: JSON.stringify(objekt), // pack the bid object into json string
+            data: JSON.stringify(objekt), 
             success: function(objekt) {
                 //comment
             },

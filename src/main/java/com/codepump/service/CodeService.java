@@ -3,11 +3,9 @@ package com.codepump.service;
 import java.util.List;
 
 import com.codepump.data.CodeItem;
-import com.codepump.service.impl.CodeServiceImpl;
 import com.codepump.tempobject.EditContainer;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
-import com.google.inject.ImplementedBy;
 
 /**
  * Handles all codeitem related requests from the database.
@@ -15,20 +13,11 @@ import com.google.inject.ImplementedBy;
  * @author TKasekamp
  * 
  */
-@ImplementedBy(value = CodeServiceImpl.class)
 public interface CodeService {
 
 	public CodeItem findItemById(int id);
 
-	public List<CodeItem> findAllItems();
-
-	/**
-	 * Adds this Code to the database.
-	 * 
-	 * @param item
-	 *            CodeItem
-	 */
-	public void addCode(CodeItem item);
+	public List<CodeItem> getAllCodeItems();
 
 	/**
 	 * Adds this code to the DB. Uses SID to find user.
@@ -52,9 +41,9 @@ public interface CodeService {
 	public void editCode(EditContainer item);
 
 	/**
-	 * The most recent codes in the database.
+	 * The most recent codes in the database.<br>
 	 * 
-	 * @return List of RecentItems
+	 * @return List of RecentItems. Contains 4 items.
 	 */
 	public List<RecentItem> getRecentItems();
 
@@ -62,11 +51,10 @@ public interface CodeService {
 	 * Uses AuthenticationService to find the id of this user. Then searches the
 	 * DB for all code made by this user.
 	 * 
-	 * @return All CodeItems by this user.
+	 * @return All CodeItems by this user.<br>
+	 *         null if no code was found.
 	 */
 	public List<MyStuffListItem> getAllUserItems(String SID);
-
-	public RecentItem getLastRecentItem();
 
 	/**
 	 * Deletes this code from the DB.

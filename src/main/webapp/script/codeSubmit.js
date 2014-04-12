@@ -5,8 +5,7 @@ var submit = {
 			name: t1,
 			text: t2,
 			language: t3,
-			privacy: t4,
-			SID : getCookie()
+			privacy: t4
 		};
 	}
 };
@@ -25,12 +24,10 @@ var pump = {
 		var language = $('#language').find(':selected').text();
 		var privacy = $('#privacy').find(':selected').text();
 		var objekt = submit.objectify(name,text,language,privacy);
-        $.ajax('/data2', {
+        $.ajax('/data/ajax', {
             type: 'POST',
-            data: JSON.stringify(objekt), // pack the bid object into json string
+            data: JSON.stringify(objekt), 
             success: function(objekt) {
-                // server returns the bid with its new generated id
-                // syncing js&dom is a pain. angularjs may help
 				pump.loadSubmitted(objekt);
             },
             error: function(req, text) {

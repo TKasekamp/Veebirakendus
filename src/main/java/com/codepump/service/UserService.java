@@ -1,9 +1,7 @@
 package com.codepump.service;
 
 import com.codepump.data.User;
-import com.codepump.service.impl.UserServiceImpl;
 import com.codepump.tempobject.UserStatisticsItem;
-import com.google.inject.ImplementedBy;
 
 /**
  * Handles the adding of users to the database.
@@ -11,18 +9,18 @@ import com.google.inject.ImplementedBy;
  * @author TKasekamp
  * 
  */
-@ImplementedBy(value = UserServiceImpl.class)
 public interface UserService {
 	/**
 	 * Searches for this user in the DB.
 	 * 
 	 * @param id
-	 * @return User
+	 * @return User<br>
+	 *         null if not found
 	 */
 	public User findUserById(int id);
 
 	/**
-	 * Checks the database for a user with this name
+	 * Checks the database for a user with this name.
 	 * 
 	 * @param username
 	 *            Name of user
@@ -32,23 +30,28 @@ public interface UserService {
 	public User findUserByName(String username);
 
 	/**
-	 * Adds an user to the database. Checks if this user already exists with
-	 * findUserByEmail.
+	 * Adds an user to the database. Hashes password. Checks if this user
+	 * already exists with findUserByEmail. Gives this user a SID if signup
+	 * succesful.
 	 * 
 	 * @param item
 	 *            new User
-	 * @return 0 if succesful<br>
-	 *         1 if user exists
+	 * @return String SID cookie if succesful<br>
+	 *         null if user exists
 	 */
-	public int addUser(User item);
+	public String addUser(User item);
 
 	/**
 	 * Returns statistics about this's users activities.
 	 * 
 	 * @param SID
 	 *            Cookie value
+	 * @return {@link UserStatisticsItem} with language statistics if this user
+	 *         has made any code.<br>
+	 *         {@link UserStatisticsItem} with with no language statistics if no
+	 *         code found.
 	 */
-	public UserStatisticsItem findUserStatistics(String SID);
+	public UserStatisticsItem generateUserStatistics(String SID);
 
 	/**
 	 * First checks if there is such an user logged in. Uses the ID to then get
@@ -56,8 +59,8 @@ public interface UserService {
 	 * 
 	 * @param SID
 	 *            session ID
-	 * @return null if no such user logged in <br>
-	 *         User if succesful
+	 * @return {@link User} if found <br>
+	 *         null if no such user logged in
 	 */
 	public User findUserBySID(String SID);
 
@@ -66,7 +69,7 @@ public interface UserService {
 	 * 
 	 * @param email
 	 *            Email of user
-	 * @return this user if found<br>
+	 * @return {@link User} if found<br>
 	 *         null if not found
 	 */
 	public User findUserByEmail(String email);

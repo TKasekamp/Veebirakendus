@@ -40,7 +40,7 @@ $(document).ready(
 						var email = $("#email").val();
 						var pass = $("#password").val();
 						var objekt = login.objectify(email, pass);
-						$.ajax('/login', {
+						$.ajax('/login/ajax', {
 							type : 'POST',
 							data : JSON.stringify(objekt),
 							success : function(objekt) {

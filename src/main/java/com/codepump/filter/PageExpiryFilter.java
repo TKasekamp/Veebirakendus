@@ -68,7 +68,8 @@ public class PageExpiryFilter implements javax.servlet.Filter {
                                 HttpServletResponse httpServletResponse = (HttpServletResponse) response;
 
                                 String expiryDate = null;
-                                String lastModified = null;
+                                @SuppressWarnings("unused")
+								String lastModified = null;
 
                                 for (String regex : pathRegex.keySet()) {
                                         if (path.matches(regex)) {
@@ -126,7 +127,8 @@ public class PageExpiryFilter implements javax.servlet.Filter {
          * @return the expiry header formatted as "EEE, dd MMM yyyy HH:mm:ss z", or
          *         null if no expiry date has been specified
          */
-        private String getExpiryHeaderFor(String path) {
+        @SuppressWarnings("unused")
+		private String getExpiryHeaderFor(String path) {
                 for (String regex : pathRegex.keySet()) {
                         if (path.matches(regex)) {
                                 Integer age = pathRegex.get(regex);

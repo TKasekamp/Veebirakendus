@@ -57,7 +57,7 @@
 		<button type="button" class="radius button" id="edit">Edit</button>
 		#end
 		#if($canChange == true)
-		<form method="post" action="/data">
+		<form method="post" action="/edit/delete">
 		<input type="hidden" name="codeID" value="$code.getId()">
 		<input type="hidden" name="nojs" value="$nojs">
 		<button type="submit" class="radius button" id="delete">Delete</button>

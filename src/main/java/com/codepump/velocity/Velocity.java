@@ -28,7 +28,7 @@ import java.util.List;
 // https://velocity.apache.org/engine/releases/velocity-1.7
 // https://velocity.apache.org/engine/releases/velocity-1.7/user-guide.html
 @SuppressWarnings("serial")
-// @WebServlet(value = "*.html")
+//@WebServlet(value = "*.html")
 @Singleton
 public class Velocity extends HttpServlet {
 
@@ -89,18 +89,8 @@ public class Velocity extends HttpServlet {
 		String uri = req.getRequestURI();
 
 		// Checking if there is a user logged in
-		String SID = null;
+		String SID = getCookies(req);
 		boolean haveUser = false;
-		Cookie[] cookies = req.getCookies();
-		if (cookies != null) {
-			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("SID")) {
-					SID = cookie.getValue();
-					break;
-				}
-			}
-		}
-
 		User user = userServ.findUserBySID(SID);
 		if (user != null) {
 			haveUser = true;
@@ -114,16 +104,18 @@ public class Velocity extends HttpServlet {
 		}
 		
 		boolean localDatabase = false;
-		if (haveUser) {
-			if (userServ.findUserById(5).getName().equals("a")) {
-				localDatabase = true;
-			}
+		if (haveUser) {		
+			try {
+				if (userServ.findUserById(5).getName().equals("a")) {
+					localDatabase = true;
+				}
+			} catch (NullPointerException e) {}
 		}
 		
 
 		// Routing
 		if (uri.equals("/browse.html")) {
-			context.put("codeList", codeServ.findAllItems());
+			context.put("codeList", codeServ.getAllCodeItems());
 			context.put("recentList", codeServ.getRecentItems());
 		}
 
@@ -155,7 +147,7 @@ public class Velocity extends HttpServlet {
 
 		else if (uri.equals("/mystuff.html")) {
 			if (haveUser) {
-				UserStatisticsItem stat = userServ.findUserStatistics(SID);
+				UserStatisticsItem stat = userServ.generateUserStatistics(SID);
 				List<MyStuffListItem> allContent = codeServ
 						.getAllUserItems(SID);
 				context.put("stat", stat);
@@ -196,6 +188,20 @@ public class Velocity extends HttpServlet {
 		context.put("nojs", nojs);
 		context.put("haveUser", haveUser);
 		return context;
+	}
+
+	private String getCookies(HttpServletRequest req) {
+		String SID = null;
+		Cookie[] cookies = req.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("SID")) {
+					SID = cookie.getValue();
+					break;
+				}
+			}
+		}
+		return SID;
 	}
 
 }

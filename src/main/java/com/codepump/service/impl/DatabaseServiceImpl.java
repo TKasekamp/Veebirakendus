@@ -6,7 +6,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.service.DatabaseService;
@@ -17,20 +16,17 @@ import com.codepump.util.HibernateUtil;
 
 public class DatabaseServiceImpl implements DatabaseService {
 	private Session session;
-	private final boolean USE_DATABASE = ServerController.USE_DATABASE;
 	private static SessionFactory sessionFactory;
 
 	public DatabaseServiceImpl() {
-		if (USE_DATABASE)
-			sessionFactory = HibernateUtil.sessionFactory;
-		
+		sessionFactory = HibernateUtil.sessionFactory;
 
 	}
 
 	@Override
 	public void deleteCodeItem(int codeId) {
 		try {
-			session = sessionFactory.openSession();	
+			session = sessionFactory.openSession();
 			session.getTransaction().begin();
 			session.createSQLQuery("delete from codeitem where code_id =:id")
 					.setParameter("id", codeId).executeUpdate();

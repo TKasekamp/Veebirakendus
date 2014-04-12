@@ -3,6 +3,7 @@ package com.codepump.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +16,13 @@ import com.google.gson.JsonParseException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
-//@WebServlet(value = "/edit")
+/**
+ * Handles code deletion and editing.
+ * 
+ * @author TKasekamp
+ * 
+ */
+// @WebServlet(value = "/edit/*")
 @Singleton
 public class EditServlet extends HttpServlet {
 
@@ -37,16 +44,59 @@ public class EditServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		String SID = getCookies(req);
+		String uri = req.getRequestURI();
+		if (uri.equals("/edit/delete")) {
+			handleCodeDelete(req, resp);
+			// TODO websocket announcment missing. must find better way to link
+			// it up
+		} else if (uri.equals("/edit/ajax")) {
+			handleCodeEdit(req, resp, SID);
+		}
+	}
+
+	private void handleCodeDelete(HttpServletRequest req,
+			HttpServletResponse resp) throws ServletException, IOException {
+		String s = req.getParameter("codeID");
+
+		codeServ.deleteCode(Integer.parseInt(s));
+		// Redirecting
+		if (req.getParameter("nojs").equalsIgnoreCase("true")) {
+			resp.sendRedirect("/mystuff.html?nojs=true");
+			return;
+		} else {
+			resp.sendRedirect("/mystuff.html");
+		}
+
+	}
+
+	private void handleCodeEdit(HttpServletRequest req,
+			HttpServletResponse resp, String SID) throws ServletException,
+			IOException {
 		try {
 			EditContainer item = gson.fromJson(req.getReader(),
 					EditContainer.class);
-			System.out.println(item);
+			item.setSID(SID);
 			codeServ.editCode(item);
 
 		} catch (JsonParseException ex) {
 			System.err.println(ex);
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
 		}
+	}
+
+	private String getCookies(HttpServletRequest req) {
+		String SID = null;
+		Cookie[] cookies = req.getCookies();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().equals("SID")) {
+					SID = cookie.getValue();
+					break;
+				}
+			}
+		}
+		return SID;
 	}
 
 }

@@ -2,9 +2,7 @@ package com.codepump.service;
 
 import com.codepump.data.User;
 import com.codepump.response.AuthenticationResponse;
-import com.codepump.service.impl.AuthenticationServiceImpl;
 import com.codepump.tempobject.EditContainer;
-import com.google.inject.ImplementedBy;
 
 /**
  * Handles logging in and logging out.
@@ -12,38 +10,8 @@ import com.google.inject.ImplementedBy;
  * @author TKasekamp
  * 
  */
-@ImplementedBy(value = AuthenticationServiceImpl.class)
 public interface AuthenicationService {
-	/**
-	 * Checks the database for this user and compares the hashes.
-	 * 
-	 * @param user
-	 *            User trying to log in.
-	 * @return AuthenticationResponse
-	 */
-	public AuthenticationResponse checkPassword(User user);
-
-	public String generateSID();
-
-	/**
-	 * Removes the user with this id from logged in user list.
-	 * 
-	 * @param r
-	 *            holds userID
-	 * @return response
-	 */
-	public int logOut(AuthenticationResponse r);
-
-	/**
-	 * Finds the ID of the user with this SID. If no such user is found, returns
-	 * -1 that marks Public user.
-	 * 
-	 * @param SID
-	 *            cookie value
-	 * @return User ID or -1 for Public user
-	 */
-	public int getUserWithSID(String SID);
-
+	
 	/**
 	 * Checks if there is a SID attached to this edit. Then finds the user with
 	 * this SID. Then looks at the database to find the owner of the item to be
@@ -56,20 +24,16 @@ public interface AuthenicationService {
 	 *         this code.
 	 */
 	public boolean authoriseEdit(EditContainer item);
-
+	
 	/**
-	 * Gets the user's ID with SID and compares it to the userID of this code.
+	 * Checks the database for this user and compares the hashes.
 	 * 
-	 * @param SID
-	 *            Session ID from Cookie
-	 * @param codeID
-	 *            ID of code to be displayed
-	 * @return true if SID belongs to the creator of this code<br>
-	 *         false if there is no SID or it doesn't belong to the owner of
-	 *         this code. False if code made by Public user.
+	 * @param user
+	 *            User trying to log in.
+	 * @return AuthenticationResponse
 	 */
-	public boolean authoriseEdit(String SID, int codeID);
-
+	public AuthenticationResponse checkPassword(User user);
+	
 	/**
 	 * Direct login. <b>ONLY TO BE USED DURING SIGNUP!</b> <br>
 	 * Searches the DB with email to get id of this user<br>
@@ -82,22 +46,34 @@ public interface AuthenicationService {
 	public String directLogin(String email);
 
 	/**
-	 * Google login handler. Tries to log in user. If not found in DB creates a
-	 * new one.<br>
+	 * Generates random string
+	 */
+	public String generateSID();
+
+	/**
+	 * Finds the ID of the user with this SID. If no such user is found, returns
+	 * -1 that marks Public user.
+	 * 
+	 * @param SID
+	 *            cookie value
+	 * @return User ID or -1 for Public user
+	 */
+	public int getUserIdWithSID(String SID);
+
+	/**
+	 * Google login handler. Tries to log in user wiht checkPassword. If not found in DB creates a
+	 * new one.
 	 * 
 	 * @param user
 	 *            Google user
 	 * @return SID Session ID for cookie
 	 */
 	public String googleLogin(User user);
-
-//	/**
-//	 * For dependency injection. Used by Google Guice.
-//	 * 
-//	 * @author TKasekamp
-//	 * 
-//	 */
-//	public interface AuthServiceFactory {
-//		public AuthenticationServiceImpl create();
-//	}
+	
+	/**
+	 * Removes this SID from logged in user list.
+	 * 
+	 * @param SID cookie value
+	 */
+	public void logOut(String SID);
 }

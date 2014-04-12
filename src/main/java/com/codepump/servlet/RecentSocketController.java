@@ -78,7 +78,6 @@ public class RecentSocketController extends WebSocketServlet implements
 		publish(this, context); // so that other servlets could find us
 		gson = new GsonBuilder().registerTypeAdapter(RecentItem.class,
 				new RecentItemSerializer()).create();
-		// codeServ = ServerController.codeServer;
 		pinger = new Pinger();
 
 	}
