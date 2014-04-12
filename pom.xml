@@ -135,6 +135,17 @@
 			<version>1.1.1.v201101211721</version>
 		</dependency>
 
+		<!-- Testing stuff -->
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

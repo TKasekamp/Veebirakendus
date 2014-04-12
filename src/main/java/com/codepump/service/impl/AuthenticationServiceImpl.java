@@ -13,7 +13,7 @@ import com.codepump.tempobject.EditContainer;
 import com.google.inject.Inject;
 
 public class AuthenticationServiceImpl implements AuthenicationService {
-	private static Map<String, Integer> SIDlist = new HashMap<>();
+	private static Map<String, Integer> SIDlist;
 	private DatabaseService dbServ; // NULL if USE_DATABASE = true
 
 	/**
@@ -23,6 +23,8 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 	@Inject
 	public AuthenticationServiceImpl(DatabaseService dbServ) {
 		this.dbServ = dbServ;
+		if (SIDlist == null)
+			SIDlist = new HashMap<>();
 	}
 
 	/**
@@ -121,6 +123,11 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 			r = checkPassword(user);
 		}
 		return r.getSID();
+	}
+
+	@Override
+	public Map<String, Integer> getSidList() {
+		return SIDlist;
 	}
 
 }

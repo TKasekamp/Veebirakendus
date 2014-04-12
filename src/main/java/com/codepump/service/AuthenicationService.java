@@ -1,5 +1,7 @@
 package com.codepump.service;
 
+import java.util.Map;
+
 import com.codepump.data.User;
 import com.codepump.response.AuthenticationResponse;
 import com.codepump.tempobject.EditContainer;
@@ -11,7 +13,7 @@ import com.codepump.tempobject.EditContainer;
  * 
  */
 public interface AuthenicationService {
-	
+
 	/**
 	 * Checks if there is a SID attached to this edit. Then finds the user with
 	 * this SID. Then looks at the database to find the owner of the item to be
@@ -24,7 +26,7 @@ public interface AuthenicationService {
 	 *         this code.
 	 */
 	public boolean authoriseEdit(EditContainer item);
-	
+
 	/**
 	 * Checks the database for this user and compares the hashes.
 	 * 
@@ -33,7 +35,7 @@ public interface AuthenicationService {
 	 * @return AuthenticationResponse
 	 */
 	public AuthenticationResponse checkPassword(User user);
-	
+
 	/**
 	 * Direct login. <b>ONLY TO BE USED DURING SIGNUP!</b> <br>
 	 * Searches the DB with email to get id of this user<br>
@@ -61,19 +63,22 @@ public interface AuthenicationService {
 	public int getUserIdWithSID(String SID);
 
 	/**
-	 * Google login handler. Tries to log in user wiht checkPassword. If not found in DB creates a
-	 * new one.
+	 * Google login handler. Tries to log in user wiht checkPassword. If not
+	 * found in DB creates a new one.
 	 * 
 	 * @param user
 	 *            Google user
 	 * @return SID Session ID for cookie
 	 */
 	public String googleLogin(User user);
-	
+
 	/**
 	 * Removes this SID from logged in user list.
 	 * 
-	 * @param SID cookie value
+	 * @param SID
+	 *            cookie value
 	 */
 	public void logOut(String SID);
+
+	public Map<String, Integer> getSidList();
 }

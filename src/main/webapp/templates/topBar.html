@@ -27,8 +27,10 @@
 						<li><a href="browse.html">Browse code</a></li>
 					</ul></li>
 				<li class="divider"></li>
+				#if($haveUser == false)
 				<li><a href="signup.html" id="signup">Sign Up</a></li>
 				<li class="divider"></li>
+				#end
 				#if($nojs == true)				
 				#if($haveUser == true)
 				<li><a href="/logout?nojs=true" id="login">Log out</a></li>

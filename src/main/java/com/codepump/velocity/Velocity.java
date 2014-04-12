@@ -28,7 +28,7 @@ import java.util.List;
 // https://velocity.apache.org/engine/releases/velocity-1.7
 // https://velocity.apache.org/engine/releases/velocity-1.7/user-guide.html
 @SuppressWarnings("serial")
-//@WebServlet(value = "*.html")
+// @WebServlet(value = "*.html")
 @Singleton
 public class Velocity extends HttpServlet {
 
@@ -102,16 +102,16 @@ public class Velocity extends HttpServlet {
 		if (req.getParameter("nojs") != null) {
 			nojs = true;
 		}
-		
+
 		boolean localDatabase = false;
-		if (haveUser) {		
+		if (haveUser) {
 			try {
 				if (userServ.findUserById(5).getName().equals("a")) {
 					localDatabase = true;
 				}
-			} catch (NullPointerException e) {}
+			} catch (NullPointerException e) {
+			}
 		}
-		
 
 		// Routing
 		if (uri.equals("/browse.html")) {

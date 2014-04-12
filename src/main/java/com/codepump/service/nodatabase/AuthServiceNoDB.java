@@ -3,6 +3,7 @@ package com.codepump.service.nodatabase;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+
 import com.codepump.data.User;
 import com.codepump.response.AuthenticationResponse;
 import com.codepump.service.AuthenicationService;
@@ -83,7 +84,6 @@ public class AuthServiceNoDB implements AuthenicationService {
 
 	@Override
 	public String directLogin(String email) {
-
 		return null;
 	}
 
@@ -91,6 +91,11 @@ public class AuthServiceNoDB implements AuthenicationService {
 	public String googleLogin(User user) {
 		System.err.println("Google login unavailable in server memory mode.");
 		return null;
+	}
+
+	@Override
+	public Map<String, Integer> getSidList() {
+		return SIDlist;
 	}
 
 }
