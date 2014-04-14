@@ -18,7 +18,7 @@ public class UserServiceNoDB implements UserService {
 	private AuthenicationService authServ;
 
 	/**
-	 * @param dbServ
+	 * @param authServ
 	 *            Injected by Guice
 	 */
 	@Inject

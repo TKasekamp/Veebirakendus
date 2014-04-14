@@ -19,6 +19,7 @@
 		<mapping class="com.codepump.data.CodeItem"></mapping>
 		<mapping class="com.codepump.data.User"></mapping>
 		<mapping class="com.codepump.tempobject.RecentItem"></mapping>
+		<mapping class="com.codepump.tempobject.SearchItem"></mapping>
 		<mapping class="com.codepump.tempobject.MyStuffListItem"></mapping>
 		<mapping class="com.codepump.tempobject.UserLanguageStatisticsItem"></mapping>
 	</session-factory>

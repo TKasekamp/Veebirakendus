@@ -7,6 +7,7 @@ import com.codepump.data.User;
 import com.codepump.service.impl.DatabaseServiceImpl;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
+import com.codepump.tempobject.SearchItem;
 import com.codepump.tempobject.UserLanguageStatisticsItem;
 import com.codepump.tempobject.UserStatisticsItem;
 import com.google.inject.ImplementedBy;
@@ -143,6 +144,7 @@ public interface DatabaseService {
 	 *            How many items to display
 	 * @param offset
 	 *            On which page you are I think
+	 * @return List of {@link SearchItem} as the results of this query
 	 */
-	public void searchDatabase(String query, int limit, int offset);
+	public List<SearchItem> searchDatabase(String query, int limit, int offset);
 }

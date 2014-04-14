@@ -11,6 +11,7 @@ import com.codepump.service.DatabaseService;
 import com.codepump.tempobject.EditContainer;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
+import com.codepump.tempobject.SearchItem;
 import com.google.inject.Inject;
 
 public class CodeServiceImpl implements CodeService {
@@ -103,5 +104,11 @@ public class CodeServiceImpl implements CodeService {
 		item.setUser(u);
 		dbServ.saveCodeItem(item);
 
+	}
+
+	@Override
+	public List<SearchItem> searchCode(String query, int limit, int offset) {
+		// TODO Maybe some checking?
+		return dbServ.searchDatabase(query, limit, offset);
 	}
 }

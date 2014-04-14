@@ -9,6 +9,7 @@ import com.codepump.data.User;
 import com.codepump.service.CodeService;
 import com.codepump.service.UserService;
 import com.codepump.tempobject.MyStuffListItem;
+import com.codepump.tempobject.SearchItem;
 import com.codepump.tempobject.UserStatisticsItem;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -182,8 +183,27 @@ public class Velocity extends HttpServlet {
 			} catch (Exception e) {
 			}
 			context.put("result", result);
-		}
+		} else if (uri.equals("/search.html")) {
 
+			try {
+				String query = req.getParameter("query");
+				// default parameters
+				int limit = 10;
+				int offset = 0;
+				try {
+					limit = Integer.parseInt(req.getParameter("limit"));
+					offset = Integer.parseInt(req.getParameter("offset"));					
+				}
+				catch (Exception e) {
+				}
+				List<SearchItem> dataset = codeServ.searchCode(query, limit,
+						offset);
+				System.out.println(dataset);
+				context.put("results", dataset);
+			} catch (Exception e) {
+			}
+
+		}
 		context.put("localDB", localDatabase);
 		context.put("nojs", nojs);
 		context.put("haveUser", haveUser);
