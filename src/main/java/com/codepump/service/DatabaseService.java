@@ -121,7 +121,8 @@ public interface DatabaseService {
 	 * @param userId
 	 *            ID of user.
 	 */
-	public List<UserLanguageStatisticsItem> findUserLanguageStatistics(int userId);
+	public List<UserLanguageStatisticsItem> findUserLanguageStatistics(
+			int userId);
 
 	/**
 	 * Adds new user to DB. <br>
@@ -132,4 +133,16 @@ public interface DatabaseService {
 	 *            User
 	 */
 	public void saveUser(User user);
+
+	/**
+	 * Searches the database for query.
+	 * 
+	 * @param query
+	 *            Stuff to search for
+	 * @param limit
+	 *            How many items to display
+	 * @param offset
+	 *            On which page you are I think
+	 */
+	public void searchDatabase(String query, int limit, int offset);
 }

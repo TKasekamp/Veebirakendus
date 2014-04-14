@@ -62,6 +62,7 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 			SIDlist.put(sid, userID);
 			result = 3;
 		}
+		dbServ.searchDatabase("user", 5, 0);
 		return new AuthenticationResponse(result, sid);
 	}
 
