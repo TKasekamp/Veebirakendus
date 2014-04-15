@@ -50,16 +50,16 @@ public class RecentSocketController extends WebSocketServlet implements
 	}
 
 	public void loadMostRecent() {
-		List<RecentItem> list = codeServ.getRecentItems();
-		System.out.println("Sending items through socket!");
-		for (RecentSocket socket : sockets) {
-			try {
-				socket.send(gson.toJson(list));
-			} catch (IOException e) {
-				System.out.println("failed to broadcast to " + socket);
+		if (sockets.size() > 0) {
+			List<RecentItem> list = codeServ.getRecentItems();
+			for (RecentSocket socket : sockets) {
+				try {
+					socket.send(gson.toJson(list));
+				} catch (IOException e) {
+					System.out.println("failed to broadcast to " + socket);
+				}
 			}
 		}
-		System.out.println("Finished sending!");
 	}
 
 	public List<RecentSocket> getSockets() {
