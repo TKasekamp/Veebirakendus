@@ -48,6 +48,8 @@ public class SearchItem implements Serializable {
 		this.codeLanguage = codeLanguage;
 		this.ts_headline = ts_headline;
 		this.createDate = new Date();
+		this.userId = -1;
+		this.userName = "Public";
 	}
 
 	@Id

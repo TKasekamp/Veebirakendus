@@ -205,10 +205,6 @@ public class Velocity extends HttpServlet {
 
 		}
 		
-		List<SearchItem> dataset = codeServ.searchCode("user", 5,
-				0);
-		System.out.println(dataset);
-		context.put("results", dataset);
 		context.put("localDB", localDatabase);
 		context.put("nojs", nojs);
 		context.put("haveUser", haveUser);
