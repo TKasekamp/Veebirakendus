@@ -8,32 +8,36 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedNativeQuery;
 
+/**
+ * Used to return search result from database. To use searchQuery, "query" must
+ * be set to the search term. "Limit" is how many results to return and "offset"
+ * is used to show page 2 of search results. In that case it probably has to be
+ * set to limit*(page-1). Maybe.
+ * 
+ * @author TKasekamp
+ * 
+ */
 @Entity
 @NamedNativeQuery(name = "searchQuery", query = "WITH q AS (SELECT plainto_tsquery(:query) AS query), ranked AS ("
-		+ " SELECT code_id, code_name, code_language, code_text, created_date, ts_rank('{0.1, 0.2, 0.4, 1.0}',tsv, query) AS rank "
-		+ "FROM codeitem, q "
+		+ " SELECT c.code_id, c.code_name, c.code_language, c.code_text, c.created_date, w.user_name, c.user_id, ts_rank('{0.1, 0.2, 0.4, 1.0}',tsv, query) AS rank "
+		+ "FROM q, codeitem as c join webapp_user as w on c.user_id = w.user_id "
 		+ "WHERE q.query @@ tsv "
 		+ "ORDER BY rank DESC "
 		+ "LIMIT :limit OFFSET :offset )"
-		+ "SELECT code_id, code_name, code_language, created_date, ts_headline(code_text, q.query, 'MaxWords=75,MinWords=25,ShortWord=3,MaxFragments=3,FragmentDelimiter=\"||||\"') "
+		+ "SELECT code_id, code_name, code_language,created_date, user_name, user_id, ts_headline(code_text, q.query, 'MaxWords=75,MinWords=25,ShortWord=3,MaxFragments=3,FragmentDelimiter=\"||||\"') "
 		+ "FROM ranked, q " + "ORDER BY ranked DESC", resultClass = SearchItem.class)
 public class SearchItem implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4621868209069560350L;
 	private int codeId;
 	private String codeName;
 	private String codeLanguage;
 	private String ts_headline;
-
-	 private Date createDate;
-	// private int userId;
-	// private String userName;
+	private Date createDate;
+	private int userId;
+	private String userName;
 
 	public SearchItem() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public SearchItem(int codeId, String codeName, String codeLanguage,
@@ -83,42 +87,39 @@ public class SearchItem implements Serializable {
 		this.ts_headline = ts_headline;
 	}
 
-	 @Column(name = "created_date")
-	 public Date getCreateDate() {
-	 return createDate;
-	 }
+	@Column(name = "created_date")
+	public Date getCreateDate() {
+		return createDate;
+	}
 
-	 public void setCreateDate(Date createDate) {
-	 this.createDate = createDate;
-	 }
-	//
-	//
-	// public int getUserId() {
-	// return userId;
-	// }
-	//
-	//
-	// public void setUserId(int userId) {
-	// this.userId = userId;
-	// }
-	//
-	//
-	// public String getUserName() {
-	// return userName;
-	// }
-	//
-	//
-	// public void setUserName(String userName) {
-	// this.userName = userName;
-	// }
-	//
-	//
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	@Column(name = "user_id")
+	public int getUserId() {
+		return userId;
+	}
+
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+
+	@Column(name = "user_name")
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 
 	@Override
 	public String toString() {
 		return "SearchItem [codeId=" + codeId + ", codeName=" + codeName
 				+ ", codeLanguage=" + codeLanguage + ", ts_headline="
-				+ ts_headline + ", createDate=" + createDate + "]";
+				+ ts_headline + ", createDate=" + createDate + ", userId="
+				+ userId + ", userName=" + userName + "]";
 	}
 
 }
