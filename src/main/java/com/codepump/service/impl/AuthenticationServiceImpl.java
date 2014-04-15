@@ -1,5 +1,6 @@
 package com.codepump.service.impl;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -120,6 +121,9 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 		AuthenticationResponse r = checkPassword(user);
 		// If no user create new one
 		if (r.getResponse() == 0) {
+			user.setAdminStatus(0);
+			user.setCreateDate(new Date());
+			user.setLastLoginDate(new Date());
 			dbServ.saveUser(user);
 			r = checkPassword(user);
 		}
