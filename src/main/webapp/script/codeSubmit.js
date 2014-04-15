@@ -28,6 +28,7 @@ var pump = {
             type: 'POST',
             data: JSON.stringify(objekt), 
             success: function(objekt) {
+            	clearHeaders();
 				pump.loadSubmitted(objekt);
             },
             error: function(req, text) {
@@ -44,6 +45,12 @@ $(function() {
 	
 	enableTab("codearea");
 });
+
+function clearHeaders(){
+	window.localStorage.clear();
+	$('#codename').val('');
+	$('#codearea').val('');
+}
 
 
 
