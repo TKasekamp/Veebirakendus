@@ -6,9 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import java.math.BigInteger;
 import java.security.*;
+import java.util.Date;
 
 /**
  * Basic user class.
@@ -25,6 +28,9 @@ public class User implements java.io.Serializable {
 	private String username;
 	private String email;
 	private String password;
+	private int adminStatus;
+	private Date createDate;
+	private Date lastLoginDate;
 
 	public User(String name, String email, String password) {
 		super();
@@ -42,12 +48,6 @@ public class User implements java.io.Serializable {
 	}
 
 	public User() {
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", Name=" + username + ", Email=" + email
-				+ ", Password=" + password + "]";
 	}
 
 	@Id
@@ -118,6 +118,43 @@ public class User implements java.io.Serializable {
 			e.getStackTrace();
 			return text;
 		}
+	}
+
+	@Column(name = "ADMIN_STATUS", nullable = false)
+	public int getAdminStatus() {
+		return adminStatus;
+	}
+
+	public void setAdminStatus(int adminStatus) {
+		this.adminStatus = adminStatus;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "CREATE_DATE", nullable = false)
+	public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "LAST_LOGIN_DATE", nullable = false)
+	public Date getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	public void setLastLoginDate(Date lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", email=" + email
+				+ ", password=" + password + ", adminStatus=" + adminStatus
+				+ ", createDate=" + createDate + ", lastLoginDate="
+				+ lastLoginDate + "]";
 	}
 
 }

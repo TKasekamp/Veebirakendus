@@ -20,7 +20,7 @@ import javax.persistence.NamedNativeQuery;
  */
 @Entity
 @NamedNativeQuery(name = "findRecentItemsInOrder", query = "select c.code_id, c.code_name,  c.code_language, "
-		+ "c.created_date, w.user_name, w.user_id FROM CodeItem as c JOIN webapp_user as w on w.user_id = c.user_id where c.privacy = 'Public' ORDER BY c.created_date DESC LIMIT 4", resultClass = RecentItem.class)
+		+ "c.create_date, w.user_name, w.user_id FROM CodeItem as c JOIN webapp_user as w on w.user_id = c.user_id where c.privacy = 'Public' ORDER BY c.create_date DESC LIMIT 4", resultClass = RecentItem.class)
 public class RecentItem implements Serializable {
 	/**
 	 * 
@@ -78,7 +78,7 @@ public class RecentItem implements Serializable {
 		this.codeLanguage = codeLanguage;
 	}
 
-	@Column(name = "CREATED_DATE")
+	@Column(name = "CREATE_DATE")
 	public Date getCreateDate() {
 		return createDate;
 	}

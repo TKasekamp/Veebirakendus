@@ -62,7 +62,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 			@SuppressWarnings("unchecked")
 			List<CodeItem> dataset = session
 					.createQuery(
-							"from CodeItem where PRIVACY='Public' order by created_date desc")
+							"from CodeItem where PRIVACY='Public' order by create_date desc")
 					.list();
 			return dataset;
 		} finally {

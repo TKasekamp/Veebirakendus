@@ -1,5 +1,6 @@
 package com.codepump.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import com.codepump.data.User;
@@ -31,6 +32,9 @@ public class UserServiceImpl implements UserService {
 		user.hashPassword();
 		String SID = null;
 		if (findUserByEmail(user.getEmail()) == null) {
+			user.setAdminStatus(0);
+			user.setCreateDate(new Date());
+			user.setLastLoginDate(new Date());
 			dbServ.saveUser(user);
 			SID = authServ.directLogin(user.getEmail());
 		}

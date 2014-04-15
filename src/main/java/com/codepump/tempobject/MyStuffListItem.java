@@ -18,7 +18,7 @@ import javax.persistence.NamedNativeQuery;
  * 
  */
 @Entity
-@NamedNativeQuery(name = "thisUserCodeByID", query = "select c.code_id, c.code_name, c.code_language, c.created_date FROM CodeItem as c JOIN webapp_user as w on w.user_id = c.user_id where c.user_id = :t_id ORDER BY c.created_date DESC", resultClass = MyStuffListItem.class)
+@NamedNativeQuery(name = "thisUserCodeByID", query = "select c.code_id, c.code_name, c.code_language, c.create_date FROM CodeItem as c JOIN webapp_user as w on w.user_id = c.user_id where c.user_id = :t_id ORDER BY c.create_date DESC", resultClass = MyStuffListItem.class)
 public class MyStuffListItem implements Serializable {
 
 	/**
@@ -73,7 +73,7 @@ public class MyStuffListItem implements Serializable {
 		this.codeLanguage = codeLanguage;
 	}
 
-	@Column(name = "CREATED_DATE")
+	@Column(name = "CREATE_DATE")
 	public Date getCreateDate() {
 		return createDate;
 	}

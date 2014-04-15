@@ -129,7 +129,7 @@ public class CodeItem implements java.io.Serializable {
 
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "CREATED_DATE", nullable = false, length = 7)
+	@Column(name = "CREATE_DATE", nullable = false, length = 7)
 	public Date getSaveDate() {
 		return createdDate;
 	}
