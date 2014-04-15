@@ -5,10 +5,12 @@ import javax.servlet.annotation.WebListener;
 import com.codepump.controller.ServerController;
 import com.codepump.service.AuthenicationService;
 import com.codepump.service.CodeService;
+import com.codepump.service.SearchService;
 import com.codepump.service.UserService;
 import com.codepump.service.nodatabase.AuthServiceNoDB;
 import com.codepump.service.impl.AuthenticationServiceImpl;
 import com.codepump.service.impl.CodeServiceImpl;
+import com.codepump.service.impl.SearchServiceImpl;
 import com.codepump.service.nodatabase.CodeServiceNoDB;
 import com.codepump.service.impl.UserServiceImpl;
 import com.codepump.service.nodatabase.UserServiceNoDB;
@@ -55,6 +57,8 @@ public class GuiceInjector extends GuiceServletContextListener {
 					this.bind(UserService.class).to(UserServiceImpl.class)
 							.asEagerSingleton();
 					this.bind(CodeService.class).to(CodeServiceImpl.class)
+							.asEagerSingleton();
+					this.bind(SearchService.class).to(SearchServiceImpl.class)
 							.asEagerSingleton();
 				} else {
 					this.bind(AuthenicationService.class)

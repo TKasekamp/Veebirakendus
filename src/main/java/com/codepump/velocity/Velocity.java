@@ -7,6 +7,7 @@ import org.apache.velocity.app.VelocityEngine;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.service.CodeService;
+import com.codepump.service.SearchService;
 import com.codepump.service.UserService;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.SearchItem;
@@ -36,6 +37,7 @@ public class Velocity extends HttpServlet {
 	private VelocityEngine engine;
 	private UserService userServ;
 	private CodeService codeServ;
+	private SearchService searchServ;
 
 	@Override
 	public void init(ServletConfig config) throws ServletException {
@@ -44,9 +46,10 @@ public class Velocity extends HttpServlet {
 	}
 
 	@Inject
-	public Velocity(UserService userServ, CodeService codeServ) {
+	public Velocity(UserService userServ, CodeService codeServ, SearchService searchServ) {
 		this.userServ = userServ;
 		this.codeServ = codeServ;
+		this.searchServ = searchServ;
 	}
 
 	private VelocityEngine createTemplateEngine(ServletContext context) {
