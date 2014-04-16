@@ -13,7 +13,6 @@ import com.codepump.service.CodeService;
 import com.codepump.tempobject.EditContainer;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
-import com.codepump.tempobject.SearchItem;
 import com.google.inject.Inject;
 
 /**
@@ -136,15 +135,6 @@ public class CodeServiceNoDB implements CodeService {
 			out += temp[i];
 		}
 		return out;
-	}
-
-	@Override
-	public List<SearchItem> searchCode(String query, int limit, int offset) {
-		List<SearchItem> l = new ArrayList<>();
-		SearchItem s = new SearchItem(1, "This is it", "Java",
-				"<b>This</b> is an example result.");
-		l.add(s);
-		return l;
 	}
 
 }

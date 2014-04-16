@@ -15,6 +15,11 @@
 			<ul class="right">
 				<li class="divider"></li>
 				<form method="post" action="/search">
+				#if($nojs == true)
+					<input type="hidden" name="nojs" value="true">
+				#else
+					<input type="hidden" name="nojs" value="false">
+				#end
 					<li><input type="text" name="query" placeholder="Search..." /></li>
 				</form>
 				#if($haveUser == true)

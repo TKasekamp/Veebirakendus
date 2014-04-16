@@ -46,7 +46,8 @@ public class Velocity extends HttpServlet {
 	}
 
 	@Inject
-	public Velocity(UserService userServ, CodeService codeServ, SearchService searchServ) {
+	public Velocity(UserService userServ, CodeService codeServ,
+			SearchService searchServ) {
 		this.userServ = userServ;
 		this.codeServ = codeServ;
 		this.searchServ = searchServ;
@@ -119,95 +120,19 @@ public class Velocity extends HttpServlet {
 
 		// Routing
 		if (uri.equals("/browse.html")) {
-			context.put("codeList", codeServ.getAllCodeItems());
-			context.put("recentList", codeServ.getRecentItems());
-		}
-
-		else if (uri.equals("/source.html")) {
-			String idString = req.getParameter("id");
-			boolean canChange = false;
-			try {
-				int id = Integer.parseInt(idString);
-				CodeItem item = codeServ.findItemById(id);
-				// Setting to lower case here
-				context.put("language", item.getLanguage().toLowerCase());
-				context.put("code", item);
-				// For edit button
-				if ((user != null) && (item.getUser().getId() == user.getId())) {
-					canChange = true;
-				}
-
-			} catch (Exception e) {
-				// If here then no such code was found in DB.
-				// No languages will be loaded
-				// Creating empty code to display
-				CodeItem item = new CodeItem();
-				item.setName("Nothing here");
-				item.setText("");
-				context.put("code", item);
-			}
-			context.put("canChange", canChange);
-		}
-
-		else if (uri.equals("/mystuff.html")) {
-			if (haveUser) {
-				UserStatisticsItem stat = userServ.generateUserStatistics(SID);
-				List<MyStuffListItem> allContent = codeServ
-						.getAllUserItems(SID);
-				context.put("stat", stat);
-				context.put("myStuffList", allContent);
-
-			}
-
-			context.put("recentList", codeServ.getRecentItems());
-		} else if (uri.equals("/signup.html")) {
-			int result = 0;
-			try {
-				String r = req.getParameter("result");
-
-				if (r.equals("pass")) {
-					result = 1;
-				} else if (r.equals("userexists")) {
-					result = 2;
-				}
-			} catch (Exception e) {
-			}
-			context.put("result", result);
+			handleBrowse(req, context);
 		} else if (uri.equals("/login.html")) {
-			int result = -1;
-			try {
-				String r = req.getParameter("result");
-
-				if (r.equals("nouser")) {
-					result = 0;
-				} else if (r.equals("wrongpass")) {
-					result = 2;
-				}
-			} catch (Exception e) {
-			}
-			context.put("result", result);
+			handleLogin(req, context);
+		} else if (uri.equals("/mystuff.html")) {
+			handleMyStuff(req, context, haveUser, SID);
 		} else if (uri.equals("/search.html")) {
-
-			try {
-				String query = req.getParameter("query");
-				// default parameters
-				int limit = 10;
-				int offset = 0;
-				try {
-					limit = Integer.parseInt(req.getParameter("limit"));
-					offset = Integer.parseInt(req.getParameter("offset"));					
-				}
-				catch (Exception e) {
-				}
-				List<SearchItem> dataset = codeServ.searchCode(query, limit,
-						offset);
-				System.out.println(dataset);
-				context.put("results", dataset);
-			} catch (Exception e) {
-			}
-
+			handleSearch(req, context, user);
+		} else if (uri.equals("/signup.html")) {
+			handleSignup(req, context);
+		} else if (uri.equals("/source.html")) {
+			handleSource(req, context, user);
 		}
-		
+
 		context.put("localDB", localDatabase);
 		context.put("nojs", nojs);
 		context.put("haveUser", haveUser);
@@ -226,6 +151,104 @@ public class Velocity extends HttpServlet {
 			}
 		}
 		return SID;
+	}
+
+	private void handleBrowse(HttpServletRequest req, VelocityContext context) {
+		context.put("codeList", codeServ.getAllCodeItems());
+		context.put("recentList", codeServ.getRecentItems());
+	}
+
+	private void handleSource(HttpServletRequest req, VelocityContext context,
+			User user) {
+		String idString = req.getParameter("id");
+		boolean canChange = false;
+		try {
+			int id = Integer.parseInt(idString);
+			CodeItem item = codeServ.findItemById(id);
+			// Setting to lower case here
+			context.put("language", item.getLanguage().toLowerCase());
+			context.put("code", item);
+			// For edit button
+			if ((user != null) && (item.getUser().getId() == user.getId())) {
+				canChange = true;
+			}
+
+		} catch (Exception e) {
+			// If here then no such code was found in DB.
+			// No languages will be loaded
+			// Creating empty code to display
+			CodeItem item = new CodeItem();
+			item.setName("Nothing here");
+			item.setText("");
+			context.put("code", item);
+		}
+		context.put("canChange", canChange);
+	}
+
+	private void handleMyStuff(HttpServletRequest req, VelocityContext context,
+			boolean haveUser, String SID) {
+		if (haveUser) {
+			UserStatisticsItem stat = userServ.generateUserStatistics(SID);
+			List<MyStuffListItem> allContent = codeServ.getAllUserItems(SID);
+			context.put("stat", stat);
+			context.put("myStuffList", allContent);
+
+		}
+
+		context.put("recentList", codeServ.getRecentItems());
+	}
+
+	private void handleLogin(HttpServletRequest req, VelocityContext context) {
+		int result = -1;
+		try {
+			String r = req.getParameter("result");
+
+			if (r.equals("nouser")) {
+				result = 0;
+			} else if (r.equals("wrongpass")) {
+				result = 2;
+			}
+		} catch (Exception e) {
+		}
+		context.put("result", result);
+	}
+
+	private void handleSignup(HttpServletRequest req, VelocityContext context) {
+		int result = 0;
+		try {
+			String r = req.getParameter("result");
+
+			if (r.equals("pass")) {
+				result = 1;
+			} else if (r.equals("userexists")) {
+				result = 2;
+			}
+		} catch (Exception e) {
+		}
+		context.put("result", result);
+	}
+
+	private void handleSearch(HttpServletRequest req, VelocityContext context,
+			User user) {
+		String query = req.getParameter("query");
+		List<SearchItem> dataset;
+		// default parameters
+		int limit = 10;
+		int offset = 0;
+		try {
+			limit = Integer.parseInt(req.getParameter("limit"));
+			offset = Integer.parseInt(req.getParameter("offset"));
+		} catch (Exception e) {
+		}
+
+		if (user != null) {
+			dataset = searchServ.searchCode(query, limit, offset, user);
+		} else {
+			dataset = searchServ.searchCode(query, limit, offset);
+		}
+
+		context.put("results", dataset);
+		context.put("recentList", codeServ.getRecentItems());
 	}
 
 }

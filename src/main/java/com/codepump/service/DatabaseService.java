@@ -136,7 +136,8 @@ public interface DatabaseService {
 	public void saveUser(User user);
 
 	/**
-	 * Searches the database for query.
+	 * Searches the database for with specified query. Returns only Public
+	 * texts.
 	 * 
 	 * @param query
 	 *            Stuff to search for
@@ -146,5 +147,38 @@ public interface DatabaseService {
 	 *            On which page you are I think
 	 * @return List of {@link SearchItem} as the results of this query
 	 */
-	public List<SearchItem> searchDatabase(String query, int limit, int offset);
+	public List<SearchItem> searchDatabasePublic(String query, int limit,
+			int offset);
+
+	/**
+	 * Searches the database for with specified query. Returns only Public texts
+	 * or the ones which the user has created
+	 * 
+	 * @param query
+	 *            Stuff to search for
+	 * @param limit
+	 *            How many items to display
+	 * @param offset
+	 *            On which page you are I think
+	 * @param userId
+	 *            Logged in user id
+	 * @return List of {@link SearchItem} as the results of this query
+	 */
+	public List<SearchItem> searchDatabaseUser(String query, int limit,
+			int offset, int userId);
+
+	/**
+	 * Searches the database for with specified query. Returns all texts made by
+	 * all users.
+	 * 
+	 * @param query
+	 *            Stuff to search for
+	 * @param limit
+	 *            How many items to display
+	 * @param offset
+	 *            On which page you are I think
+	 * @return List of {@link SearchItem} as the results of this query
+	 */
+	public List<SearchItem> searchDatabaseAdmin(String query, int limit,
+			int offset);
 }
