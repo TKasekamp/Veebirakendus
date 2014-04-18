@@ -46,26 +46,39 @@ public interface DatabaseService {
 	 * All CodeItems from DB. Privacy is Public, sorted in descending order by
 	 * created date.
 	 * 
+	 * @param limit
+	 *            number of items to retrieve
+	 * @param offset
+	 *            from where to start counting
 	 * @return CodeItem List
 	 */
-	public List<CodeItem> getAllCodeItems();
+	public List<CodeItem> getAllCodeItems(int limit, int offset);
 
 	/**
 	 * Searches the DB for all CodeItems made by this user. Formats them as
 	 * MyStuffListItem. Query specified in {@link MyStuffListItem}.
 	 * 
 	 * @param userId
+	 * @param limit
+	 *            number of items to retrieve
+	 * @param offset
+	 *            from where to start counting
 	 * @return All CodeItems by this user.
 	 */
-	public List<MyStuffListItem> getAllUserItems(int userId);
+	public List<MyStuffListItem> getAllUserItems(int userId, int limit,
+			int offset);
 
 	/**
 	 * Returns the most recent items in the DB. Query specified in
 	 * {@link RecentItem}.
 	 * 
+	 * @param limit
+	 *            number of items to retrieve
+	 * @param offset
+	 *            from where to start counting
 	 * @return List of RecentItems
 	 */
-	public List<RecentItem> getRecentItems();
+	public List<RecentItem> getRecentItems(int limit, int offset);
 
 	/**
 	 * Updates this CodeItem in the DB.

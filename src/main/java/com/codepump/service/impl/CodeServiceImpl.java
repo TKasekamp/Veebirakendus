@@ -37,7 +37,7 @@ public class CodeServiceImpl implements CodeService {
 
 	@Override
 	public List<CodeItem> getAllCodeItems() {
-		return dbServ.getAllCodeItems();
+		return dbServ.getAllCodeItems(10000, 0);
 
 	}
 
@@ -57,7 +57,7 @@ public class CodeServiceImpl implements CodeService {
 
 	@Override
 	public List<RecentItem> getRecentItems() {
-		return dbServ.getRecentItems();
+		return dbServ.getRecentItems(4, 0);
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class CodeServiceImpl implements CodeService {
 		if (userId == -1) {
 			return null;
 		}
-		return dbServ.getAllUserItems(userId);
+		return dbServ.getAllUserItems(userId, 10000, 0);
 
 	}
 

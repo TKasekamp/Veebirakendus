@@ -56,14 +56,15 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
-	public List<CodeItem> getAllCodeItems() {
+	public List<CodeItem> getAllCodeItems(int limit, int offset) {
 		try {
 			session = sessionFactory.openSession();
 			@SuppressWarnings("unchecked")
 			List<CodeItem> dataset = session
 					.createQuery(
-							"from CodeItem where PRIVACY='Public' order by create_date desc")
-					.list();
+							"from CodeItem where PRIVACY='Public' order by create_date desc ")
+					.setMaxResults(limit)
+					.setFirstResult(offset).list();
 			return dataset;
 		} finally {
 			session.close();
@@ -71,11 +72,13 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
-	public List<MyStuffListItem> getAllUserItems(int userId) {
+	public List<MyStuffListItem> getAllUserItems(int userId, int limit,
+			int offset) {
 		try {
 			session = sessionFactory.openSession();
 			Query q = session.getNamedQuery("thisUserCodeByID");
-			q.setParameter("t_id", userId);
+			q.setParameter("t_id", userId).setParameter("limit", limit)
+					.setParameter("offset", offset);
 			@SuppressWarnings("unchecked")
 			List<MyStuffListItem> dataset = q.list();
 			return dataset;
@@ -85,12 +88,14 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
-	public List<RecentItem> getRecentItems() {
+	public List<RecentItem> getRecentItems(int limit, int offset) {
 		try {
 			session = sessionFactory.openSession();
 			@SuppressWarnings("unchecked")
-			List<RecentItem> results = session.getNamedQuery(
-					"findRecentItemsInOrder").list();
+			List<RecentItem> results = session
+					.getNamedQuery("findRecentItemsInOrder")
+					.setParameter("limit", limit)
+					.setParameter("offset", offset).list();
 			return results;
 		} finally {
 			session.close();
