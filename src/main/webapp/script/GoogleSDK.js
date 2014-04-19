@@ -89,8 +89,8 @@ $(function() {
 	function checkLength(pass, min, max) {
 		if (pass.val().length > max || pass.val().length < min) {
 			pass.addClass("ui-state-error");
-			updateMessage("Length of password must be between " + min + " and "
-					+ max + ".");
+			updateMessage("Password must be between " + min + " and "
+					+ max + " characters.");
 			return false;
 		} else {
 			return true;
@@ -110,8 +110,8 @@ $(function() {
 	$("#passwordPrompt").dialog(
 			{
 				autoOpen : false,
-				height : 300,
-				width : 350,
+				height : 320,
+				width : 300,
 				modal : true,
 				buttons : {
 					"Create an account" : function() {
