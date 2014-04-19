@@ -33,7 +33,7 @@ public class UserDeserializer implements JsonDeserializer<User> {
 			username = jsonObject.get("username").getAsString();
 		} catch (Exception e) {
 			try {
-				password = jsonObject.get("id").getAsString();
+				password = jsonObject.get("password").getAsString();
 				username = jsonObject.get("name").getAsString();
 			} catch (NullPointerException ex) {
 
