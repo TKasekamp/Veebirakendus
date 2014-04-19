@@ -10,18 +10,22 @@
 		</ul>
 
 		<section class="top-bar-section">
-			
-		<!-- Right Nav Section -->
-			<ul class="right">
-				<li class="divider"></li>
+		
+		<!-- Search Area -->
+		<ul class="search">
+			<li class="divider"></li>
 				<form method="post" action="/search">
 				#if($nojs == true)
 					<input type="hidden" name="nojs" value="true">
 				#else
 					<input type="hidden" name="nojs" value="false">
 				#end
-					<li><input type="text" name="query" placeholder="Search..." /></li>
+					<li><input type="text" class="search" name="query" placeholder="Search..." /></li>
 				</form>
+		</ul>
+			
+		<!-- Right Nav Section -->
+			<ul class="right">
 				#if($haveUser == true)
 				<li class="divider"></li>
 				<li><a href="#">Hello $user.getName()</a></li>
