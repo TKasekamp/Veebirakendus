@@ -36,7 +36,7 @@ import org.hibernate.annotations.NamedNativeQueries;
 				+ "ORDER BY rank DESC "
 				+ "LIMIT :limit OFFSET :offset )"
 				+ "SELECT code_id, code_name, code_language,create_date, user_name, user_id, ts_headline(code_text, q.query, 'MaxWords=75,MinWords=25,ShortWord=3,MaxFragments=3,FragmentDelimiter=\"||||\"') "
-				+ "FROM ranked, q  WHERE (c.privacy = 'Public' or c.user_id = :user_id)"
+				+ "FROM ranked, q "
 				+ "ORDER BY ranked DESC", resultClass = SearchItem.class),
 		@NamedNativeQuery(name = "adminQuery", query = "WITH q AS (SELECT plainto_tsquery(:query) AS query), ranked AS ("
 				+ " SELECT c.code_id, c.code_name, c.code_language, c.code_text, c.create_date, w.user_name, c.user_id, ts_rank('{0.1, 0.2, 0.4, 1.0}',tsv, query) AS rank "
