@@ -42,9 +42,11 @@ function signinCallback(authResult) {
 					gapi.client.load('oauth2', 'v2', function() {
 						gapi.client.oauth2.userinfo.get().execute(
 								function(resp) {
-									delete resp.result;
-									resp.password = "";
 									userinfo = resp;
+									userinfo.password = "";
+									userinfo.username = userinfo.name;
+									delete userinfo.name;
+									delete userinfo.result;
 									gLogin();
 								})
 					});
