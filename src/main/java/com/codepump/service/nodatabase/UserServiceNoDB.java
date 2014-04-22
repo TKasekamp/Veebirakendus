@@ -47,14 +47,15 @@ public class UserServiceNoDB implements UserService {
 	}
 
 	@Override
-	public String addUser(User item) {
+	public String addUser(User user) {
 		String SID = null;
-		item.setId(userCounter);
-		users.put(userCounter, item);
+		user.setId(userCounter);
+		user.hashPassword();
+		users.put(userCounter, user);
 		userCounter++;
 		System.out.println("Added user. List now contains:");
 		System.out.println(users);
-		SID = authServ.directLogin(item.getEmail());
+		SID = authServ.directLogin(user.getEmail());
 		return SID;
 	}
 

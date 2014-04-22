@@ -34,6 +34,8 @@ public class AuthServiceNoDB implements AuthenicationService {
 					result = 1;
 					userID = value.getId();
 				} else {
+					System.out.println(value.getPassword());
+					System.out.println(user.getPassword());
 					result = 2;
 				}
 				break;
@@ -84,7 +86,16 @@ public class AuthServiceNoDB implements AuthenicationService {
 
 	@Override
 	public String directLogin(String email) {
-		return null;
+		users = UserServiceNoDB.users;
+		int userId = -1;
+		for (User value : users.values()) {
+			if (value.getEmail().equals(email)) {
+				userId = value.getId();
+			}
+		}
+		String sid = generateSID();
+		SIDlist.put(sid, userId);
+		return sid;
 	}
 
 	@Override

@@ -20,12 +20,11 @@ function gLogin() {
 				location.reload();
 			},
 			error : function(req, text) {
-				console.log(text);
-//				if (text=="no user"){
-//					passwordPrompt();
-//				} else {
-//					console.log("Failed to connect to server");
-//				}
+				if (userinfo.password==""){
+					passwordPrompt();
+				} else {
+					console.log("Failed to connect to server");
+				}
 			}
 		});
 	});
