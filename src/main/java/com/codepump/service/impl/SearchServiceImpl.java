@@ -18,23 +18,18 @@ public class SearchServiceImpl implements SearchService {
 
 	@Override
 	public List<SearchItem> searchCode(String query, int limit, int offset) {
-		return dbServ.searchDatabase(query, limit, offset);
-	}
-
-	@Override
-	public List<SearchItem> searchCode(String query) {
-		return dbServ.searchDatabase(query, 10, 0);
-	}
-
-	@Override
-	public List<SearchItem> searchCode(String query, User user) {
-		return dbServ.searchDatabase(query, 10, 0);
+		return dbServ.searchDatabasePublic(query, limit, offset);
 	}
 
 	@Override
 	public List<SearchItem> searchCode(String query, int limit, int offset,
 			User user) {
-		return dbServ.searchDatabase(query, limit, offset);
+		if (user.getAdminStatus() == 0) {
+			return dbServ
+					.searchDatabaseUser(query, limit, offset, user.getId());
+		} else {
+			return dbServ.searchDatabaseAdmin(query, limit, offset);
+		}
 	}
 
 }

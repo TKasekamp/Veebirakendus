@@ -6,7 +6,9 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedNativeQuery;
+import org.hibernate.annotations.NamedNativeQuery;
+
+import org.hibernate.annotations.NamedNativeQueries;
 
 /**
  * Used to return search result from database. To use searchQuery, "query" must
@@ -18,14 +20,32 @@ import javax.persistence.NamedNativeQuery;
  * 
  */
 @Entity
-@NamedNativeQuery(name = "searchQuery", query = "WITH q AS (SELECT plainto_tsquery(:query) AS query), ranked AS ("
-		+ " SELECT c.code_id, c.code_name, c.code_language, c.code_text, c.create_date, w.user_name, c.user_id, ts_rank('{0.1, 0.2, 0.4, 1.0}',tsv, query) AS rank "
-		+ "FROM q, codeitem as c join webapp_user as w on c.user_id = w.user_id "
-		+ "WHERE q.query @@ tsv "
-		+ "ORDER BY rank DESC "
-		+ "LIMIT :limit OFFSET :offset )"
-		+ "SELECT code_id, code_name, code_language,create_date, user_name, user_id, ts_headline(code_text, q.query, 'MaxWords=75,MinWords=25,ShortWord=3,MaxFragments=3,FragmentDelimiter=\"||||\"') "
-		+ "FROM ranked, q " + "ORDER BY ranked DESC", resultClass = SearchItem.class)
+@NamedNativeQueries({
+		@NamedNativeQuery(name = "publicSearchQuery", query = "WITH q AS (SELECT plainto_tsquery(:query) AS query), ranked AS ("
+				+ " SELECT c.code_id, c.code_name, c.code_language, c.code_text, c.create_date, w.user_name, c.user_id, ts_rank('{0.1, 0.2, 0.4, 1.0}',tsv, query) AS rank "
+				+ "FROM q, codeitem as c join webapp_user as w on c.user_id = w.user_id "
+				+ "WHERE c.privacy = 'Public' and q.query @@ tsv  "
+				+ "ORDER BY rank DESC "
+				+ "LIMIT :limit OFFSET :offset )"
+				+ "SELECT code_id, code_name, code_language,create_date, user_name, user_id, ts_headline(code_text, q.query, 'MaxWords=75,MinWords=25,ShortWord=3,MaxFragments=3,FragmentDelimiter=\"||||\"') "
+				+ "FROM ranked, q " + "ORDER BY ranked DESC", resultClass = SearchItem.class),
+		@NamedNativeQuery(name = "userSearchQuery", query = "WITH q AS (SELECT plainto_tsquery(:query) AS query), ranked AS ("
+				+ " SELECT c.code_id, c.code_name, c.code_language, c.code_text, c.create_date, w.user_name, c.user_id, ts_rank('{0.1, 0.2, 0.4, 1.0}',tsv, query) AS rank "
+				+ "FROM q, codeitem as c join webapp_user as w on c.user_id = w.user_id "
+				+ "WHERE (c.privacy = 'Public' or c.user_id = :user_id) and q.query @@ tsv  "
+				+ "ORDER BY rank DESC "
+				+ "LIMIT :limit OFFSET :offset )"
+				+ "SELECT code_id, code_name, code_language,create_date, user_name, user_id, ts_headline(code_text, q.query, 'MaxWords=75,MinWords=25,ShortWord=3,MaxFragments=3,FragmentDelimiter=\"||||\"') "
+				+ "FROM ranked, q "
+				+ "ORDER BY ranked DESC", resultClass = SearchItem.class),
+		@NamedNativeQuery(name = "adminQuery", query = "WITH q AS (SELECT plainto_tsquery(:query) AS query), ranked AS ("
+				+ " SELECT c.code_id, c.code_name, c.code_language, c.code_text, c.create_date, w.user_name, c.user_id, ts_rank('{0.1, 0.2, 0.4, 1.0}',tsv, query) AS rank "
+				+ "FROM q, codeitem as c join webapp_user as w on c.user_id = w.user_id "
+				+ "WHERE q.query @@ tsv  "
+				+ "ORDER BY rank DESC "
+				+ "LIMIT :limit OFFSET :offset )"
+				+ "SELECT code_id, code_name, code_language,create_date, user_name, user_id, ts_headline(code_text, q.query, 'MaxWords=75,MinWords=25,ShortWord=3,MaxFragments=3,FragmentDelimiter=\"||||\"') "
+				+ "FROM ranked, q " + "ORDER BY ranked DESC", resultClass = SearchItem.class) })
 public class SearchItem implements Serializable {
 
 	private static final long serialVersionUID = 4621868209069560350L;

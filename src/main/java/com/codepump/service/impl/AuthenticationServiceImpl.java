@@ -120,13 +120,14 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 		AuthenticationResponse r = checkPassword(user);
 		// If no user create new one
 		if (r.getResponse() == 0) {
+			user.hashPassword();
 			user.setAdminStatus(0);
 			user.setCreateDate(new Date());
 			user.setLastLoginDate(new Date());
 			dbServ.saveUser(user);
-			r = checkPassword(user);
 		}
-		return r.getSID();
+		String SID = this.directLogin(user.getEmail());
+		return SID;
 	}
 
 	@Override

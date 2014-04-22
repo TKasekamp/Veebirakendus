@@ -6,7 +6,6 @@ import com.codepump.data.CodeItem;
 import com.codepump.tempobject.EditContainer;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
-import com.codepump.tempobject.SearchItem;
 
 /**
  * Handles all codeitem related requests from the database.
@@ -64,7 +63,5 @@ public interface CodeService {
 	 *            of code to be deleted.
 	 */
 	public void deleteCode(int id);
-	
-	public List<SearchItem> searchCode(String query, int limit, int offset);
 
 }

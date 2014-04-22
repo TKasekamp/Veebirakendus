@@ -56,14 +56,15 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
-	public List<CodeItem> getAllCodeItems() {
+	public List<CodeItem> getAllCodeItems(int limit, int offset) {
 		try {
 			session = sessionFactory.openSession();
 			@SuppressWarnings("unchecked")
 			List<CodeItem> dataset = session
 					.createQuery(
-							"from CodeItem where PRIVACY='Public' order by create_date desc")
-					.list();
+							"from CodeItem where PRIVACY='Public' order by create_date desc ")
+					.setMaxResults(limit)
+					.setFirstResult(offset).list();
 			return dataset;
 		} finally {
 			session.close();
@@ -71,11 +72,13 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
-	public List<MyStuffListItem> getAllUserItems(int userId) {
+	public List<MyStuffListItem> getAllUserItems(int userId, int limit,
+			int offset) {
 		try {
 			session = sessionFactory.openSession();
 			Query q = session.getNamedQuery("thisUserCodeByID");
-			q.setParameter("t_id", userId);
+			q.setParameter("t_id", userId).setParameter("limit", limit)
+					.setParameter("offset", offset);
 			@SuppressWarnings("unchecked")
 			List<MyStuffListItem> dataset = q.list();
 			return dataset;
@@ -85,12 +88,14 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
-	public List<RecentItem> getRecentItems() {
+	public List<RecentItem> getRecentItems(int limit, int offset) {
 		try {
 			session = sessionFactory.openSession();
 			@SuppressWarnings("unchecked")
-			List<RecentItem> results = session.getNamedQuery(
-					"findRecentItemsInOrder").list();
+			List<RecentItem> results = session
+					.getNamedQuery("findRecentItemsInOrder")
+					.setParameter("limit", limit)
+					.setParameter("offset", offset).list();
 			return results;
 		} finally {
 			session.close();
@@ -206,10 +211,11 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
-	public List<SearchItem> searchDatabase(String query, int limit, int offset) {
+	public List<SearchItem> searchDatabasePublic(String query, int limit,
+			int offset) {
 		try {
 			session = sessionFactory.openSession();
-			Query q = session.getNamedQuery("searchQuery")
+			Query q = session.getNamedQuery("publicSearchQuery")
 					.setParameter("query", query).setParameter("limit", limit)
 					.setParameter("offset", offset);
 			@SuppressWarnings("unchecked")
@@ -219,7 +225,41 @@ public class DatabaseServiceImpl implements DatabaseService {
 		} finally {
 			session.close();
 		}
+	}
 
+	@Override
+	public List<SearchItem> searchDatabaseUser(String query, int limit,
+			int offset, int userId) {
+		try {
+			session = sessionFactory.openSession();
+			Query q = session.getNamedQuery("userSearchQuery")
+					.setParameter("query", query).setParameter("limit", limit)
+					.setParameter("offset", offset)
+					.setParameter("user_id", userId);
+			@SuppressWarnings("unchecked")
+			List<SearchItem> dataset = q.list();
+			return dataset;
+
+		} finally {
+			session.close();
+		}
+	}
+
+	@Override
+	public List<SearchItem> searchDatabaseAdmin(String query, int limit,
+			int offset) {
+		try {
+			session = sessionFactory.openSession();
+			Query q = session.getNamedQuery("adminSearchQuery")
+					.setParameter("query", query).setParameter("limit", limit)
+					.setParameter("offset", offset);
+			@SuppressWarnings("unchecked")
+			List<SearchItem> dataset = q.list();
+			return dataset;
+
+		} finally {
+			session.close();
+		}
 	}
 
 }

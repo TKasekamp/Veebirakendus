@@ -8,6 +8,7 @@ import com.codepump.service.CodeService;
 import com.codepump.service.SearchService;
 import com.codepump.service.UserService;
 import com.codepump.service.nodatabase.AuthServiceNoDB;
+import com.codepump.service.nodatabase.SearchServiceNoDB;
 import com.codepump.service.impl.AuthenticationServiceImpl;
 import com.codepump.service.impl.CodeServiceImpl;
 import com.codepump.service.impl.SearchServiceImpl;
@@ -19,6 +20,7 @@ import com.codepump.servlet.EditServlet;
 import com.codepump.servlet.LogOutServlet;
 import com.codepump.servlet.LoginServlet;
 import com.codepump.servlet.RecentSocketController;
+import com.codepump.servlet.SearchServlet;
 import com.codepump.servlet.SignUpServlet;
 import com.codepump.velocity.Velocity;
 import com.google.inject.Guice;
@@ -67,6 +69,8 @@ public class GuiceInjector extends GuiceServletContextListener {
 							.asEagerSingleton();
 					this.bind(CodeService.class).to(CodeServiceNoDB.class)
 							.asEagerSingleton();
+					this.bind(SearchService.class).to(SearchServiceNoDB.class)
+					.asEagerSingleton();
 				}
 
 				// This mapping is not pretty, but how to do it better?
@@ -77,6 +81,7 @@ public class GuiceInjector extends GuiceServletContextListener {
 				serve("/logout").with(LogOutServlet.class);
 				serve("/feed").with(RecentSocketController.class);
 				serve("/signup").with(SignUpServlet.class);
+				serve("/search").with(SearchServlet.class);
 
 			}
 		});
