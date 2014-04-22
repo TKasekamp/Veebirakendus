@@ -111,7 +111,7 @@ public class LoginServlet extends HttpServlet {
 			if (r.getResponse()!=0){
 				resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "response not 0");
 			} else if (!user.getPassword().equals("")){
-				resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "password not null");
+				resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "password not null: '"+user.getPassword()+"'");
 			} else {
 				resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Google login successful.");
 //				createCookie(resp, authServ.googleLogin(user));
