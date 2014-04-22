@@ -14,9 +14,11 @@
 		<!-- Right Nav Section -->
 			<ul class="right">
 				<li class="divider"></li>
+				<li>
 				<form method="post" action="/search">
-					<li><input type="text" name="query" placeholder="Search..." /></li>
+					<input type="text" name="query" placeholder="Search..." />
 				</form>
+				</li>
 				#if($haveUser == true)
 				<li class="divider"></li>
 				<li><a href="#">Hello $user.getName()</a></li>

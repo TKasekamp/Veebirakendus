@@ -53,6 +53,7 @@
 				</div>
 			</section>
 		</div>
+	
 		#if(($canChange == true) && ($nojs == false))
 		<button type="button" class="radius button" id="edit">Edit</button>
 		#end
@@ -64,7 +65,7 @@
 		</form>
 		<p> Dude, pressing delete will delete this code. For real.</p>
 		#end
-
+	</div>
 		<!-- End text area -->
 		#if($localDB == true)
 		#include('templates/secondary.html')
