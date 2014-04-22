@@ -61,7 +61,12 @@ public class HibernateUtil {
 	    .setProperty("hibernate.connection.driver_class", "org.postgresql.Driver")
 	    .setProperty("hibernate.connection.username", username)
 	    .setProperty("hibernate.connection.password", password)
-	    .setProperty("hibernate.connection.url", db);
+	    .setProperty("hibernate.connection.url", db)
+	    .setProperty("hibernate.c3p0.min_size", "5")
+	    .setProperty("hibernate.c3p0.max_size", "20")
+	    .setProperty("hibernate.c3p0.timeout", "300")
+	    .setProperty("hibernate.c3p0.max_statements", "50")
+	    .setProperty("hibernate.c3p0.idle_test_period", "3000");
 		
 		serviceRegistry = new StandardServiceRegistryBuilder()
 		.applySettings(configuration.getProperties()).build();
