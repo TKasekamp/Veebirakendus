@@ -74,10 +74,16 @@ public class DataServlet extends HttpServlet {
 			IOException {
 		try {
 			CodeItem item = gsonPost.fromJson(req.getReader(), CodeItem.class);
-			codeServ.addCode(item, SID);
+			if (item.getName().toLowerCase().startsWith("rick")) {
+				resp.getWriter().write(
+						"https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+				return;
+			} else {
+				codeServ.addCode(item, SID);
 
-			resp.setHeader("Content-Type", "application/json");
-			resp.getWriter().write(item.JsonID());
+				resp.setHeader("Content-Type", "application/json");
+				resp.getWriter().write(item.JsonID());
+			}
 
 		} catch (JsonParseException ex) {
 			System.err.println(ex);
@@ -92,7 +98,12 @@ public class DataServlet extends HttpServlet {
 				req.getParameter("text"), req.getParameter("language"),
 				req.getParameter("privacy"));
 
-		codeServ.addCode(item, SID);
+		if (item.getName().toLowerCase().startsWith("rick")) {
+			resp.sendRedirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+			return;
+		} else {
+			codeServ.addCode(item, SID);
+		}
 		// TODO some kind of error reporting
 
 		// Redirecting
