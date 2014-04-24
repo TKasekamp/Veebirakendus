@@ -1,13 +1,16 @@
 package com.codepump.tempobject;
 
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import org.hibernate.annotations.NamedNativeQuery;
 
+import org.hibernate.annotations.NamedNativeQuery;
 import org.hibernate.annotations.NamedNativeQueries;
 
 /**
@@ -56,6 +59,9 @@ public class SearchItem implements Serializable {
 	private Date createDate;
 	private int userId;
 	private String userName;
+	
+	private static final DateFormat FORMAT = new SimpleDateFormat(
+			"HH:mm:ss dd.MM.yyyy");
 
 	public SearchItem() {
 	}
@@ -142,6 +148,19 @@ public class SearchItem implements Serializable {
 				+ ", codeLanguage=" + codeLanguage + ", ts_headline="
 				+ ts_headline + ", createDate=" + createDate + ", userId="
 				+ userId + ", userName=" + userName + "]";
+	}
+	
+	/**
+	 * Sets create Date timeZone to given value. Formats the creation date to
+	 * "HH:mm:ss dd.MM.yyyy"
+	 * 
+	 * @param timeZone
+	 *            Timezone format as in "Europe/Helsinki"
+	 * @return String format of date
+	 */
+	public String prettyCreateDate(String timeZone) {
+		FORMAT.setTimeZone(TimeZone.getTimeZone(timeZone));
+		return FORMAT.format(createDate);
 	}
 
 }

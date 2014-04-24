@@ -10,6 +10,7 @@ import com.codepump.service.CodeService;
 import com.codepump.service.SearchService;
 import com.codepump.service.UserService;
 import com.codepump.tempobject.MyStuffListItem;
+import com.codepump.tempobject.RecentItem;
 import com.codepump.tempobject.SearchItem;
 import com.codepump.tempobject.UserStatisticsItem;
 import com.google.inject.Inject;
@@ -24,7 +25,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 // process all requested html files with velocity templating engine
 // https://velocity.apache.org/engine/releases/velocity-1.7
@@ -93,8 +96,14 @@ public class Velocity extends HttpServlet {
 		VelocityContext context = new VelocityContext();
 		String uri = req.getRequestURI();
 
+		// User timezone
+		String timeZone = getCookies(req, "codepump_timezone");
+		if (timeZone == null) {
+			timeZone = "Europe/Helsinki"; // Cause it's home
+		}
+		
 		// Checking if there is a user logged in
-		String SID = getCookies(req);
+		String SID = getCookies(req, "SID");
 		boolean haveUser = false;
 		User user = userServ.findUserBySID(SID);
 		if (user != null) {
@@ -132,19 +141,20 @@ public class Velocity extends HttpServlet {
 		} else if (uri.equals("/source.html")) {
 			handleSource(req, context, user);
 		}
-
+	
+		context.put("timeZone", timeZone);
 		context.put("localDB", localDatabase);
 		context.put("nojs", nojs);
 		context.put("haveUser", haveUser);
 		return context;
 	}
 
-	private String getCookies(HttpServletRequest req) {
+	private String getCookies(HttpServletRequest req, String cookieName) {
 		String SID = null;
 		Cookie[] cookies = req.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("SID")) {
+				if (cookie.getName().equals(cookieName)) {
 					SID = cookie.getValue();
 					break;
 				}
@@ -156,6 +166,7 @@ public class Velocity extends HttpServlet {
 	private void handleBrowse(HttpServletRequest req, VelocityContext context) {
 		context.put("codeList", codeServ.getAllCodeItems());
 		context.put("recentList", codeServ.getRecentItems());
+
 	}
 
 	private void handleSource(HttpServletRequest req, VelocityContext context,
