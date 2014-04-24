@@ -107,14 +107,13 @@ public class LoginServlet extends HttpServlet {
 			throws IOException {
 		try {
 			User user = gson.fromJson(req.getReader(), User.class);
+			String password = user.getPassword();
 			AuthenticationResponse r = authServ.checkPassword(user);
-			if (r.getResponse()!=0){
-				resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "response not 0");
-			} else if (!user.getPassword().equals("")){
-				resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "password not null");
+			if (r.getResponse()==0 && password.equals("")){
+				resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "no user");
 			} else {
-				resp.sendError(HttpServletResponse.SC_BAD_REQUEST, "Google login successful.");
-//				createCookie(resp, authServ.googleLogin(user));
+				user.setPassword(password);
+				createCookie(resp, authServ.googleLogin(user));
 			}
 		} catch (JsonParseException ex) {
 			System.err.println(ex);

@@ -29,7 +29,13 @@ var pump = {
             data: JSON.stringify(objekt), 
             success: function(objekt) {
             	clearHeaders();
-				pump.loadSubmitted(objekt);
+            	console.log(objekt);
+            	if(objekt.id) {
+            		pump.loadSubmitted(objekt);
+				}
+				else {
+					window.location.href = objekt;
+				}
             },
             error: function(req, text) {
 				window.alert("Failed to connect to the server.\nPlease check your internet connection and try again later.");

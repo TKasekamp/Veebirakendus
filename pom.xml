@@ -147,6 +147,14 @@
 			<artifactId>junit</artifactId>
 			<version>4.11</version>
 		</dependency>
+
+		<!-- Hibernate connection pooling with c3p0 -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>4.3.5.Final</version>
+		</dependency>
+
 	</dependencies>
 	<build>
 		<plugins>

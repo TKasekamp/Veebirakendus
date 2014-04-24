@@ -120,7 +120,6 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 		AuthenticationResponse r = checkPassword(user);
 		// If no user create new one
 		if (r.getResponse() == 0) {
-			user.hashPassword();
 			user.setAdminStatus(0);
 			user.setCreateDate(new Date());
 			user.setLastLoginDate(new Date());
