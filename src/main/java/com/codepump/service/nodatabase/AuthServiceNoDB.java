@@ -34,8 +34,6 @@ public class AuthServiceNoDB implements AuthenicationService {
 					result = 1;
 					userID = value.getId();
 				} else {
-					System.out.println(value.getPassword());
-					System.out.println(user.getPassword());
 					result = 2;
 				}
 				break;
