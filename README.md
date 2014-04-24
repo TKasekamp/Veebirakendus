@@ -8,7 +8,7 @@ This webapp was created in University of Tartu during spring 2014 as part of [MT
 We wanted to create something like pastebin where you put code and share it with everyone. Link to app - [codepump2.herokuapp.com] (codepump2.herokuapp.com).
 
 ####Team
-######Team lead, backend and database developer: 
+######Team lead, backend, frontend and database developer: 
 Tõnis Kasekamp
 ######Front and backend developer:
 Juhan-Rasmus Risti
@@ -20,9 +20,12 @@ Sander Tiganik
 * Jetty 9.1.2 webserver
 * PostgreSQL 9.3 database from Heroku
 * Hibernate 4.3.4 to handle database connection
+* c3p0 4.3.5.Final for connection pooling
 * Velocity 1.7 as the templating engine
 * Google Gson 2.2.4 for JSON parsing
 * Google Guice 3.0 for dependency injection
+* Mockito 1.9.5 for testing
+* JUnit 4.11 for testing
 
 Check pom.xml for more.
 ####Running the app
@@ -51,6 +54,6 @@ Planeeritud funktsioonid:
 * Teksti ligipääsetavuse määramine: "Public", "Unlisted", "Password Protected". OSALISELT TEHTUD
 * Teksti salvestamine ja sidumine oma kasutajaga. TEHTUD
 * Isiklike tekstide kategoriseerimine ja kuvamine. TEHTUD
-* Isiklike tekstide ligipääsetavuse muutmine ja kustutamine.
-* Avalike tekstide otsimine sõna järgi.
+* Isiklike tekstide ligipääsetavuse muutmine ja kustutamine. TEHTUD
+* Avalike tekstide otsimine sõna järgi. TEHTUD
 * Avalike tekstide kuvamine ja sorteerimine kategooria või kuupäeva järgi.
