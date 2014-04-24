@@ -10,7 +10,6 @@ import com.codepump.service.CodeService;
 import com.codepump.service.SearchService;
 import com.codepump.service.UserService;
 import com.codepump.tempobject.MyStuffListItem;
-import com.codepump.tempobject.RecentItem;
 import com.codepump.tempobject.SearchItem;
 import com.codepump.tempobject.UserStatisticsItem;
 import com.google.inject.Inject;
@@ -25,9 +24,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 // process all requested html files with velocity templating engine
 // https://velocity.apache.org/engine/releases/velocity-1.7
@@ -101,7 +98,7 @@ public class Velocity extends HttpServlet {
 		if (timeZone == null) {
 			timeZone = "Europe/Helsinki"; // Cause it's home
 		}
-		
+
 		// Checking if there is a user logged in
 		String SID = getCookies(req, "SID");
 		boolean haveUser = false;
@@ -141,7 +138,7 @@ public class Velocity extends HttpServlet {
 		} else if (uri.equals("/source.html")) {
 			handleSource(req, context, user);
 		}
-	
+
 		context.put("timeZone", timeZone);
 		context.put("localDB", localDatabase);
 		context.put("nojs", nojs);
