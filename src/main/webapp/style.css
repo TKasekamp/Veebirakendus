@@ -68,22 +68,22 @@ input.search {
 
 /* Password prompt CSS */
 
-input#password2 {
-	margin: 0;
-}
+/* input#password2 { */
+/* 	margin: 0; */
+/* } */
 
-span.ui-dialog-title, span.ui-button-text, input#password1, input#password2 { 
-	font-size: 62.5%; 
-}
+/* span.ui-dialog-title, span.ui-button-text, input#password1, input#password2 {  */
+/* 	font-size: 62.5%;  */
+/* } */
 
-fieldset {
-	padding: 0;
-	border: 0;
-	margin: 0;
-}
+/* fieldset { */
+/* 	padding: 0; */
+/* 	border: 0; */
+/* 	margin: 0; */
+/* } */
 
-p.message {
-	margin-bottom: 10px;
-}
+/* p.message { */
+/* 	margin-bottom: 10px; */
+/* } */
 
 /* End of password prompt CSS */

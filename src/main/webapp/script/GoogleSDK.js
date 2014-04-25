@@ -20,11 +20,7 @@ function gLogin() {
 				location.reload();
 			},
 			error : function(req, text) {
-				if (userinfo.password==""){
-					passwordPrompt();
-				} else {
-					console.log("Failed to connect to server");
-				}
+				console.log("Failed to connect to server");
 			}
 		});
 	});
@@ -76,7 +72,7 @@ function gLoggedIn() {
 }
 
 // password prompt
-
+/*
 $(function() {
 	var password1 = $("#password1"), password2 = $("#password2"), allFields = $(
 			[]).add(password1).add(password2), message = $(".message");
@@ -142,3 +138,4 @@ $(function() {
 function passwordPrompt() {
 	$("#passwordPrompt").dialog("open");
 }
+*/
