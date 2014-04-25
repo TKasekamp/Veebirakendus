@@ -66,9 +66,9 @@
 			## This is RecentItem
 			#foreach( $code in $recentList )
 			#if($nojs ==true)
-			<p><a href="source.html?id=$code.getCodeId()&nojs=true"/>$code.getCodeName() - $code.prettyCreateDate()</a></p>
+			<p><a href="source.html?id=$code.getCodeId()&nojs=true">$code.getCodeName() - $code.prettyCreateDate()</a></p>
 			#else
-			<p><a href="source.html?id=$code.getCodeId()"/>$code.getCodeName() - $code.prettyCreateDate()</a></p>
+			<p><a href="source.html?id=$code.getCodeId()">$code.getCodeName() - $code.prettyCreateDate()</a></p>
 			#end
 			#end
 			</div>		

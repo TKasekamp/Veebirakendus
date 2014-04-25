@@ -49,9 +49,9 @@
 						## This is CodeItem
 						#foreach( $code in $codeList )
 						#if($nojs ==true)
-						<li><a href="source.html?id=$code.getId()&nojs=true"/>$code.getName() made by $code.getUser().getName()</a></li>
+						<li><a href="source.html?id=$code.getId()&nojs=true">$code.getName() made by $code.getUser().getName()</a></li>
 						#else
-						<li><a href="source.html?id=$code.getId()"/>$code.getName() made by $code.getUser().getName()</a></li>
+						<li><a href="source.html?id=$code.getId()">$code.getName() made by $code.getUser().getName()</a></li>
 						#end
 						#end
 						</ul>
@@ -73,9 +73,9 @@
 			## This is RecentItem
 			#foreach( $code in $recentList )
 			#if($nojs ==true)
-			<p><a href="source.html?id=$code.getCodeId()&nojs=true"/>$code.getCodeName() - $code.prettyCreateDate($timeZone)</a></p>
+			<p><a href="source.html?id=$code.getCodeId()&nojs=true">$code.getCodeName() - $code.prettyCreateDate($timeZone)</a></p>
 			#else
-			<p><a href="source.html?id=$code.getCodeId()"/>$code.getCodeName() - $code.prettyCreateDate($timeZone)</a></p>
+			<p><a href="source.html?id=$code.getCodeId()">$code.getCodeName() - $code.prettyCreateDate($timeZone)</a></p>
 			#end
 			#end
 			</div>
