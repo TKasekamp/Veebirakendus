@@ -119,6 +119,24 @@ public class User implements java.io.Serializable {
 			return text;
 		}
 	}
+	
+	/**
+	 * Generates a random password and sets it as the user's password.
+	 *
+	 * @return random password
+	 * @author juhanr
+	 */
+	public void generateRandomPassword() {
+		String randomPassword = "";
+		char[] chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".toCharArray();
+		java.util.Random random = new java.util.Random();
+		for (int i = 0; i < 20; i++) {
+		    char c = chars[random.nextInt(chars.length)];
+		    randomPassword += c;
+		}
+		this.password = randomPassword;
+		System.out.println("Random password generated for the new user.");
+	}
 
 	@Column(name = "ADMIN_STATUS", nullable = false)
 	public int getAdminStatus() {

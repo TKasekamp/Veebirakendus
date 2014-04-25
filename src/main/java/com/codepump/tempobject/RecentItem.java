@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -118,7 +119,21 @@ public class RecentItem implements Serializable {
 	 * 
 	 * @return String format of date
 	 */
+	@Deprecated
 	public String prettyCreateDate() {
+		return FORMAT.format(createDate);
+	}
+
+	/**
+	 * Sets create Date timeZone to given value. Formats the creation date to
+	 * "HH:mm:ss dd.MM.yyyy"
+	 * 
+	 * @param timeZone
+	 *            Timezone format as in "Europe/Helsinki"
+	 * @return String format of date
+	 */
+	public String prettyCreateDate(String timeZone) {
+		FORMAT.setTimeZone(TimeZone.getTimeZone(timeZone));
 		return FORMAT.format(createDate);
 	}
 

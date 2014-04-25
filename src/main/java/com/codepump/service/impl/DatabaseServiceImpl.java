@@ -262,4 +262,17 @@ public class DatabaseServiceImpl implements DatabaseService {
 		}
 	}
 
+	@Override
+	public void deleteUser(int userId) {
+		try {
+			session = sessionFactory.openSession();
+			session.getTransaction().begin();
+			session.createSQLQuery("delete from webapp_user where user_id =:id")
+					.setParameter("id", userId).executeUpdate();
+			session.getTransaction().commit();
+		} finally {
+			session.close();
+		}
+	}
+
 }

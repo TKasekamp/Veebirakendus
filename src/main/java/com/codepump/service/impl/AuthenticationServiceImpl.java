@@ -2,15 +2,18 @@ package com.codepump.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import com.codepump.controller.ServerController;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.response.AuthenticationResponse;
 import com.codepump.service.AuthenicationService;
 import com.codepump.service.DatabaseService;
 import com.codepump.tempobject.EditContainer;
+import com.codepump.tempobject.MyStuffListItem;
 import com.google.inject.Inject;
 
 public class AuthenticationServiceImpl implements AuthenicationService {
@@ -81,7 +84,10 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 
 	@Override
 	public void logOut(String SID) {
-		SIDlist.remove(SID);
+		int id = SIDlist.remove(SID);
+		if (ServerController.AUTOMATED_TESTING) {
+			testCleanUp(id);
+		}
 	}
 
 	@Override
@@ -132,6 +138,17 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 	@Override
 	public Map<String, Integer> getSidList() {
 		return SIDlist;
+	}
+	
+	private void testCleanUp(int userId) {
+		User user = dbServ.findUserById(userId);
+		if (user.getEmail().equals("test@email.com")) {
+			List<MyStuffListItem> l =  dbServ.getAllUserItems(userId, 1000, 0);
+			for (MyStuffListItem myStuffListItem : l) {
+				dbServ.deleteCodeItem(myStuffListItem.getCodeId());
+			}
+			dbServ.deleteUser(userId);
+		}		
 	}
 
 }

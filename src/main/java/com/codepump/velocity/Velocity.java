@@ -93,8 +93,14 @@ public class Velocity extends HttpServlet {
 		VelocityContext context = new VelocityContext();
 		String uri = req.getRequestURI();
 
+		// User timezone
+		String timeZone = getCookies(req, "codepump_timezone");
+		if (timeZone == null) {
+			timeZone = "Europe/Helsinki"; // Cause it's home
+		}
+
 		// Checking if there is a user logged in
-		String SID = getCookies(req);
+		String SID = getCookies(req, "SID");
 		boolean haveUser = false;
 		User user = userServ.findUserBySID(SID);
 		if (user != null) {
@@ -133,18 +139,19 @@ public class Velocity extends HttpServlet {
 			handleSource(req, context, user);
 		}
 
+		context.put("timeZone", timeZone);
 		context.put("localDB", localDatabase);
 		context.put("nojs", nojs);
 		context.put("haveUser", haveUser);
 		return context;
 	}
 
-	private String getCookies(HttpServletRequest req) {
+	private String getCookies(HttpServletRequest req, String cookieName) {
 		String SID = null;
 		Cookie[] cookies = req.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				if (cookie.getName().equals("SID")) {
+				if (cookie.getName().equals(cookieName)) {
 					SID = cookie.getValue();
 					break;
 				}
@@ -156,6 +163,7 @@ public class Velocity extends HttpServlet {
 	private void handleBrowse(HttpServletRequest req, VelocityContext context) {
 		context.put("codeList", codeServ.getAllCodeItems());
 		context.put("recentList", codeServ.getRecentItems());
+
 	}
 
 	private void handleSource(HttpServletRequest req, VelocityContext context,

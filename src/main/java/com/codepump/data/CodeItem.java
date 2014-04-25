@@ -1,6 +1,9 @@
 package com.codepump.data;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,8 +18,8 @@ import javax.persistence.TemporalType;
 
 /**
  * Represents one item of code in the DB.<br>
- * <code>UserID</code> will be set to -1 if no user is specified.
- * Object User of this class will hold the user_ID.
+ * <code>UserID</code> will be set to -1 if no user is specified. Object User of
+ * this class will hold the user_ID.
  * 
  * @author TKasekamp
  * 
@@ -33,7 +36,10 @@ public class CodeItem implements java.io.Serializable {
 	private String privacy;
 	private Date createdDate; // when this code was made
 	private Date expireDate;
-	private User user; 
+	private User user;
+
+	private static final DateFormat FORMAT = new SimpleDateFormat(
+			"HH:mm dd.MM.yyyy");
 
 	public CodeItem() {
 	}
@@ -62,6 +68,7 @@ public class CodeItem implements java.io.Serializable {
 		this.expireDate = expireDate;
 		this.user = user;
 	}
+
 	public CodeItem(String name, String text, String language, String privacy) {
 		super();
 		this.name = name;
@@ -71,8 +78,8 @@ public class CodeItem implements java.io.Serializable {
 	}
 
 	/**
-	 * Generates a string with id. It can be done with a costum com.codepump.serializer, but
-	 * this is easier.
+	 * Generates a string with id. It can be done with a costum
+	 * com.codepump.serializer, but this is easier.
 	 * 
 	 * @return id in Json format
 	 */
@@ -127,7 +134,6 @@ public class CodeItem implements java.io.Serializable {
 		this.privacy = privacy;
 	}
 
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATE_DATE", nullable = false, length = 7)
 	public Date getSaveDate() {
@@ -164,6 +170,19 @@ public class CodeItem implements java.io.Serializable {
 				+ ", language=" + language + ", privacy=" + privacy
 				+ ", createdDate=" + createdDate + ", expireDate=" + expireDate
 				+ ", user=" + user + "]";
+	}
+
+	/**
+	 * Sets create Date timeZone to given value. Formats the creation date to
+	 * "HH:mm:ss dd.MM.yyyy"
+	 * 
+	 * @param timeZone
+	 *            Timezone format as in "Europe/Helsinki"
+	 * @return String format of date
+	 */
+	public String prettyCreateDate(String timeZone) {
+		FORMAT.setTimeZone(TimeZone.getTimeZone(timeZone));
+		return FORMAT.format(createdDate);
 	}
 
 }

@@ -10,18 +10,15 @@
 <title>CodePump #2 - Browse</title>
 <link rel="stylesheet" href="newstatic.css" />
 <link rel="stylesheet" href="style.css" />
-<script src="JQuery-2.0.2.js"></script>
-<script src="script/login.js" type="text/javascript"></script>
+#include('templates/scriptInclude.html')
 <script src="script/websocket.js" type="text/javascript"></script>
-<script src="script/httpsRedirect.js"></script>
-<script src="script/GoogleSDK.js"></script>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-<link rel="stylesheet" href="whiteLineFix.css">
+<!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css"> -->
+<!-- <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script> -->
+<!-- <link rel="stylesheet" href="whiteLineFix.css"> -->
 </head>
 <body>
 	<!-- Google login prompt -->
-	#include('templates/passwordPrompt.html')
+<!-- 	#include('templates/passwordPrompt.html') -->
 	<!-- End of prompt -->
 	
 	<!-- Top Bar -->
@@ -76,9 +73,9 @@
 			## This is RecentItem
 			#foreach( $code in $recentList )
 			#if($nojs ==true)
-			<p><a href="source.html?id=$code.getCodeId()&nojs=true"/>$code.getCodeName() - $code.prettyCreateDate()</a></p>
+			<p><a href="source.html?id=$code.getCodeId()&nojs=true"/>$code.getCodeName() - $code.prettyCreateDate($timeZone)</a></p>
 			#else
-			<p><a href="source.html?id=$code.getCodeId()"/>$code.getCodeName() - $code.prettyCreateDate()</a></p>
+			<p><a href="source.html?id=$code.getCodeId()"/>$code.getCodeName() - $code.prettyCreateDate($timeZone)</a></p>
 			#end
 			#end
 			</div>

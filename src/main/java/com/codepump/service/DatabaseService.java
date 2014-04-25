@@ -194,4 +194,9 @@ public interface DatabaseService {
 	 */
 	public List<SearchItem> searchDatabaseAdmin(String query, int limit,
 			int offset);
+	/**
+	 * Deletes this user form the database.
+	 * @param userId
+	 */
+	public void deleteUser(int userId);
 }
