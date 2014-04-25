@@ -142,7 +142,7 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 	
 	private void testCleanUp(int userId) {
 		User user = dbServ.findUserById(userId);
-		if (user.getEmail().equals("test@email.com")) {
+		if (user.getEmail().equals("test1@email.com")) {
 			List<MyStuffListItem> l =  dbServ.getAllUserItems(userId, 1000, 0);
 			for (MyStuffListItem myStuffListItem : l) {
 				dbServ.deleteCodeItem(myStuffListItem.getCodeId());
