@@ -20,7 +20,6 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collection;
 
-import com.google.inject.Inject;
 import com.codepump.data.User;
 import com.codepump.deserializer.UserDeserializer;
 import com.codepump.response.AuthenticationResponse;
@@ -30,38 +29,13 @@ import com.codepump.service.impl.AuthenticationServiceImpl;
 import com.codepump.service.impl.DatabaseServiceImpl;
 
 public final class GoogleAuth {
-	private static final long serialVersionUID = 1L;
 	private Gson gson;
 	private DatabaseService dbServ = new DatabaseServiceImpl();
 	private AuthenicationService authServ = new AuthenticationServiceImpl(dbServ);
 	private String SID;
 
-	public void buildGson() {
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(User.class, new UserDeserializer());
-		gson = gsonBuilder.create();
-	}
-
-//	@Inject
-//	public GoogleAuth(AuthenicationService authServ) {
-//		this.authServ = authServ;
-//		flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT,
-//				JSON_FACTORY, CLIENT_ID, CLIENT_SECRET, SCOPE).build();
-//		generateStateToken();
-//	}
-
-	/**
-	 * Please provide a value for the CLIENT_ID constant before proceeding, set this up at https://code.google.com/apis/console/
-	 */
 	private static final String CLIENT_ID = "570680235799-mq2l1luj94oqc20ahl8uh0a9evi3d8be.apps.googleusercontent.com";
-	/**
-	 * Please provide a value for the CLIENT_SECRET constant before proceeding, set this up at https://code.google.com/apis/console/
-	 */
 	private static final String CLIENT_SECRET = "lMwtpgOnXm_XprLMijtA0pCy";
-
-	/**
-	 * Callback URI that google will redirect to after successful authentication
-	 */
 	private static String CALLBACK_URI;
 
 	// start google authentication constants
@@ -75,9 +49,6 @@ public final class GoogleAuth {
 
 	private final GoogleAuthorizationCodeFlow flow;
 
-	/**
-	 * Constructor initializes the Google Authorization Code Flow with CLIENT ID, SECRET, and SCOPE 
-	 */
 	public GoogleAuth() {
 		flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT,
 				JSON_FACTORY, CLIENT_ID, CLIENT_SECRET, SCOPE).build();
@@ -94,31 +65,24 @@ public final class GoogleAuth {
 			System.err.println(ex);
 		}
 	}
+	
+	public void buildGson() {
+		GsonBuilder gsonBuilder = new GsonBuilder();
+		gsonBuilder.registerTypeAdapter(User.class, new UserDeserializer());
+		gson = gsonBuilder.create();
+	}
 
-	/**
-	 * Builds a login URL based on client ID, secret, callback URI, and scope 
-	 */
 	public String buildLoginUrl() {
-
 		final GoogleAuthorizationCodeRequestUrl url = flow.newAuthorizationUrl();
-
 		return url.setRedirectUri(CALLBACK_URI).setState(stateToken).build();
 	}
 
-	/**
-	 * Generates a secure state token 
-	 */
 	private void generateStateToken(){
-
 		SecureRandom sr1 = new SecureRandom();
-
 		stateToken = "google;"+sr1.nextInt();
 
 	}
 
-	/**
-	 * Accessor for state token
-	 */
 	public String getStateToken(){
 		return stateToken;
 	}

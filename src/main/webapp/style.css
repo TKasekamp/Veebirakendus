@@ -55,13 +55,17 @@ button#loginarea {
 	float: right;
 }
 
-#g-signin-button {
-	margin-left: 5px;
-	margin-right: 5px;
-	display: none;
-}
-
 input.search {
 	margin-left: 20px;
 	margin-top: 4px;
+}
+
+button#gLoginButton {
+	padding: 0.5em;
+	padding-left: 1em;
+	padding-right: 1em;
+	margin: 0em;
+	float: right;
+	background-color: #DF0101;
+	margin-bottom: 5px;
 }
