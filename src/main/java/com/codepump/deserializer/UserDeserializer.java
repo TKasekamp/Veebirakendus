@@ -32,7 +32,7 @@ public class UserDeserializer implements JsonDeserializer<User> {
 			password = jsonObject.get("password").getAsString();
 			username = jsonObject.get("username").getAsString();
 		} catch (NullPointerException e) {
-			System.out.println("NullPointer: json can't get username.");
+			username = jsonObject.get("name").getAsString();
 		}
 		
 		User user = new User();

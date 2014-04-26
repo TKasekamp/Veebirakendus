@@ -154,8 +154,32 @@
 			<artifactId>hibernate-c3p0</artifactId>
 			<version>4.3.5.Final</version>
 		</dependency>
+		
+		<!-- Google API library -->
+		<dependency>
+			<groupId>com.google.api-client</groupId>
+			<artifactId>google-api-client</artifactId>
+			<version>1.18.0-rc</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client</artifactId>
+			<version>1.18.0-rc</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.http-client</groupId>
+			<artifactId>google-http-client-jackson</artifactId>
+			<version>1.18.0-rc</version>
+		</dependency>
 
 	</dependencies>
+	<repositories>
+		<repository>
+			<id>google-api-services</id>
+			<url>http://google-api-client-libraries.appspot.com/mavenrepo</url>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>

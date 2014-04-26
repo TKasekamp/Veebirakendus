@@ -25,13 +25,10 @@ $(document).ready(
 					$("a#login").click(function() {
 					loginButtonClicked = true;
 					var temp = $("div.login");
-					var gLoginButton = $("#g-signin-button");
 					if (temp.css("display") == "none") {
 						temp.css("display", "inline");
-						gLoginButton.css("display", "inline");
 					} else {
 						temp.css("display", "none");
-						gLoginButton.css("display", "none");
 					}
 				});
 
@@ -58,5 +55,14 @@ $(document).ready(
 						});
 					}
 				);
+				
+				$("#gLoginButton").click(
+						function() {
+							if (window.location.href.indexOf("localhost") > -1)
+								window.location.href = "http://localhost:8080/GoogleLogin.jsp?from="+window.location.pathname;
+							else
+								window.location.href = "http://codepump2.herokuapp.com/GoogleLogin.jsp?from="+window.location.pathname;
+						}
+					);
 			}
 		});

@@ -19,7 +19,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 /**
- * Handles all login. Google login goes to /login/google, AJAX login to
+ * Handles all login. AJAX login goes to
  * /login/ajax and NOJS login to /login/nojs.
  * 
  * @author TKasekamp
@@ -54,8 +54,6 @@ public class LoginServlet extends HttpServlet {
 			ajaxLogin(req, resp);
 		} else if (uri.equals("/login/nojs")) {
 			noJsLogin(req, resp);
-		} else if (uri.equals("/login/google")) {
-			googleLogin(req, resp);
 		}
 
 	}
@@ -100,20 +98,6 @@ public class LoginServlet extends HttpServlet {
 			resp.sendRedirect("/index.html?nojs=true");
 		} else {
 			resp.sendRedirect("/index.html");
-		}
-	}
-
-	private void googleLogin(HttpServletRequest req, HttpServletResponse resp)
-			throws IOException {
-		try {
-			User user = gson.fromJson(req.getReader(), User.class);
-			AuthenticationResponse r = authServ.checkPassword(user);
-			if (r.getResponse()==0)
-				user.generateRandomPassword();
-			createCookie(resp, authServ.googleLogin(user));
-		} catch (JsonParseException ex) {
-			System.err.println(ex);
-			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
 		}
 	}
 
