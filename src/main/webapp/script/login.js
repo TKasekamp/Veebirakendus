@@ -58,10 +58,11 @@ $(document).ready(
 				
 				$("#gLoginButton").click(
 						function() {
+							document.cookie = 'redirectFrom='+window.location.href+'; path=/';
 							if (window.location.href.indexOf("localhost") > -1)
-								window.location.href = "http://localhost:8080/GoogleLogin.jsp?from="+window.location.pathname;
+								window.location.href = "http://localhost:8080/GoogleLogin.jsp";
 							else
-								window.location.href = "http://codepump2.herokuapp.com/GoogleLogin.jsp?from="+window.location.pathname;
+								window.location.href = "http://codepump2.herokuapp.com/GoogleLogin.jsp";
 						}
 					);
 			}

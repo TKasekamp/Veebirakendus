@@ -13,13 +13,13 @@
 	<div>
 		<%
 			final GoogleAuth gAuth = new GoogleAuth();
-			String originalUrl = request.getQueryString().replace("from=","");;
 			
 			if (request.getParameter("code") == null
 					|| request.getParameter("state") == null) {
 
 				session.setAttribute("state", gAuth.getStateToken());
 				response.sendRedirect(gAuth.buildLoginUrl());
+				return;
 
 			} else if (request.getParameter("code") != null && request.getParameter("state") != null
 					&& request.getParameter("state").equals(session.getAttribute("state"))) {
@@ -31,16 +31,18 @@
 				cookie.setMaxAge(2 * 60 * 60); // 2 h
 				cookie.setPath("/");
 				response.addCookie(cookie);
+				
 				try {
 					String databaseUrl = System.getenv("DATABASE_URL");
 	        		if (databaseUrl != null) {
-	             		response.sendRedirect("http://codepump2.herokuapp.com"+originalUrl);
+	             		response.sendRedirect("http://codepump2.herokuapp.com/return.html");
 	        		} else {
-	             		response.sendRedirect("http://localhost:8080"+originalUrl);
+	             		response.sendRedirect("http://localhost:8080/return.html");
 	        		}
 				} catch (Exception ex) {
 					System.err.println(ex);
 				}
+				return;
 			}
 		%>
 	</div>
