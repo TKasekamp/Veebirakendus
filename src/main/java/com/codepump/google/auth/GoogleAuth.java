@@ -20,6 +20,9 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collection;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import com.codepump.data.User;
 import com.codepump.deserializer.UserDeserializer;
 import com.codepump.response.AuthenticationResponse;
@@ -126,6 +129,13 @@ public final class GoogleAuth {
 			System.err.println(ex);
 		}
 
+	}
+	
+	public void createSIDCookie(HttpServletResponse resp) {
+		Cookie cookie = new Cookie("SID", this.getSID());
+		cookie.setMaxAge(2 * 60 * 60); // 2 h
+		cookie.setPath("/");
+		resp.addCookie(cookie);
 	}
 
 }

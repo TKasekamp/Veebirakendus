@@ -26,11 +26,7 @@
 
 				session.removeAttribute("state");
 				gAuth.login(request.getParameter("code"));
-				String SID = gAuth.getSID();
-				Cookie cookie = new Cookie("SID", SID);
-				cookie.setMaxAge(2 * 60 * 60); // 2 h
-				cookie.setPath("/");
-				response.addCookie(cookie);
+				gAuth.createSIDCookie(response);
 				
 				try {
 					String databaseUrl = System.getenv("DATABASE_URL");
