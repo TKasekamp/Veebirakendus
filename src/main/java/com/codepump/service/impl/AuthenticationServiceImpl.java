@@ -32,7 +32,8 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 	}
 
 	/**
-	 * Finds a name from the list and checks password. <br>
+	 * The reason why this class exists. Logs user in if password is correct.
+	 * Updates lastlogin date upon succesful login. <br>
 	 * 0 - there is no such user <br>
 	 * 1 - user and password are correct, but already logged in. NOT USED<br>
 	 * 2 - wrong password <br>
@@ -41,10 +42,8 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 	@Override
 	public AuthenticationResponse checkPassword(User user) {
 		int result = 0;
-		int userID = -1;
 		String sid = null;
 		user.hashPassword();
-		// Find user
 
 		User dbUser = dbServ.findUserByEmail(user.getEmail());
 		try {
@@ -52,7 +51,6 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 			System.out.println(dbUser);
 			if (dbUser.getPassword().equals(user.getPassword())) {
 				result = 1;
-				userID = dbUser.getId();
 			} else {
 				result = 2;
 			}
@@ -62,9 +60,10 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 
 		// Check if the user has logged in
 		if (result == 1) {
-			sid = generateSID();
-			SIDlist.put(sid, userID);
+			sid = login(dbUser);
 			result = 3;
+			dbUser.setLastLoginDate(new Date());
+			dbServ.updateUser(dbUser);
 		}
 		return new AuthenticationResponse(result, sid);
 	}
@@ -116,9 +115,7 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 	@Override
 	public String directLogin(String email) {
 		User user = dbServ.findUserByEmail(email);
-		String sid = generateSID();
-		SIDlist.put(sid, user.getId());
-		return sid;
+		return login(user);
 	}
 
 	@Override
@@ -139,16 +136,35 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 	public Map<String, Integer> getSidList() {
 		return SIDlist;
 	}
-	
+
+	/**
+	 * Cleans up after Selenium tests. Removes test user and all his created
+	 * items.
+	 * 
+	 * @param userId
+	 */
 	private void testCleanUp(int userId) {
 		User user = dbServ.findUserById(userId);
 		if (user.getEmail().equals("test1@email.com")) {
-			List<MyStuffListItem> l =  dbServ.getAllUserItems(userId, 1000, 0);
+			List<MyStuffListItem> l = dbServ.getAllUserItems(userId, 1000, 0);
 			for (MyStuffListItem myStuffListItem : l) {
 				dbServ.deleteCodeItem(myStuffListItem.getCodeId());
 			}
 			dbServ.deleteUser(userId);
-		}		
+		}
+	}
+
+	/**
+	 * Generates SID and adds user to logged in user list.
+	 * 
+	 * @param user
+	 *            to be logged in
+	 * @return SID, cookie value
+	 */
+	private String login(User user) {
+		String sid = generateSID();
+		SIDlist.put(sid, user.getId());
+		return sid;
 	}
 
 }

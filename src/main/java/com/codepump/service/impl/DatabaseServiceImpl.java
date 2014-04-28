@@ -189,4 +189,11 @@ public class DatabaseServiceImpl implements DatabaseService {
 				.setParameter("id", userId).executeUpdate();
 	}
 
+	@Override
+	public void updateUser(User user) {
+		session = sessionFactory.getCurrentSession();
+		session.update(user);
+		
+	}
+
 }

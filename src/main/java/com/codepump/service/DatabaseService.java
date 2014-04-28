@@ -208,4 +208,10 @@ public interface DatabaseService {
 	 *             keys in the database.
 	 */
 	public void deleteUser(int userId) throws ConstraintViolationException;
+	
+	/**
+	 * Updates this user in the database.
+	 * @param user {@link User} to be updated
+	 */
+	public void updateUser(User user);
 }
