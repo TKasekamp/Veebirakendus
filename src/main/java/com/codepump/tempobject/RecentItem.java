@@ -119,7 +119,6 @@ public class RecentItem implements Serializable {
 	 * 
 	 * @return String format of date
 	 */
-	@Deprecated
 	public String prettyCreateDate() {
 		return FORMAT.format(createDate);
 	}

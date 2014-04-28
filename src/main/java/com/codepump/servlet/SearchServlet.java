@@ -18,29 +18,25 @@ public class SearchServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		try {
-			String query = req.getParameter("query");
+		String query = req.getParameter("query");
 
-			// default parameters
-			int limit = 10;
-			int offset = 0;
-			try {
-				limit = Integer.parseInt(req.getParameter("limit"));
-				offset = Integer.parseInt(req.getParameter("offset"));
-			} catch (Exception e) {
-			}
-			String s = "query=" + query + "&limit=" + limit + "&offset="
-					+ offset;
-			System.out.println(s);
-			// Redirecting
-			if (req.getParameter("nojs").equalsIgnoreCase("true")) {
-				resp.sendRedirect("/search.html?" + s + "&nojs=true");
-				return;
-			} else {
-				resp.sendRedirect("/search.html?" + s);
-			}
+		// default parameters
+		int limit = 10;
+		int offset = 0;
+		try {
+			limit = Integer.parseInt(req.getParameter("limit"));
+			offset = Integer.parseInt(req.getParameter("offset"));
 		} catch (Exception e) {
 		}
+		String s = "query=" + query + "&limit=" + limit + "&offset=" + offset;
+		// Redirecting
+		if (req.getParameter("nojs").equalsIgnoreCase("true")) {
+			resp.sendRedirect("/search.html?" + s + "&nojs=true");
+			return;
+		} else {
+			resp.sendRedirect("/search.html?" + s);
+		}
+
 	}
 
 }

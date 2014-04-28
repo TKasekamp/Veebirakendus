@@ -2,6 +2,8 @@ package com.codepump.service;
 
 import java.util.List;
 
+import org.hibernate.exception.ConstraintViolationException;
+
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.service.impl.DatabaseServiceImpl;
@@ -194,9 +196,16 @@ public interface DatabaseService {
 	 */
 	public List<SearchItem> searchDatabaseAdmin(String query, int limit,
 			int offset);
+
 	/**
-	 * Deletes this user form the database.
+	 * Deletes the user with this id from the database. To be safe all code made
+	 * by this user has to be deleted before deleteting user.
+	 * 
 	 * @param userId
+	 *            User id to be deleted
+	 * @throws ConstraintViolationException
+	 *             If this user has created any code. Here because of foreign
+	 *             keys in the database.
 	 */
-	public void deleteUser(int userId);
+	public void deleteUser(int userId) throws ConstraintViolationException;
 }

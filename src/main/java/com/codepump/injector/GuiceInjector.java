@@ -3,6 +3,7 @@ package com.codepump.injector;
 import javax.servlet.annotation.WebListener;
 
 import com.codepump.controller.ServerController;
+import com.codepump.filter.HibernateSessionRequestFilter;
 import com.codepump.service.AuthenicationService;
 import com.codepump.service.CodeService;
 import com.codepump.service.SearchService;
@@ -70,9 +71,12 @@ public class GuiceInjector extends GuiceServletContextListener {
 					this.bind(CodeService.class).to(CodeServiceNoDB.class)
 							.asEagerSingleton();
 					this.bind(SearchService.class).to(SearchServiceNoDB.class)
-					.asEagerSingleton();
+							.asEagerSingleton();
 				}
 
+				if (USE_DATABASE) {
+					 filter("/*").through(HibernateSessionRequestFilter.class);
+				}
 				// This mapping is not pretty, but how to do it better?
 				serve("*.html").with(Velocity.class);
 				serve("/data/*").with(DataServlet.class);

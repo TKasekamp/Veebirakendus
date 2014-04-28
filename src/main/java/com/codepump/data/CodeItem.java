@@ -182,7 +182,10 @@ public class CodeItem implements java.io.Serializable {
 	 */
 	public String prettyCreateDate(String timeZone) {
 		FORMAT.setTimeZone(TimeZone.getTimeZone(timeZone));
-		return FORMAT.format(createdDate);
+		if (createdDate != null) {
+			return FORMAT.format(createdDate);
+		} else
+			return "";
 	}
 
 }
