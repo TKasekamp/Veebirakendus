@@ -28,17 +28,16 @@ public class UserDeserializer implements JsonDeserializer<User> {
 		final String email = jsonObject.get("email").getAsString();
 		String password = null;
 		String username = null;
-		try {
+		
+		if (jsonObject.has("password")) {
 			password = jsonObject.get("password").getAsString();
-			username = jsonObject.get("username").getAsString();
-		} catch (NullPointerException e) {
+		} else if (jsonObject.has("name")) {
 			username = jsonObject.get("name").getAsString();
+		} else {
+			throw new IllegalArgumentException("Invalid arguments in UserDeserializer class.");
 		}
 		
-		User user = new User();
-		user.setName(username);
-		user.setPassword(password);
-		user.setEmail(email);
+		User user = new User(username, email, password);
 		return user;
 	}
 }
