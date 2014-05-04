@@ -40,6 +40,15 @@
 						<p>Passwords do not match!</p>
 						#elseif($result == 2)
 						<p>This email already in use!</p>
+						#elseif($result == 3)
+						<p>Your name is not in an accepted format! It can contain only letters, spaces and hyphens. 
+						It also has to begin with a capital letter.</p>
+						#elseif($result == 4)
+						<p>Your email is not in an accepted format! It can contain only letters and numbers.</p>
+						#elseif($result == 5)
+						<p>Your password is not in an accepted format! It can contain only letters and numbers. 
+						It has to contain of at least one upper case letter, one lower case letter and one number. 
+						The length of the password must be between 5 and 20 characters.</p>
 						#end
 						<div class="content" data-slug="panel1">
 							<div class="row collapse">
