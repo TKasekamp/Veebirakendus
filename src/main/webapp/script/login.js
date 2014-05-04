@@ -7,22 +7,21 @@ var login = {
 	}
 };
 
-function getCookie() {
-	var lst = document.cookie.split(";");
-	var cookie = "";
-	for (var i = 0; i < lst.length; i++) {
-		if (lst[i].indexOf("SID") != -1) {
-			var temp = lst[i].split("=");
-			cookie = temp[1];
-		}
+function getCookie(cname){
+	var name = cname + '=';
+	var ca = document.cookie.split(';');
+	for(var i=0; i<ca.length; i++){
+		var c = ca[i].trim();
+		if (c.indexOf(name)==0) 
+			return c.substring(name.length,c.length);
 	}
-	return cookie;
-};
+	return '';
+}
 
 $(document).ready(
 		function() {
-			if (!getCookie()) {
-					$("a#login").click(function() {
+			if (!getCookie('SID')) {
+				$("a#login").click(function() {
 					loginButtonClicked = true;
 					var temp = $("div.login");
 					if (temp.css("display") == "none") {
