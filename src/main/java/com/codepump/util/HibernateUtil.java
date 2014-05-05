@@ -65,6 +65,8 @@ public class HibernateUtil {
 				.setProperty("hibernate.connection.password", password)
 				.setProperty("hibernate.connection.url", db)
 				.setProperty("hibernate.current_session_context_class", "thread")
+				.setProperty("hibernate.search.default.directory_provider", "filesystem")
+				.setProperty("hibernate.search.default.indexBase", "./indexes")
 				.setProperty("hibernate.c3p0.min_size", "5")
 				.setProperty("hibernate.c3p0.max_size", "20")
 				.setProperty("hibernate.c3p0.timeout", "300")

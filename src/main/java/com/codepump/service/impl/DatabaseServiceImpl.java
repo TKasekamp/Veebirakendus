@@ -5,20 +5,25 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.search.FullTextQuery;
+import org.hibernate.search.FullTextSession;
+import org.hibernate.search.Search;
+import org.hibernate.search.query.dsl.QueryBuilder;
 
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.service.DatabaseService;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
-import com.codepump.tempobject.SearchItem;
 import com.codepump.tempobject.UserLanguageStatisticsItem;
 import com.codepump.util.HibernateUtil;
+
 /**
- * Note: sessions started with getCurrentSession() are flushed and closed automatically.
- * https://community.jboss.org/wiki/SessionsAndTransactions
+ * Note: sessions started with getCurrentSession() are flushed and closed
+ * automatically. https://community.jboss.org/wiki/SessionsAndTransactions
+ * 
  * @author TKasekamp
- *
+ * 
  */
 public class DatabaseServiceImpl implements DatabaseService {
 	private Session session;
@@ -32,6 +37,9 @@ public class DatabaseServiceImpl implements DatabaseService {
 	@Override
 	public void deleteCodeItem(int codeId) {
 		session = sessionFactory.getCurrentSession();
+		FullTextSession fullTextSession = Search.getFullTextSession(session);
+		fullTextSession.purge(CodeItem.class, codeId);
+		// session.delete(Integer.toString(codeId), CodeItem.class);
 		session.createSQLQuery("delete from codeitem where code_id =:id")
 				.setParameter("id", codeId).executeUpdate();
 	}
@@ -70,8 +78,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 		session = sessionFactory.getCurrentSession();
 		@SuppressWarnings("unchecked")
 		List<RecentItem> results = session
-				.getNamedQuery("findRecentItemsInOrder")
-				.setParameter("limit", limit).setParameter("offset", offset)
+				.getNamedQuery("findRecentItemsInOrder").setMaxResults(limit)
 				.list();
 		return results;
 	}
@@ -147,39 +154,67 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
-	public List<SearchItem> searchDatabasePublic(String query, int limit,
+	public List<CodeItem> searchDatabasePublic(String query, int limit,
 			int offset) {
 		session = sessionFactory.getCurrentSession();
-		Query q = session.getNamedQuery("publicSearchQuery")
-				.setParameter("query", query).setParameter("limit", limit)
-				.setParameter("offset", offset);
+		FullTextSession fullTextSession = Search.getFullTextSession(session);
+		QueryBuilder qb = fullTextSession.getSearchFactory()
+				.buildQueryBuilder().forEntity(CodeItem.class).get();
+		org.apache.lucene.search.Query luceneQuery = qb.keyword()
+				.onFields("name", "text").matching(query).createQuery();
+		org.hibernate.Query hibernateQuery = fullTextSession
+				.createFullTextQuery(luceneQuery, CodeItem.class);
+		hibernateQuery.setFirstResult(offset);
+		hibernateQuery.setMaxResults(limit);
+		int intresultSize = ((FullTextQuery) hibernateQuery).getResultSize();
+		System.out.println(intresultSize);
+		// execute search
 		@SuppressWarnings("unchecked")
-		List<SearchItem> dataset = q.list();
-		return dataset;
+		List<CodeItem> result = hibernateQuery.list();
+		return result;
 	}
 
 	@Override
-	public List<SearchItem> searchDatabaseUser(String query, int limit,
+	public List<CodeItem> searchDatabaseUser(String query, int limit,
 			int offset, int userId) {
 		session = sessionFactory.getCurrentSession();
-		Query q = session.getNamedQuery("userSearchQuery")
-				.setParameter("query", query).setParameter("limit", limit)
-				.setParameter("offset", offset).setParameter("user_id", userId);
+		FullTextSession fullTextSession = Search.getFullTextSession(session);
+		QueryBuilder qb = fullTextSession.getSearchFactory()
+				.buildQueryBuilder().forEntity(CodeItem.class).get();
+		org.apache.lucene.search.Query luceneQuery = qb.keyword()
+				.onFields("name", "text").matching(query).createQuery();
+		org.hibernate.Query hibernateQuery = fullTextSession
+				.createFullTextQuery(luceneQuery, CodeItem.class);
+		hibernateQuery.setFirstResult(offset);
+		hibernateQuery.setMaxResults(limit);
+		// hibernateQuery.setParameter("user.getId()", userId);
+		int intresultSize = ((FullTextQuery) hibernateQuery).getResultSize();
+		System.out.println(intresultSize);
+		// execute search
 		@SuppressWarnings("unchecked")
-		List<SearchItem> dataset = q.list();
-		return dataset;
+		List<CodeItem> result = hibernateQuery.list();
+		return result;
 	}
 
 	@Override
-	public List<SearchItem> searchDatabaseAdmin(String query, int limit,
+	public List<CodeItem> searchDatabaseAdmin(String query, int limit,
 			int offset) {
 		session = sessionFactory.getCurrentSession();
-		Query q = session.getNamedQuery("adminSearchQuery")
-				.setParameter("query", query).setParameter("limit", limit)
-				.setParameter("offset", offset);
+		FullTextSession fullTextSession = Search.getFullTextSession(session);
+		QueryBuilder qb = fullTextSession.getSearchFactory()
+				.buildQueryBuilder().forEntity(CodeItem.class).get();
+		org.apache.lucene.search.Query luceneQuery = qb.keyword()
+				.onFields("name", "text").matching(query).createQuery();
+		org.hibernate.Query hibernateQuery = fullTextSession
+				.createFullTextQuery(luceneQuery, CodeItem.class);
+		hibernateQuery.setFirstResult(offset);
+		hibernateQuery.setMaxResults(limit);
+		int intresultSize = ((FullTextQuery) hibernateQuery).getResultSize();
+		System.out.println(intresultSize);
+		// execute search
 		@SuppressWarnings("unchecked")
-		List<SearchItem> dataset = q.list();
-		return dataset;
+		List<CodeItem> result = hibernateQuery.list();
+		return result;
 	}
 
 	@Override
@@ -193,7 +228,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 	public void updateUser(User user) {
 		session = sessionFactory.getCurrentSession();
 		session.update(user);
-		
+
 	}
 
 }

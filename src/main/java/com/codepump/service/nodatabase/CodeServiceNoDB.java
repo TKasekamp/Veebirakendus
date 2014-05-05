@@ -67,7 +67,7 @@ public class CodeServiceNoDB implements CodeService {
 
 	@Override
 	public void addCode(CodeItem item, String SID) {
-		item.setSaveDate(new Date());
+		item.setCreateDate(new Date());
 		item.setExpireDate(new Date());
 		item.setText(escapeChars(item.getText()));
 
@@ -94,7 +94,7 @@ public class CodeServiceNoDB implements CodeService {
 		for (CodeItem value : items.values()) {
 			if (value.getPrivacy().equals("Public")) {
 				RecentItem r = new RecentItem(value.getId(), value.getName(),
-						value.getLanguage(), value.getSaveDate(), 100,
+						value.getLanguage(), value.getCreateDate(), 100,
 						"TEST USER NOT FOR REAL AS I CAN'T BE BOTHERED");
 				dataset.add(r);
 			}
@@ -112,7 +112,7 @@ public class CodeServiceNoDB implements CodeService {
 		for (CodeItem value : items.values()) {
 			if (value.getUser().getId() == userId) {
 				dataset.add(new MyStuffListItem(value.getId(), value.getName(),
-						value.getLanguage(), value.getSaveDate()));
+						value.getLanguage(), value.getCreateDate()));
 			}
 		}
 		return dataset;

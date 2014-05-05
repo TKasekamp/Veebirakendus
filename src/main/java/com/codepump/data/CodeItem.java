@@ -7,6 +7,7 @@ import java.util.TimeZone;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,6 +17,21 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.solr.analysis.LowerCaseFilterFactory;
+import org.apache.solr.analysis.SnowballPorterFilterFactory;
+import org.apache.solr.analysis.StandardTokenizerFactory;
+import org.apache.solr.analysis.WordDelimiterFilterFactory;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.AnalyzerDef;
+import org.hibernate.search.annotations.Boost;
+import org.hibernate.search.annotations.DateBridge;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.annotations.Resolution;
+import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
+
 /**
  * Represents one item of code in the DB.<br>
  * <code>UserID</code> will be set to -1 if no user is specified. Object User of
@@ -24,17 +40,28 @@ import javax.persistence.TemporalType;
  * @author TKasekamp
  * 
  */
-@SuppressWarnings("serial")
 @Entity
 @Table(name = "CODEITEM")
+@Indexed
+@AnalyzerDef(name = "customanalyzer", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class), filters = {
+		@TokenFilterDef(factory = WordDelimiterFilterFactory.class),
+		@TokenFilterDef(factory = LowerCaseFilterFactory.class),
+		// @TokenFilterDef(factory = StopFilterFactory.class, params = {
+		// @Parameter(name = "words",
+		// value = "javastopwords.txt"),
+		// @Parameter(name="ignoreCase", value="true"),
+		// @Parameter(name="format", value="wordset")}),
+		@TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = { @Parameter(name = "language", value = "English") }) })
+// @AnalyzerDiscriminator(impl=LanguageDiscriminator.class)
 public class CodeItem implements java.io.Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private String name;
 	private String text;
 	private String language;
 	private String privacy;
-	private Date createdDate; // when this code was made
+	private Date createDate; // when this code was made
 	private Date expireDate;
 	private User user;
 
@@ -52,7 +79,7 @@ public class CodeItem implements java.io.Serializable {
 		this.text = text;
 		this.language = language;
 		this.privacy = privacy;
-		this.createdDate = new Date();
+		this.createDate = new Date();
 		this.expireDate = new Date();
 	}
 
@@ -64,7 +91,7 @@ public class CodeItem implements java.io.Serializable {
 		this.text = text;
 		this.language = language;
 		this.privacy = privacy;
-		this.createdDate = createdDate;
+		this.createDate = createdDate;
 		this.expireDate = expireDate;
 		this.user = user;
 	}
@@ -90,6 +117,7 @@ public class CodeItem implements java.io.Serializable {
 	@Id
 	@Column(name = "CODE_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	/** Generation has something to do with Postgre serial */
 	public Integer getId() {
 		return id;
 	}
@@ -98,6 +126,9 @@ public class CodeItem implements java.io.Serializable {
 		this.id = id;
 	}
 
+	@Analyzer(definition = "customanalyzer")
+	@Boost(value = 1.5f)
+	@Field
 	@Column(name = "CODE_NAME", nullable = false, length = 100)
 	public String getName() {
 		return name;
@@ -107,6 +138,8 @@ public class CodeItem implements java.io.Serializable {
 		this.name = name;
 	}
 
+	@Analyzer(definition = "customanalyzer")
+	@Field
 	@Column(name = "CODE_TEXT", nullable = false)
 	public String getText() {
 		return text;
@@ -134,14 +167,15 @@ public class CodeItem implements java.io.Serializable {
 		this.privacy = privacy;
 	}
 
+	@DateBridge(resolution = Resolution.DAY)
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CREATE_DATE", nullable = false, length = 7)
-	public Date getSaveDate() {
-		return createdDate;
+	public Date getCreateDate() {
+		return createDate;
 	}
 
-	public void setSaveDate(Date saveDate) {
-		this.createdDate = saveDate;
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -154,7 +188,7 @@ public class CodeItem implements java.io.Serializable {
 		this.expireDate = expireDate;
 	}
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", nullable = true)
 	public User getUser() {
 		return user;
@@ -168,7 +202,7 @@ public class CodeItem implements java.io.Serializable {
 	public String toString() {
 		return "CodeItem [id=" + id + ", name=" + name + ", text=" + text
 				+ ", language=" + language + ", privacy=" + privacy
-				+ ", createdDate=" + createdDate + ", expireDate=" + expireDate
+				+ ", createDate=" + createDate + ", expireDate=" + expireDate
 				+ ", user=" + user + "]";
 	}
 
@@ -182,8 +216,8 @@ public class CodeItem implements java.io.Serializable {
 	 */
 	public String prettyCreateDate(String timeZone) {
 		FORMAT.setTimeZone(TimeZone.getTimeZone(timeZone));
-		if (createdDate != null) {
-			return FORMAT.format(createdDate);
+		if (createDate != null) {
+			return FORMAT.format(createDate);
 		} else
 			return "";
 	}

@@ -2,10 +2,10 @@ package com.codepump.service.impl;
 
 import java.util.List;
 
+import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.service.DatabaseService;
 import com.codepump.service.SearchService;
-import com.codepump.tempobject.SearchItem;
 import com.google.inject.Inject;
 
 public class SearchServiceImpl implements SearchService {
@@ -17,12 +17,12 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public List<SearchItem> searchCode(String query, int limit, int offset) {
+	public List<CodeItem> searchCode(String query, int limit, int offset) {
 		return dbServ.searchDatabasePublic(query, limit, offset);
 	}
 
 	@Override
-	public List<SearchItem> searchCode(String query, int limit, int offset,
+	public List<CodeItem> searchCode(String query, int limit, int offset,
 			User user) {
 		if (user.getAdminStatus() == 0) {
 			return dbServ

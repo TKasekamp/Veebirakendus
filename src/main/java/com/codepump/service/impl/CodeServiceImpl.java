@@ -94,7 +94,7 @@ public class CodeServiceImpl implements CodeService {
 
 	@Override
 	public void addCode(CodeItem item, String SID) {
-		item.setSaveDate(new Date());
+		item.setCreateDate(new Date());
 		item.setExpireDate(new Date());
 		item.setText(escapeChars(item.getText()));
 

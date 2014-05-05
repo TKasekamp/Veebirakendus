@@ -38,11 +38,11 @@
 					<div class="content" data-slug="panel1">
 						<!--SIIIIIAAAAAA K�IIIIBBBB TEKKKKKKSSSSTTTT-->
 						#foreach($result in $results)
-						<a href="source.html?id=$result.getCodeId()">
-							<h5>$result.getCodeName() - $result.getCreateDate()</h5>
-							<h6>$result.getUserName() - Language: $result.getCodeLanguage()</h6>
+						<a href="source.html?id=$result.getId()">
+							<h5>$result.getName() - $result.prettyCreateDate($timeZone)</h5>
+							<h6>$result.getUser().getName() - Language: $result.getLanguage()</h6>
 							<div>
-								$result.getTs_headline();
+								$result.getText();
 							</div>
 						</a>
 						#end

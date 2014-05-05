@@ -2,8 +2,8 @@ package com.codepump.service;
 
 import java.util.List;
 
+import com.codepump.data.CodeItem;
 import com.codepump.data.User;
-import com.codepump.tempobject.SearchItem;
 
 public interface SearchService {
 	/**
@@ -15,9 +15,9 @@ public interface SearchService {
 	 *            How many items to display
 	 * @param offset
 	 *            On which page you are I think
-	 * @return List of {@link SearchItem} as the results of this query
+	 * @return List of {@link CodeItem} as the results of this query
 	 */
-	public List<SearchItem> searchCode(String query, int limit, int offset);
+	public List<CodeItem> searchCode(String query, int limit, int offset);
 
 	/**
 	 * Searching when user is logged in. If user is admin returns texts from
@@ -31,8 +31,8 @@ public interface SearchService {
 	 *            On which page you are I think
 	 * @param User
 	 *            Logged in user with ID and adminStatus
-	 * @return List of {@link SearchItem} as the results of this query
+	 * @return List of {@link CodeItem} as the results of this query
 	 */
-	public List<SearchItem> searchCode(String query, int limit, int offset,
+	public List<CodeItem> searchCode(String query, int limit, int offset,
 			User user);
 }

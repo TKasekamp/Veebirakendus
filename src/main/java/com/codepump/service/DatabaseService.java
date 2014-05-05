@@ -9,7 +9,6 @@ import com.codepump.data.User;
 import com.codepump.service.impl.DatabaseServiceImpl;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
-import com.codepump.tempobject.SearchItem;
 import com.codepump.tempobject.UserLanguageStatisticsItem;
 import com.codepump.tempobject.UserStatisticsItem;
 import com.google.inject.ImplementedBy;
@@ -160,9 +159,9 @@ public interface DatabaseService {
 	 *            How many items to display
 	 * @param offset
 	 *            On which page you are I think
-	 * @return List of {@link SearchItem} as the results of this query
+	 * @return List of {@link CodeItem} as the results of this query
 	 */
-	public List<SearchItem> searchDatabasePublic(String query, int limit,
+	public List<CodeItem> searchDatabasePublic(String query, int limit,
 			int offset);
 
 	/**
@@ -177,9 +176,9 @@ public interface DatabaseService {
 	 *            On which page you are I think
 	 * @param userId
 	 *            Logged in user id
-	 * @return List of {@link SearchItem} as the results of this query
+	 * @return List of {@link CodeItem} as the results of this query
 	 */
-	public List<SearchItem> searchDatabaseUser(String query, int limit,
+	public List<CodeItem> searchDatabaseUser(String query, int limit,
 			int offset, int userId);
 
 	/**
@@ -192,9 +191,9 @@ public interface DatabaseService {
 	 *            How many items to display
 	 * @param offset
 	 *            On which page you are I think
-	 * @return List of {@link SearchItem} as the results of this query
+	 * @return List of {@link CodeItem} as the results of this query
 	 */
-	public List<SearchItem> searchDatabaseAdmin(String query, int limit,
+	public List<CodeItem> searchDatabaseAdmin(String query, int limit,
 			int offset);
 
 	/**
@@ -208,10 +207,13 @@ public interface DatabaseService {
 	 *             keys in the database.
 	 */
 	public void deleteUser(int userId) throws ConstraintViolationException;
-	
+
 	/**
 	 * Updates this user in the database.
-	 * @param user {@link User} to be updated
+	 * 
+	 * @param user
+	 *            {@link User} to be updated
 	 */
 	public void updateUser(User user);
+
 }

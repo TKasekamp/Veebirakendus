@@ -10,7 +10,6 @@ import com.codepump.service.CodeService;
 import com.codepump.service.SearchService;
 import com.codepump.service.UserService;
 import com.codepump.tempobject.MyStuffListItem;
-import com.codepump.tempobject.SearchItem;
 import com.codepump.tempobject.UserStatisticsItem;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -239,7 +238,7 @@ public class Velocity extends HttpServlet {
 	private void handleSearch(HttpServletRequest req, VelocityContext context,
 			User user) {
 		String query = req.getParameter("query");
-		List<SearchItem> dataset;
+		List<CodeItem> dataset;
 		// default parameters
 		int limit = 10;
 		int offset = 0;
