@@ -33,14 +33,33 @@ public class SignUpServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		User user = new User(req.getParameter("user"),
-				req.getParameter("email"), req.getParameter("password1"));
+		String name = req.getParameter("user");
+		String email = req.getParameter("email");
+		String password1 = req.getParameter("password1");
+		String password2 = req.getParameter("password2");
+		User user = new User(name, email, password1);
 
-		if (!user.getPassword().equals(req.getParameter("password2"))) {
+		if (!user.getPassword().equals(password2)) {
 			resp.sendRedirect("/signup.html?result=pass");
 			return;
 		}
-
+		
+		if (!name.matches("\\p{Lu}\\p{Ll}+((\\s|[-])\\p{Lu}\\p{Ll}+)*")){
+			resp.sendRedirect("/signup.html?result=badname");
+			return;
+		}
+		
+		if (!email.toLowerCase().matches("(\\p{Ll}|\\p{N})+[@](\\p{Ll}|\\p{N})+[.]\\p{Ll}+")){
+			resp.sendRedirect("/signup.html?result=bademail");
+			return;
+		}
+		
+		if (!password1.matches(".*\\p{Ll}+.*") || !password1.matches(".*\\p{Lu}+.*") || 
+				!password1.matches(".*\\p{N}+.*") || !password1.matches("(\\p{L}|\\p{N}){5,20}")){
+			resp.sendRedirect("/signup.html?result=badpassword");
+			return;
+		}
+		
 		String SID = userServ.addUser(user);
 		if (SID != null) {
 			System.out.println("Adding user");

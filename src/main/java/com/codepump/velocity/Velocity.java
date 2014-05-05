@@ -229,8 +229,15 @@ public class Velocity extends HttpServlet {
 				result = 1;
 			} else if (r.equals("userexists")) {
 				result = 2;
+			} else if (r.equals("badname")) {
+				result = 3;
+			} else if (r.equals("bademail")) {
+				result = 4;
+			} else if (r.equals("badpassword")) {
+				result = 5;
 			}
 		} catch (Exception e) {
+			
 		}
 		context.put("result", result);
 	}
