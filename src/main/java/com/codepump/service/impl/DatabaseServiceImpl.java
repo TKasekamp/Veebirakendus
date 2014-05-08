@@ -5,10 +5,8 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.search.FullTextQuery;
 import org.hibernate.search.FullTextSession;
 import org.hibernate.search.Search;
-import org.hibernate.search.query.dsl.QueryBuilder;
 
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
@@ -153,69 +151,6 @@ public class DatabaseServiceImpl implements DatabaseService {
 		session.save(user);
 	}
 
-	@Override
-	public List<CodeItem> searchDatabasePublic(String query, int limit,
-			int offset) {
-		session = sessionFactory.getCurrentSession();
-		FullTextSession fullTextSession = Search.getFullTextSession(session);
-		QueryBuilder qb = fullTextSession.getSearchFactory()
-				.buildQueryBuilder().forEntity(CodeItem.class).get();
-		org.apache.lucene.search.Query luceneQuery = qb.keyword()
-				.onFields("name", "text").matching(query).createQuery();
-		org.hibernate.Query hibernateQuery = fullTextSession
-				.createFullTextQuery(luceneQuery, CodeItem.class);
-		hibernateQuery.setFirstResult(offset);
-		hibernateQuery.setMaxResults(limit);
-		int intresultSize = ((FullTextQuery) hibernateQuery).getResultSize();
-		System.out.println(intresultSize);
-		// execute search
-		@SuppressWarnings("unchecked")
-		List<CodeItem> result = hibernateQuery.list();
-		return result;
-	}
-
-	@Override
-	public List<CodeItem> searchDatabaseUser(String query, int limit,
-			int offset, int userId) {
-		session = sessionFactory.getCurrentSession();
-		FullTextSession fullTextSession = Search.getFullTextSession(session);
-		QueryBuilder qb = fullTextSession.getSearchFactory()
-				.buildQueryBuilder().forEntity(CodeItem.class).get();
-		org.apache.lucene.search.Query luceneQuery = qb.keyword()
-				.onFields("name", "text").matching(query).createQuery();
-		org.hibernate.Query hibernateQuery = fullTextSession
-				.createFullTextQuery(luceneQuery, CodeItem.class);
-		hibernateQuery.setFirstResult(offset);
-		hibernateQuery.setMaxResults(limit);
-		// hibernateQuery.setParameter("user.getId()", userId);
-		int intresultSize = ((FullTextQuery) hibernateQuery).getResultSize();
-		System.out.println(intresultSize);
-		// execute search
-		@SuppressWarnings("unchecked")
-		List<CodeItem> result = hibernateQuery.list();
-		return result;
-	}
-
-	@Override
-	public List<CodeItem> searchDatabaseAdmin(String query, int limit,
-			int offset) {
-		session = sessionFactory.getCurrentSession();
-		FullTextSession fullTextSession = Search.getFullTextSession(session);
-		QueryBuilder qb = fullTextSession.getSearchFactory()
-				.buildQueryBuilder().forEntity(CodeItem.class).get();
-		org.apache.lucene.search.Query luceneQuery = qb.keyword()
-				.onFields("name", "text").matching(query).createQuery();
-		org.hibernate.Query hibernateQuery = fullTextSession
-				.createFullTextQuery(luceneQuery, CodeItem.class);
-		hibernateQuery.setFirstResult(offset);
-		hibernateQuery.setMaxResults(limit);
-		int intresultSize = ((FullTextQuery) hibernateQuery).getResultSize();
-		System.out.println(intresultSize);
-		// execute search
-		@SuppressWarnings("unchecked")
-		List<CodeItem> result = hibernateQuery.list();
-		return result;
-	}
 
 	@Override
 	public void deleteUser(int userId) {

@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.inject.Singleton;
 
+/**
+ * This servlet may be unneccesary
+ * @author TKasekamp
+ *
+ */
 @Singleton
 public class SearchServlet extends HttpServlet {
 
@@ -18,17 +23,11 @@ public class SearchServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		String query = req.getParameter("query");
-
-		// default parameters
-		int limit = 10;
-		int offset = 0;
-		try {
-			limit = Integer.parseInt(req.getParameter("limit"));
-			offset = Integer.parseInt(req.getParameter("offset"));
-		} catch (Exception e) {
-		}
-		String s = "query=" + query + "&limit=" + limit + "&offset=" + offset;
+		String searchString = req.getParameter("q") != null ? req.getParameter("q").trim() : "";
+		String sortField = req.getParameter("sortField") != null ? req.getParameter("sortField").trim() : "relevance";
+		int limit = req.getParameter("limit") != null ? Integer.parseInt(req.getParameter("limit")) : 10;
+		int firstResult = req.getParameter("firstResult") != null ? Integer.parseInt(req.getParameter("firstResult")) : 0;
+		String s = "q=" + searchString + "&sortField=" + sortField + "&limit=" + limit+ "&firstResult=" + firstResult;
 		// Redirecting
 		if (req.getParameter("nojs").equalsIgnoreCase("true")) {
 			resp.sendRedirect("/search.html?" + s + "&nojs=true");

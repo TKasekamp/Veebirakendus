@@ -150,53 +150,6 @@ public interface DatabaseService {
 	public void saveUser(User user);
 
 	/**
-	 * Searches the database for with specified query. Returns only Public
-	 * texts.
-	 * 
-	 * @param query
-	 *            Stuff to search for
-	 * @param limit
-	 *            How many items to display
-	 * @param offset
-	 *            On which page you are I think
-	 * @return List of {@link CodeItem} as the results of this query
-	 */
-	public List<CodeItem> searchDatabasePublic(String query, int limit,
-			int offset);
-
-	/**
-	 * Searches the database for with specified query. Returns only Public texts
-	 * or the ones which the user has created
-	 * 
-	 * @param query
-	 *            Stuff to search for
-	 * @param limit
-	 *            How many items to display
-	 * @param offset
-	 *            On which page you are I think
-	 * @param userId
-	 *            Logged in user id
-	 * @return List of {@link CodeItem} as the results of this query
-	 */
-	public List<CodeItem> searchDatabaseUser(String query, int limit,
-			int offset, int userId);
-
-	/**
-	 * Searches the database for with specified query. Returns all texts made by
-	 * all users.
-	 * 
-	 * @param query
-	 *            Stuff to search for
-	 * @param limit
-	 *            How many items to display
-	 * @param offset
-	 *            On which page you are I think
-	 * @return List of {@link CodeItem} as the results of this query
-	 */
-	public List<CodeItem> searchDatabaseAdmin(String query, int limit,
-			int offset);
-
-	/**
 	 * Deletes the user with this id from the database. To be safe all code made
 	 * by this user has to be deleted before deleteting user.
 	 * 

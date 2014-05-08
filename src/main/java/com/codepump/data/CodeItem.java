@@ -21,11 +21,13 @@ import org.apache.solr.analysis.LowerCaseFilterFactory;
 import org.apache.solr.analysis.SnowballPorterFilterFactory;
 import org.apache.solr.analysis.StandardTokenizerFactory;
 import org.apache.solr.analysis.WordDelimiterFilterFactory;
+import org.hibernate.search.annotations.Analyze;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.Boost;
 import org.hibernate.search.annotations.DateBridge;
 import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Fields;
 import org.hibernate.search.annotations.Indexed;
 import org.hibernate.search.annotations.Parameter;
 import org.hibernate.search.annotations.Resolution;
@@ -128,7 +130,10 @@ public class CodeItem implements java.io.Serializable {
 
 	@Analyzer(definition = "customanalyzer")
 	@Boost(value = 1.5f)
-	@Field
+	@Fields({
+		@Field,
+		@Field(name="sorting_name", analyze=Analyze.NO)
+	})
 	@Column(name = "CODE_NAME", nullable = false, length = 100)
 	public String getName() {
 		return name;

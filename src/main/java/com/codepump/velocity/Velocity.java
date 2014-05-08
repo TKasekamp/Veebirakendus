@@ -10,6 +10,7 @@ import com.codepump.service.CodeService;
 import com.codepump.service.SearchService;
 import com.codepump.service.UserService;
 import com.codepump.tempobject.MyStuffListItem;
+import com.codepump.tempobject.SearchContainer;
 import com.codepump.tempobject.UserStatisticsItem;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -244,25 +245,28 @@ public class Velocity extends HttpServlet {
 
 	private void handleSearch(HttpServletRequest req, VelocityContext context,
 			User user) {
-		String query = req.getParameter("query");
-		List<CodeItem> dataset;
+		SearchContainer dataset;
+		
 		// default parameters
-		int limit = 10;
-		int offset = 0;
-		try {
-			limit = Integer.parseInt(req.getParameter("limit"));
-			offset = Integer.parseInt(req.getParameter("offset"));
-		} catch (Exception e) {
-		}
+		String searchString = req.getParameter("q") != null ? req.getParameter("q").trim() : "";
+		String sortField = req.getParameter("sortField") != null ? req.getParameter("sortField").trim() : "relevance";
+		int limit = req.getParameter("limit") != null ? Integer.parseInt(req.getParameter("limit")) : 0;
+		int firstResult = req.getParameter("firstResult") != null ? Integer.parseInt(req.getParameter("firstResult")) : 0;
 
-		if (user != null) {
-			dataset = searchServ.searchCode(query, limit, offset, user);
-		} else {
-			dataset = searchServ.searchCode(query, limit, offset);
-		}
-
-		context.put("results", dataset);
-		context.put("recentList", codeServ.getRecentItems());
+		dataset = searchServ.searchDatabaseFuzzy(searchString, limit, firstResult, sortField);
+		
+		context.put("results", dataset.getCodeList());
+		context.put("recentList", codeServ.getRecentItems());	
+		
+		//Search stuff
+		context.put("firstResult", firstResult);
+		context.put("nextFirstResult", firstResult +limit);		
+		context.put("previousFirstResult", firstResult -limit);		
+		context.put("last", firstResult+limit < dataset.getResultSize() ? firstResult+limit : dataset.getResultSize());
+		context.put("searchResultSize", dataset.getResultSize());
+		context.put("q", searchString);
+		context.put("sortField", sortField);
+		context.put("limit", limit);
 	}
 
 }

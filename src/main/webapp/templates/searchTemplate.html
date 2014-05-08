@@ -1,0 +1,30 @@
+			<form method="post" action="/search">
+					<select id="sortField" name="sortField" id="sortField">
+							<option value="relevance" selected="selected">Relevance</option>
+							<option value="name">Name (A-Z)</option>
+							<option value="name-reverse">Name (Z-A)</option>
+					</select>
+				#if($nojs == true)
+					<input type="hidden" name="nojs" value="true">
+				#else
+					<input type="hidden" name="nojs" value="false">
+				#end
+					<input type="text" class="search" name="q" value=$q />
+				</form>
+			#set( $value = $firstResult + 1)
+			Results $value - $last of $searchResultSize
+
+			#if($firstResult > 0 )
+				#if($nojs == true)
+					<a href="search.html?q=$q&amp;sortField=$sortField&amp;firstResult=$previousFirstResult&amp;limit=$limit&amp;nojs=true">prev</a>
+				#else
+					<a href="search.html?q=$q&amp;sortField=$sortField&amp;firstResult=$previousFirstResult&amp;limit=$limit">prev</a>
+				#end			
+			#end
+			#if ($nextFirstResult < $searchResultSize)
+				#if($nojs == true)
+					<a href="search.html?q=$q&amp;sortField=$sortField&amp;firstResult=$nextFirstResult&amp;limit=$limit&amp;nojs=true">next</a>
+				#else
+					<a href="search.html?q=$q&amp;sortField=$sortField&amp;firstResult=$nextFirstResult&amp;limit=$limit">next</a>
+				#end
+			#end

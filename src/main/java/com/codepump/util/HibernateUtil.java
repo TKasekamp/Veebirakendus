@@ -56,7 +56,6 @@ public class HibernateUtil {
 						com.codepump.tempobject.MyStuffListItem.class)
 				.addAnnotatedClass(
 						com.codepump.tempobject.UserLanguageStatisticsItem.class)
-				.addAnnotatedClass(com.codepump.tempobject.SearchItem.class)
 				.setProperty("hibernate.dialect",
 						"org.hibernate.dialect.PostgreSQLDialect")
 				.setProperty("hibernate.connection.driver_class",

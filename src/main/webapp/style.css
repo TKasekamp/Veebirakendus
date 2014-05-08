@@ -74,6 +74,7 @@ div#searchObject{
 	border: solid;
 	border-width: 2px;
 	padding: 5px;
+	margin-bottom: 5px;
 }
 
 div#searchObject:hover{

@@ -10,13 +10,8 @@
 <title>CodePump #2</title>
 <link rel="stylesheet" href="newstatic.css" />
 <link rel="stylesheet" href="style.css" />
-#include('templates/scriptInclude.html')
-<script type="text/javascript" src="script/shCore.js"></script>
-<script type="text/javascript" src="script/shBrushJava.js"></script>
-<script type="text/javascript" src="script/shBrushPython.js"></script>
-<script type="text/javascript" src="script/shBrushCpp.js"></script>
-<script type="text/javascript" src="script/shBrushSql.js"></script>
-<script type="text/javascript" src="script/search.js"></script>
+
+
 </head>
 <body>
 	<!-- Top Bar -->
@@ -37,19 +32,17 @@
 		<!-- Text area -->
 		<div class="large-9 columns">
 			<h3 id="statistics">Search</h3>
-			
-
+			#parse('templates/searchTemplate.html')			
 			<div class="section-container tabs" data-section>
 				<section class="section">
 					<div class="content" data-slug="panel1">
-						<!--SIIIIIAAAAAA K�IIIIBBBB TEKKKKKKSSSSTTTT-->
 						#foreach($result in $results)
 						<a id="searchObject" href="source.html?id=$result.getId()">
 							<div id="searchObject">
 								<h5>$result.getName() - $result.prettyCreateDate($timeZone)</h5>
 								<h6>$result.getUser().getName() - Language: $result.getLanguage()</h6>
 								<div>
-									<pre class="brush: $result.getLanguage;toolbar:'false';gutter:'false';" id="content">$result.getText()</pre>
+									<pre class="brush:$result.getLanguage;toolbar:'false';gutter:'false';" id="content">$result.getText()</pre>
 								</div>
 							</div>
 						</a>
