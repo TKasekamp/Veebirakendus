@@ -11,6 +11,12 @@
 <link rel="stylesheet" href="newstatic.css" />
 <link rel="stylesheet" href="style.css" />
 #include('templates/scriptInclude.html')
+<script type="text/javascript" src="script/shCore.js"></script>
+<script type="text/javascript" src="script/shBrushJava.js"></script>
+<script type="text/javascript" src="script/shBrushPython.js"></script>
+<script type="text/javascript" src="script/shBrushCpp.js"></script>
+<script type="text/javascript" src="script/shBrushSql.js"></script>
+<script type="text/javascript" src="script/search.js"></script>
 </head>
 <body>
 	<!-- Top Bar -->
@@ -43,7 +49,7 @@
 								<h5>$result.getName() - $result.prettyCreateDate($timeZone)</h5>
 								<h6>$result.getUser().getName() - Language: $result.getLanguage()</h6>
 								<div>
-									$result.getText();
+									<pre class="brush: $result.getLanguage;toolbar:'false';gutter:'false';" id="content">$result.getText()</pre>
 								</div>
 							</div>
 						</a>

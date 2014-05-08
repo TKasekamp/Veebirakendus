@@ -8,6 +8,5 @@ package com.codepump.controller;
  */
 public class ServerController {
 	public static final boolean USE_DATABASE = true; // TRUE WHEN DEPLOYING
-	public static final boolean AUTOMATED_TESTING = false;
-	
+	public static final boolean AUTOMATED_TESTING = false;	
 }
