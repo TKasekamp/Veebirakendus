@@ -69,3 +69,19 @@ button#gLoginButton {
 	background-color: #DF0101;
 	margin-bottom: 5px;
 }
+
+div#searchObject{
+	border: solid;
+	border-width: 2px;
+	padding: 5px;
+}
+
+div#searchObject:hover{
+	border-color: #007BA1;
+	padding: 5px;
+}
+
+a#searchObject{
+	color: #000000;
+}
+

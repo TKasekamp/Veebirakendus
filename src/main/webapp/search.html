@@ -38,11 +38,13 @@
 					<div class="content" data-slug="panel1">
 						<!--SIIIIIAAAAAA K�IIIIBBBB TEKKKKKKSSSSTTTT-->
 						#foreach($result in $results)
-						<a href="source.html?id=$result.getId()">
-							<h5>$result.getName() - $result.prettyCreateDate($timeZone)</h5>
-							<h6>$result.getUser().getName() - Language: $result.getLanguage()</h6>
-							<div>
-								$result.getText();
+						<a id="searchObject" href="source.html?id=$result.getId()">
+							<div id="searchObject">
+								<h5>$result.getName() - $result.prettyCreateDate($timeZone)</h5>
+								<h6>$result.getUser().getName() - Language: $result.getLanguage()</h6>
+								<div>
+									$result.getText();
+								</div>
 							</div>
 						</a>
 						#end
