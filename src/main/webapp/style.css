@@ -70,30 +70,41 @@ button#gLoginButton {
 	margin-bottom: 5px;
 }
 
-div#searchObject{
+div.searchObject{
 	border: solid;
 	border-width: 2px;
 	padding: 5px;
 	margin-bottom: 5px;
 }
 
-div#searchObject:hover{
+div.searchObject:hover{
 	border-color: #007BA1;
-	padding: 5px;
 }
 
-a#searchObject{
+a.searchObject{
 	color: #000000;
 }
 
-div#searchButton{
+div.searchButton{
+	display: inline-block;
 	border: solid;
 	border-width: 2px;
 	padding: 3px;
+	margin-bottom: 5px;
 }
 
-div#searchObject:hover{
+div.searchButton:hover{
 	border-color: #007BA1;
 	padding: 3px;
 }
 
+select.searchParameters{
+	margin: 2px;
+	width: 48%;
+	float: left;
+}
+input.searchParameters{
+	margin: 2px;
+	width: 48%;
+	float: left;
+}

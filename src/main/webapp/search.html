@@ -36,12 +36,12 @@
 				<section class="section">
 					<div class="content" data-slug="panel1">
 						#foreach($result in $results)
-						<a id="searchObject" href="source.html?id=$result.getId()">
-							<div id="searchObject">
+						<a class="searchObject" href="source.html?id=$result.getId()">
+							<div class="searchObject">
 								<h5>$result.getName() - $result.prettyCreateDate($timeZone)</h5>
 								<h6>$result.getUser().getName() - Language: $result.getLanguage()</h6>
 								<div>
-									<pre class="brush:$result.getLanguage;toolbar:'false';gutter:'false';" id="content">$result.getText()</pre>
+									<pre class="brush:$result.getLanguage;toolbar:'false';gutter:'false';">$result.getText()</pre>
 								</div>
 							</div>
 						</a>

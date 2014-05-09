@@ -1,5 +1,8 @@
-			<form method="post" action="/search">
-					<select id="sortField" name="sortField" id="sortField">
+
+			<div>	
+				<form method="post" action="/search">
+					<input  type="text" class="search searchParameters" name="q" value=$q />
+					<select class="searchParameters" id="sortField" name="sortField">
 							<option value="relevance" selected="selected">Relevance</option>
 							<option value="name">Name (A-Z)</option>
 							<option value="name-reverse">Name (Z-A)</option>
@@ -9,21 +12,22 @@
 				#else
 					<input type="hidden" name="nojs" value="false">
 				#end
-					<input type="text" class="search" name="q" value=$q />
 				</form>
-			#set( $value = $firstResult + 1)
+			</div>
+			<div>
+			#set($value = $firstResult + 1)
 			Results $value - $last of $searchResultSize
-
+			
 			#if($firstResult > 0 )
 				#if($nojs == true)
-					<a href="search.html?q=$q&amp;sortField=$sortField&amp;firstResult=$previousFirstResult&amp;limit=$limit&amp;nojs=true">
-						<div id="searchButton">
+					<a class="searchObject" href="search.html?q=$q&amp;sortField=$sortField&amp;firstResult=$previousFirstResult&amp;limit=$limit&amp;nojs=true">
+						<div class="searchButton">
 							&lt; prev
 						</div>
 					</a>
 				#else
-					<a href="search.html?q=$q&amp;sortField=$sortField&amp;firstResult=$previousFirstResult&amp;limit=$limit">
-						<div id="searchButton">
+					<a class="searchObject" href="search.html?q=$q&amp;sortField=$sortField&amp;firstResult=$previousFirstResult&amp;limit=$limit">
+						<div class="searchButton">
 						&lt; prev
 						</div>
 					</a>
@@ -31,16 +35,17 @@
 			#end
 			#if ($nextFirstResult < $searchResultSize)
 				#if($nojs == true)
-					<a href="search.html?q=$q&amp;sortField=$sortField&amp;firstResult=$nextFirstResult&amp;limit=$limit&amp;nojs=true">
-						<div id="searchButton">
+					<a class="searchObject" href="search.html?q=$q&amp;sortField=$sortField&amp;firstResult=$nextFirstResult&amp;limit=$limit&amp;nojs=true">
+						<div class="searchButton">
 							next &gt;
 						</div>
 					</a>
 				#else
-					<a href="search.html?q=$q&amp;sortField=$sortField&amp;firstResult=$nextFirstResult&amp;limit=$limit">
-						<div id="searchButton">
+					<a class="searchObject" href="search.html?q=$q&amp;sortField=$sortField&amp;firstResult=$nextFirstResult&amp;limit=$limit">
+						<div class="searchButton">
 							next &gt;
 						</div>
 					</a>
 				#end
 			#end
+			</div>
