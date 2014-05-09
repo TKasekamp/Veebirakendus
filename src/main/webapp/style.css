@@ -86,3 +86,14 @@ a#searchObject{
 	color: #000000;
 }
 
+div#searchButton{
+	border: solid;
+	border-width: 2px;
+	padding: 3px;
+}
+
+div#searchObject:hover{
+	border-color: #007BA1;
+	padding: 3px;
+}
+
