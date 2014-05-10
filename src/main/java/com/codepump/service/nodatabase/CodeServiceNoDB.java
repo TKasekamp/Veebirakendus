@@ -66,7 +66,8 @@ public class CodeServiceNoDB implements CodeService {
 	}
 
 	@Override
-	public void addCode(CodeItem item, String SID) {
+	public Boolean addCode(CodeItem item, String SID) {
+		if(isValid(item)) {
 		item.setCreateDate(new Date());
 		item.setExpireDate(new Date());
 		item.setText(escapeChars(item.getText()));
@@ -77,6 +78,9 @@ public class CodeServiceNoDB implements CodeService {
 		item.setId(codeCounter);
 		items.put(codeCounter, item);
 		codeCounter++;
+		return true;
+		} else 
+			return false;
 
 	}
 
@@ -136,5 +140,16 @@ public class CodeServiceNoDB implements CodeService {
 		}
 		return out;
 	}
-
+	
+	@Override
+	public Boolean isValid(CodeItem item) {
+		String name = item.getName();
+		String text = item.getText();
+		name.replaceAll("\\s", "");
+		text.replaceAll("\\s", "");
+		if (name.length() < 3 || text.length() < 3)
+			return false;
+		else
+			return true;
+	}
 }

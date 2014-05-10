@@ -93,15 +93,29 @@ public class CodeServiceImpl implements CodeService {
 	}
 
 	@Override
-	public void addCode(CodeItem item, String SID) {
-		item.setCreateDate(new Date());
-		item.setExpireDate(new Date());
-		item.setText(escapeChars(item.getText()));
+	public Boolean addCode(CodeItem item, String SID) {
+		if (isValid(item)) {
+			item.setCreateDate(new Date());
+			item.setExpireDate(new Date());
+			item.setText(escapeChars(item.getText()));
+			User u = new User();
+			u.setId(authServ.getUserIdWithSID(SID));
+			item.setUser(u);
+			dbServ.saveCodeItem(item);
+			return true;
+		} else
+			return false;
+	}
 
-		User u = new User();
-		u.setId(authServ.getUserIdWithSID(SID));
-		item.setUser(u);
-		dbServ.saveCodeItem(item);
-
+	@Override
+	public Boolean isValid(CodeItem item) {
+		String name = item.getName();
+		String text = item.getText();
+		name.replaceAll("\\s", "");
+		text.replaceAll("\\s", "");
+		if (name.length() < 3 || text.length() < 3)
+			return false;
+		else
+			return true;
 	}
 }

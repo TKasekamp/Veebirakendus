@@ -79,10 +79,12 @@ public class DataServlet extends HttpServlet {
 						"https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 				return;
 			} else {
-				codeServ.addCode(item, SID);
+				Boolean codeAdded = codeServ.addCode(item, SID);
 
-				resp.setHeader("Content-Type", "application/json");
-				resp.getWriter().write(item.JsonID());
+				if (codeAdded) {
+					resp.setHeader("Content-Type", "application/json");
+					resp.getWriter().write(item.JsonID());
+				}
 			}
 
 		} catch (JsonParseException ex) {
@@ -102,16 +104,20 @@ public class DataServlet extends HttpServlet {
 			resp.sendRedirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 			return;
 		} else {
-			codeServ.addCode(item, SID);
-		}
-		// TODO some kind of error reporting
+			Boolean codeAdded = codeServ.addCode(item, SID);
+			if (codeAdded) {
+				// Redirecting
+				if (req.getParameter("nojs").equalsIgnoreCase("true")) {
+					resp.sendRedirect("/source.html?id=" + item.getId()
+							+ "&nojs=true");
+					return;
+				} else {
+					resp.sendRedirect("/source.html?id=" + item.getId());
+				}
+			} else {
+				// TODO some kind of error reporting
 
-		// Redirecting
-		if (req.getParameter("nojs").equalsIgnoreCase("true")) {
-			resp.sendRedirect("/source.html?id=" + item.getId() + "&nojs=true");
-			return;
-		} else {
-			resp.sendRedirect("/source.html?id=" + item.getId());
+			}
 		}
 
 	}

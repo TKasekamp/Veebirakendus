@@ -26,8 +26,9 @@ public interface CodeService {
 	 *            CodeItem
 	 * @param SID
 	 *            Cookie value
+	 * @return
 	 */
-	public void addCode(CodeItem item, String SID);
+	public Boolean addCode(CodeItem item, String SID);
 
 	/**
 	 * Edits the text of the item with this id in the database.<br>
@@ -63,5 +64,7 @@ public interface CodeService {
 	 *            of code to be deleted.
 	 */
 	public void deleteCode(int id);
+
+	public Boolean isValid(CodeItem item);
 
 }
