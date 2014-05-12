@@ -111,8 +111,8 @@ public class CodeServiceImpl implements CodeService {
 	public Boolean isValid(CodeItem item) {
 		String name = item.getName();
 		String text = item.getText();
-		name.replaceAll("\\s", "");
-		text.replaceAll("\\s", "");
+		name = name.replaceAll("\\s", "");
+		text = text.replaceAll("\\s", "");
 		if (name.length() < 3 || text.length() < 3)
 			return false;
 		else
