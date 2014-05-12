@@ -82,6 +82,7 @@ function edit(){
 };
 
 $(function() {
+	window.localStorage.clear();
 	evaluate();
 	SyntaxHighlighter.highlight();
 	$("#edit").click(function(){

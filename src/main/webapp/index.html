@@ -12,7 +12,6 @@
 <link rel="stylesheet" href="style.css" />
 #include('templates/scriptInclude.html')
 <script src="script/enableTab.js" type="text/javascript"></script>
-<script src="script/codeSubmit.js" type="text/javascript"></script>
 <script src="script/cacheCode.js"></script>
 
 </head>
@@ -31,9 +30,9 @@
 	<!-- End Banner -->
 
 	<!-- Main Page Content and Sidebar -->
-	#if($nojs == true)
-	<form method="post" action="/data/nojs">
-	#end
+<!-- 	#if($nojs == true) -->
+<!-- 	<form method="post" action="/data/nojs"> -->
+<!-- 	#end -->
 	<div class="row">
 
 		<!-- Text area -->
@@ -45,11 +44,18 @@
 
 			<div class="section-container tabs" data-section>
 				<section class="section">
-				#if($nojs == true)
-				#include('templates/codeSubmit_nojs.html')
-				#else
-				#include('templates/codeSubmit.html')
-				#end
+				<form method="post" action="/data/nojs">
+ 					## Avoiding NullPointer when processing
+ 					#if($nojs == true)
+ 					<input type="hidden" name="nojs" value="true">
+ 					#else
+ 					<input type="hidden" name="nojs" value="false">
+ 					#end
+					<div class="content" id="stuff" data-slug="panel1">
+						<input type="text" name="title" id="codename" placeholder="Untitled" />
+						<textarea rows="20" name="text" id="codearea" placeholder="Code here..."></textarea>
+						<button id="submit1" type="submit" class="radius button">Submit</button>
+					</div>
 				</section>
 			</div>
 			<div id="browsing">
