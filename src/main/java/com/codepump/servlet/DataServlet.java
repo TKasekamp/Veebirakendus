@@ -13,19 +13,17 @@ import com.codepump.deserializer.CodeItemDeserializer;
 import com.codepump.service.CodeService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParseException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 /**
- * Handles code creation. Code made with JS go to /data/ajax, NOJS goes to
- * /data/nojs. Updates websocket after code creation.
+ * Handles code creation. Updates websocket after code creation.
  * 
  * @author TKasekamp
  * 
  */
 
-// @WebServlet(value = "/data/*")
+// @WebServlet(value = "/data")
 @Singleton
 public class DataServlet extends HttpServlet {
 
@@ -52,50 +50,6 @@ public class DataServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String SID = getCookies(req);
-		String uri = req.getRequestURI();
-		if (uri.equals("/data/ajax")) {
-			handleCodePostAjax(req, resp, SID);
-		} else if (uri.equals("/data/nojs")) {
-			handleCodePostNoJs(req, resp, SID);
-		}
-
-		// Websocket announcement
-		try {
-			RecentSocketController.find(req.getServletContext())
-					.loadMostRecent();
-		} catch (NullPointerException e) {
-			System.out
-					.println("Tartu, we have a problem. Actually no twats are looking at our websockets.");
-		}
-	}
-
-	private void handleCodePostAjax(HttpServletRequest req,
-			HttpServletResponse resp, String SID) throws ServletException,
-			IOException {
-		try {
-			CodeItem item = gsonPost.fromJson(req.getReader(), CodeItem.class);
-			if (item.getName().toLowerCase().startsWith("rick")) {
-				resp.getWriter().write(
-						"https://www.youtube.com/watch?v=dQw4w9WgXcQ");
-				return;
-			} else {
-				Boolean codeAdded = codeServ.addCode(item, SID);
-
-				if (codeAdded) {
-					resp.setHeader("Content-Type", "application/json");
-					resp.getWriter().write(item.JsonID());
-				}
-			}
-
-		} catch (JsonParseException ex) {
-			System.err.println(ex);
-			resp.sendError(HttpServletResponse.SC_BAD_REQUEST, ex.getMessage());
-		}
-	}
-
-	private void handleCodePostNoJs(HttpServletRequest req,
-			HttpServletResponse resp, String SID) throws ServletException,
-			IOException {
 		CodeItem item = new CodeItem(req.getParameter("title"),
 				req.getParameter("text"), req.getParameter("language"),
 				req.getParameter("privacy"));
@@ -120,6 +74,14 @@ public class DataServlet extends HttpServlet {
 			}
 		}
 
+		// Websocket announcement
+		try {
+			RecentSocketController.find(req.getServletContext())
+					.loadMostRecent();
+		} catch (NullPointerException e) {
+			System.out
+					.println("Tartu, we have a problem. Actually no twats are looking at our websockets.");
+		}
 	}
 
 	private String getCookies(HttpServletRequest req) {

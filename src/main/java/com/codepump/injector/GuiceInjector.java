@@ -79,7 +79,7 @@ public class GuiceInjector extends GuiceServletContextListener {
 				}
 				// This mapping is not pretty, but how to do it better?
 				serve("*.html").with(Velocity.class);
-				serve("/data/*").with(DataServlet.class);
+				serve("/data").with(DataServlet.class);
 				serve("/edit/*").with(EditServlet.class);
 				serve("/login/*").with(LoginServlet.class);
 				serve("/logout").with(LogOutServlet.class);
