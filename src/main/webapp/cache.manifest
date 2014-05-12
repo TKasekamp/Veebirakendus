@@ -1,0 +1,17 @@
+﻿CACHE MANIFEST
+## REV 1
+
+/index.html
+/style.css
+/newstatic.css
+/shCore.css
+/shThemeDefault.css
+/banner.svg
+/400x280.gif
+
+FALLBACK:
+/ /offline.html
+
+NETWORK:
+*
+
