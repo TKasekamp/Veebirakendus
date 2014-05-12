@@ -39,6 +39,9 @@
 			<h3>Pumping code for your pleasure!</h3>
 			<p>Paste the text here and share it with people you call your
 				friends.</p>
+			#if($result == "error")
+			<p class='error'>The title and text must be at least 3 characters long!</p>
+			#end
 
 			<div class="section-container tabs" data-section>
 				<section class="section">

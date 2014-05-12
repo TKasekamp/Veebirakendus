@@ -98,6 +98,10 @@ div.searchButton:hover{
 	padding: 3px;
 }
 
+p.error{
+	color:red;
+}
+
 select.searchParameters{
 	margin: 2px;
 	width: 48%;

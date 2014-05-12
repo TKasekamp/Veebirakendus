@@ -137,6 +137,8 @@ public class Velocity extends HttpServlet {
 			handleSignup(req, context);
 		} else if (uri.equals("/source.html")) {
 			handleSource(req, context, user);
+		} else if (uri.equals("/index.html")) {
+			handleIndex(req, context);
 		}
 
 		context.put("timeZone", timeZone);
@@ -267,6 +269,18 @@ public class Velocity extends HttpServlet {
 		context.put("q", searchString);
 		context.put("sortField", sortField);
 		context.put("limit", limit);
+	}
+	
+	private void handleIndex(HttpServletRequest req, VelocityContext context) {
+		String result = "";
+		try {
+			String r = req.getParameter("result");
+			if (r.equals("error"))
+				result = "error";
+		} catch (Exception e) {
+			
+		}
+		context.put("result", result);
 	}
 
 }

@@ -36,20 +36,22 @@
 				<section class="section">
 					<form action="/signup" method="post">
 						<h5 class="title" id="cAccount">Create account</h5>
+						<p class='error'>
 						#if($result == 1)
-						<p>Passwords do not match!</p>
+						Passwords do not match!
 						#elseif($result == 2)
-						<p>This email already in use!</p>
+						This email already in use!
 						#elseif($result == 3)
-						<p>Your name is not in an accepted format! It can contain only letters, spaces and hyphens. 
-						It also has to begin with a capital letter.</p>
+						Your name is not in an accepted format! It can contain only letters, spaces and hyphens. 
+						It also has to begin with a capital letter.
 						#elseif($result == 4)
-						<p>Your email is not in an accepted format! It can contain only letters and numbers.</p>
+						Your email is not in an accepted format! It can contain only letters and numbers.
 						#elseif($result == 5)
-						<p>Your password is not in an accepted format! It can contain only letters and numbers. 
+						Your password is not in an accepted format! It can contain only letters and numbers. 
 						It has to contain of at least one upper case letter, one lower case letter and one number. 
-						The length of the password must be between 5 and 20 characters.</p>
+						The length of the password must be between 5 and 20 characters.
 						#end
+						</p>
 						<div class="content" data-slug="panel1">
 							<div class="row collapse">
 								<div class="large-2 columns">

@@ -53,7 +53,7 @@ public class DataServlet extends HttpServlet {
 		CodeItem item = new CodeItem(req.getParameter("title"),
 				req.getParameter("text"), req.getParameter("language"),
 				req.getParameter("privacy"));
-
+		
 		if (item.getName().toLowerCase().startsWith("rick")) {
 			resp.sendRedirect("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
 			return;
@@ -70,7 +70,8 @@ public class DataServlet extends HttpServlet {
 				}
 			} else {
 				// TODO some kind of error reporting
-
+				resp.sendRedirect("/index.html?result=error");
+				return;
 			}
 		}
 
