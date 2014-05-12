@@ -42,9 +42,12 @@
 			<div class="section-container tabs" data-section>
 				<section class="section">
 					<form method="post" action="/data">
-						## Avoiding NullPointer when processing #if($nojs == true) <input
-							type="hidden" name="nojs" value="true"> #else <input
-							type="hidden" name="nojs" value="false"> #end
+						## Avoiding NullPointer when processing 
+						#if($nojs == true) 
+						<input type="hidden" name="nojs" value="true"> 
+						#else 
+						<input type="hidden" name="nojs" value="false"> 
+						#end
 						<div class="content" id="stuff" data-slug="panel1">
 							<input type="text" name="title" id="codename"
 								placeholder="Untitled" />
@@ -61,7 +64,9 @@
 		</div>
 
 		<!-- End text area -->
-		#if($localDB == true) #include('templates/secondary.html') #end
+		#if($localDB == true) 
+		#include('templates/secondary.html') 
+		#end
 		<!-- Sidebar -->
 
 
@@ -95,9 +100,6 @@
 		</div>
 		<!-- End Sidebar -->
 	</div>
-	#if($nojs == true)
-	</form>
-	#end
 
 	<!-- End Main Content and Sidebar -->
 
