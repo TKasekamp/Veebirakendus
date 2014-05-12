@@ -30,6 +30,7 @@
 	<!-- End Banner -->
 
 	<!-- Main Page Content and Sidebar -->
+	<form method="post" action="/data">
 	<div class="row">
 
 		<!-- Text area -->
@@ -41,7 +42,6 @@
 
 			<div class="section-container tabs" data-section>
 				<section class="section">
-					<form method="post" action="/data">
 						## Avoiding NullPointer when processing 
 						#if($nojs == true) 
 						<input type="hidden" name="nojs" value="true"> 
@@ -55,7 +55,6 @@
 								placeholder="Code here..."></textarea>
 							<button id="submit1" type="submit" class="radius button">Submit</button>
 						</div>
-					</form>
 				</section>
 			</div>
 			<div id="browsing">
@@ -74,7 +73,8 @@
 			<h5>Options</h5>
 			<div class="row collapse">
 				<div class="large-10 columns">
-					<label>Source language</label> <select name="language"
+					<label>Source language</label> 
+					<select name="language"
 						class="selector" id="language">
 						<option value="Java">Java</option>
 						<option value="C/C++">C/C++</option>
@@ -85,7 +85,8 @@
 			</div>
 			<div class="row collapse">
 				<div class="large-10 columns">
-					<label>Privacy</label> <select name="privacy" class="selector"
+					<label>Privacy</label> 
+					<select name="privacy" class="selector"
 						id="privacy">
 						<option value="Public">Public</option>
 						<option value="Private">Private</option>
@@ -100,7 +101,7 @@
 		</div>
 		<!-- End Sidebar -->
 	</div>
-
+	</form>
 	<!-- End Main Content and Sidebar -->
 
 
