@@ -1,14 +1,14 @@
 CACHE MANIFEST
 ## Rev 1
-## Time: ~2014-05-13 12:51:24.178~
+## Time: ~2014-05-13 18:09:42.712~
 
-/index.html
 /style.css
 /newstatic.css
 /shCore.css
 /shThemeDefault.css
 /banner.svg
 /400x280.gif
+/script/offline.js
 
 FALLBACK:
 / /offline.html
