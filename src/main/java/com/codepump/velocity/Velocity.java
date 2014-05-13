@@ -4,6 +4,7 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
+import com.codepump.controller.CacheController;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.service.CodeService;
@@ -43,6 +44,7 @@ public class Velocity extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		engine = createTemplateEngine(config.getServletContext());
+		CacheController.updateCacheManifest();
 	}
 
 	@Inject
