@@ -1,3 +1,15 @@
+	<div class="mobile-menu" id="closed">
+		<p><h1 class="mobile-menu-obj">Menu</h1></p>
+		<hr />
+		#if($haveUser == true)
+		<a href="/logout" class="mobile-menu-obj"><p class="mobile-menu-obj">Log out ( $user.getName() )</p></a>
+		#else
+		<a href="login.html" class="mobile-menu-obj"><p class="mobile-menu-obj">Login</p></a>
+		#end
+		<a href="mystuff.html" class="mobile-menu-obj"><p class="mobile-menu-obj">My Stuff</p></a>
+		<a href="browse.html" class="mobile-menu-obj"><p class="mobile-menu-obj">Browse code</p></a>
+		<a href="signup.html" class="mobile-menu-obj"><p class="mobile-menu-obj">Sign up</p></a>
+	</div>
 	<nav class="top-bar" data-topbar>
 		<ul class="title-area">
 			<!-- Title Area -->
@@ -6,7 +18,7 @@
 					<a href="index.html"> CodePump #2 </a>
 				</h1>
 			</li>
-			<li class="toggle-topbar menu-icon"><a href="#"><span>menu</span></a></li>
+			<li class="toggle-topbar menu-icon"><a href="#" id="mobile"><span>menu</span></a></li>
 		</ul>
 
 		<section class="top-bar-section">

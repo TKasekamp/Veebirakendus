@@ -112,3 +112,58 @@ input.searchParameters{
 	width: 48%;
 	float: left;
 }
+
+.mobile-menu{
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+	background-color: #fff;
+	position: absolute;
+	z-index: 1;
+	width:200px;
+	height: 100%;
+}
+
+p.mobile-menu-obj{
+	text-align: center;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+p.mobile-menu-obj:hover{
+	background-color: #000;
+}
+
+h1.mobile-menu-obj{
+	text-align: center;
+}
+
+a.mobile-menu-obj{
+	text-decoration: none;
+	color: #000;
+}
+
+a.mobile-menu-obj:hover{
+	color: #fff;
+}
+
+
+#closed{
+	left:-200px;
+	top:0px;
+	-webkit-transition: all 0.5s ease-in;
+       -moz-transition: all 0.5s ease-in;
+        -ms-transition: all 0.5s ease-in;
+         -o-transition: all 0.5s ease-in;
+            transition: all 0.5s ease-in;
+}
+
+#open{
+	left:0px;
+	-webkit-transition: all 0.5s ease-out;
+       -moz-transition: all 0.5s ease-out;
+        -ms-transition: all 0.5s ease-out;
+         -o-transition: all 0.5s ease-out;
+            transition: all 0.5s ease-out;
+}
+
+
+
