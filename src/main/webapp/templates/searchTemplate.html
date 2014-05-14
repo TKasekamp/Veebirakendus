@@ -1,5 +1,5 @@
 
-			<div>	
+			<div id="search">	
 				<form method="post" action="/search">
 					<input  type="text" class="search searchParameters" name="q" value=$q />
 					<select class="searchParameters" id="sortField" name="sortField">
@@ -14,7 +14,7 @@
 				#end
 				</form>
 			</div>
-			<div>
+			<div id="result">
 			#set($value = $firstResult + 1)
 			Results $value - $last of $searchResultSize
 			

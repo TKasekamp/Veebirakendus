@@ -165,5 +165,23 @@ a.mobile-menu-obj:hover{
             transition: all 0.5s ease-out;
 }
 
+button#edit, button#delete {
+	margin-right: 10px;
+	float:left;
+}
 
+div#float{
+	width: 500px;
+	height: 70px;
+}
+
+div#search{
+	height: 40px;
+	width: 100%;
+}
+
+div#result{
+	text-align:left; 
+	margin-top:5px;
+}
 

@@ -41,8 +41,9 @@
 		<!-- Text area -->
 
 
-		<h3 id="name">$code.getName()</h3>
+		<h3 id="name">$code.getName() ($code.getUser().getName())</h3>
 		<h4>created on $code.prettyCreateDate($timeZone)</h4>
+		<h6>Language: $code.getLanguage()</h6>
 		<div class="section-container tabs" data-section>
 			<section class="section">
 				<div class="content" data-slug="panel1">
@@ -50,7 +51,7 @@
 				</div>
 			</section>
 		</div>
-	
+		<div id="float">
 		#if(($canChange == true) && ($nojs == false))
 		<button type="button" class="radius button" id="edit">Edit</button>
 		#end
@@ -60,8 +61,8 @@
 		<input type="hidden" name="nojs" value="$nojs">
 		<button type="submit" class="radius button" id="delete">Delete</button>
 		</form>
-		<p> Dude, pressing delete will delete this code. For real.</p>
 		#end
+		</div>
 	</div>
 		<!-- End text area -->
 		#if($localDB == true)
