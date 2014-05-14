@@ -11,7 +11,7 @@ import com.codepump.service.CodeService;
 import com.codepump.service.SearchService;
 import com.codepump.service.UserService;
 import com.codepump.tempobject.MyStuffListItem;
-import com.codepump.tempobject.SearchContainer;
+import com.codepump.tempobject.ResultContainer;
 import com.codepump.tempobject.UserStatisticsItem;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -25,7 +25,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 
 // process all requested html files with velocity templating engine
 // https://velocity.apache.org/engine/releases/velocity-1.7
@@ -165,8 +164,22 @@ public class Velocity extends HttpServlet {
 	}
 
 	private void handleBrowse(HttpServletRequest req, VelocityContext context) {
-		context.put("codeList", codeServ.getAllCodeItems());
+		// default parameters
+		int limit = req.getParameter("limit") != null ? Integer.parseInt(req.getParameter("limit")) : 20;
+		int firstResult = req.getParameter("firstResult") != null ? Integer.parseInt(req.getParameter("firstResult")) : 0;
+		
+		ResultContainer<CodeItem> codeList = codeServ.getAllCodeItems(firstResult, limit);
+		
+		context.put("codeList", codeList.getCodeList());
 		context.put("recentList", codeServ.getRecentItems());
+		
+		context.put("firstResult", firstResult);
+		context.put("nextFirstResult", firstResult +limit);		
+		context.put("previousFirstResult", firstResult -limit);		
+		context.put("last", firstResult+limit < codeList.getResultSize() ? firstResult+limit : codeList.getResultSize());
+		context.put("resultSize", codeList.getResultSize());
+		context.put("limit", limit);
+		System.out.println(codeList.getResultSize());
 
 	}
 
@@ -200,10 +213,22 @@ public class Velocity extends HttpServlet {
 	private void handleMyStuff(HttpServletRequest req, VelocityContext context,
 			boolean haveUser, String SID) {
 		if (haveUser) {
+			// default parameters
+			int limit = req.getParameter("limit") != null ? Integer.parseInt(req.getParameter("limit")) : 20;
+			int firstResult = req.getParameter("firstResult") != null ? Integer.parseInt(req.getParameter("firstResult")) : 0;
+			
 			UserStatisticsItem stat = userServ.generateUserStatistics(SID);
-			List<MyStuffListItem> allContent = codeServ.getAllUserItems(SID);
+			ResultContainer<MyStuffListItem> allContent = codeServ.getAllUserItems(SID, firstResult, limit);
+			System.out.println(allContent.getResultSize());
 			context.put("stat", stat);
-			context.put("myStuffList", allContent);
+			context.put("myStuffList", allContent.getCodeList());
+			
+			context.put("firstResult", firstResult);
+			context.put("nextFirstResult", firstResult +limit);		
+			context.put("previousFirstResult", firstResult -limit);		
+			context.put("last", firstResult+limit < allContent.getResultSize() ? firstResult+limit : allContent.getResultSize());
+			context.put("resultSize", allContent.getResultSize());
+			context.put("limit", limit);
 
 		}
 
@@ -249,7 +274,7 @@ public class Velocity extends HttpServlet {
 
 	private void handleSearch(HttpServletRequest req, VelocityContext context,
 			User user) {
-		SearchContainer dataset;
+		ResultContainer<CodeItem> dataset;
 		
 		// default parameters
 		String searchString = req.getParameter("q") != null ? req.getParameter("q").trim() : "";

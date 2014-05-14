@@ -2,7 +2,6 @@ package com.codepump.service.impl;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -14,6 +13,7 @@ import com.codepump.service.AuthenicationService;
 import com.codepump.service.DatabaseService;
 import com.codepump.tempobject.EditContainer;
 import com.codepump.tempobject.MyStuffListItem;
+import com.codepump.tempobject.ResultContainer;
 import com.google.inject.Inject;
 
 public class AuthenticationServiceImpl implements AuthenicationService {
@@ -146,8 +146,8 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 	private void testCleanUp(int userId) {
 		User user = dbServ.findUserById(userId);
 		if (user.getEmail().equals("test1@email.com")) {
-			List<MyStuffListItem> l = dbServ.getAllUserItems(userId, 1000, 0);
-			for (MyStuffListItem myStuffListItem : l) {
+			ResultContainer<MyStuffListItem> l = dbServ.getAllUserItems(userId, 1000, 0);
+			for (MyStuffListItem myStuffListItem : l.getCodeList()) {
 				dbServ.deleteCodeItem(myStuffListItem.getCodeId());
 			}
 			dbServ.deleteUser(userId);

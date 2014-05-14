@@ -20,12 +20,14 @@ Sander Tiganik
 * Jetty 9.1.2 webserver
 * PostgreSQL 9.3 database from Heroku
 * Hibernate 4.3.4 to handle database connection
+* Hibernate Search 4.5.1 and Lucane for searching
 * c3p0 4.3.5.Final for connection pooling
 * Velocity 1.7 as the templating engine
 * Google Gson 2.2.4 for JSON parsing
 * Google Guice 3.0 for dependency injection
 * Mockito 1.9.5 for testing
 * JUnit 4.11 for testing
+* Selenium for testing
 
 Check pom.xml for more.
 ####Running the app
@@ -51,7 +53,7 @@ Planeeritud funktsioonid:
 * Teksti kirjutamine/kleepimine tekstikasti. TEHTUD
 * Koodi süntaksi highlight'imise võimalus. TEHTUD
 * Teksti eluaja määramine: "__ hours", "__ days", "Forever".
-* Teksti ligipääsetavuse määramine: "Public", "Unlisted", "Password Protected". OSALISELT TEHTUD
+* Teksti ligipääsetavuse määramine: "Public", "Unlisted" ehk "Private". TEHTUD
 * Teksti salvestamine ja sidumine oma kasutajaga. TEHTUD
 * Isiklike tekstide kategoriseerimine ja kuvamine. TEHTUD
 * Isiklike tekstide ligipääsetavuse muutmine ja kustutamine. TEHTUD

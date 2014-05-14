@@ -9,6 +9,7 @@ import com.codepump.data.User;
 import com.codepump.service.impl.DatabaseServiceImpl;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
+import com.codepump.tempobject.ResultContainer;
 import com.codepump.tempobject.UserLanguageStatisticsItem;
 import com.codepump.tempobject.UserStatisticsItem;
 import com.google.inject.ImplementedBy;
@@ -47,39 +48,39 @@ public interface DatabaseService {
 	 * All CodeItems from DB. Privacy is Public, sorted in descending order by
 	 * created date.
 	 * 
-	 * @param limit
+	 * @param maxResults
 	 *            number of items to retrieve
-	 * @param offset
+	 * @param firstResult
 	 *            from where to start counting
-	 * @return CodeItem List
+	 * @return CodeItem {@link ResultContainer}
 	 */
-	public List<CodeItem> getAllCodeItems(int limit, int offset);
+	public ResultContainer<CodeItem> getAllCodeItems(int firstResult, int maxResults);
 
 	/**
 	 * Searches the DB for all CodeItems made by this user. Formats them as
 	 * MyStuffListItem. Query specified in {@link MyStuffListItem}.
 	 * 
 	 * @param userId
-	 * @param limit
-	 *            number of items to retrieve
-	 * @param offset
+	 * @param firstResult
 	 *            from where to start counting
-	 * @return All CodeItems by this user.
+	 * @param maxResults
+	 *            number of items to retrieve
+	 * @return {@link ResultContatainer} with expected results and List of {@link MyStuffListItem}
 	 */
-	public List<MyStuffListItem> getAllUserItems(int userId, int limit,
-			int offset);
+	public ResultContainer<MyStuffListItem> getAllUserItems(int userId, int firstResult, int maxResults);
 
 	/**
 	 * Returns the most recent items in the DB. Query specified in
 	 * {@link RecentItem}.
 	 * 
-	 * @param limit
-	 *            number of items to retrieve
-	 * @param offset
+
+	 * @param firstResult
 	 *            from where to start counting
+	 * @param maxResults
+	 *            number of items to retrieve
 	 * @return List of RecentItems
 	 */
-	public List<RecentItem> getRecentItems(int limit, int offset);
+	public List<RecentItem> getRecentItems(int firstResult, int maxResults);
 
 	/**
 	 * Updates this CodeItem in the DB.

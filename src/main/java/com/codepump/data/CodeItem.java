@@ -48,13 +48,7 @@ import org.hibernate.search.annotations.TokenizerDef;
 @AnalyzerDef(name = "customanalyzer", tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class), filters = {
 		@TokenFilterDef(factory = WordDelimiterFilterFactory.class),
 		@TokenFilterDef(factory = LowerCaseFilterFactory.class),
-		// @TokenFilterDef(factory = StopFilterFactory.class, params = {
-		// @Parameter(name = "words",
-		// value = "javastopwords.txt"),
-		// @Parameter(name="ignoreCase", value="true"),
-		// @Parameter(name="format", value="wordset")}),
 		@TokenFilterDef(factory = SnowballPorterFilterFactory.class, params = { @Parameter(name = "language", value = "English") }) })
-// @AnalyzerDiscriminator(impl=LanguageDiscriminator.class)
 public class CodeItem implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -63,7 +57,7 @@ public class CodeItem implements java.io.Serializable {
 	private String text;
 	private String language;
 	private String privacy;
-	private Date createDate; // when this code was made
+	private Date createDate;
 	private Date expireDate;
 	private User user;
 
@@ -130,10 +124,7 @@ public class CodeItem implements java.io.Serializable {
 
 	@Analyzer(definition = "customanalyzer")
 	@Boost(value = 1.5f)
-	@Fields({
-		@Field,
-		@Field(name="sorting_name", analyze=Analyze.NO)
-	})
+	@Fields({ @Field, @Field(name = "sorting_name", analyze = Analyze.NO) })
 	@Column(name = "CODE_NAME", nullable = false, length = 100)
 	public String getName() {
 		return name;

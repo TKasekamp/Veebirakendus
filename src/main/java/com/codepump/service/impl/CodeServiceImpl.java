@@ -11,6 +11,7 @@ import com.codepump.service.DatabaseService;
 import com.codepump.tempobject.EditContainer;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
+import com.codepump.tempobject.ResultContainer;
 import com.google.inject.Inject;
 
 public class CodeServiceImpl implements CodeService {
@@ -36,8 +37,8 @@ public class CodeServiceImpl implements CodeService {
 	}
 
 	@Override
-	public List<CodeItem> getAllCodeItems() {
-		return dbServ.getAllCodeItems(10000, 0);
+	public ResultContainer<CodeItem> getAllCodeItems(int firstResult, int maxResults) {
+		return dbServ.getAllCodeItems(firstResult, maxResults);
 
 	}
 
@@ -57,11 +58,11 @@ public class CodeServiceImpl implements CodeService {
 
 	@Override
 	public List<RecentItem> getRecentItems() {
-		return dbServ.getRecentItems(4, 0);
+		return dbServ.getRecentItems(0, 4);
 	}
 
 	@Override
-	public List<MyStuffListItem> getAllUserItems(String SID) {
+	public ResultContainer<MyStuffListItem> getAllUserItems(String SID, int firstResult, int maxResults) {
 		int userId = authServ.getUserIdWithSID(SID);
 
 		// userID will be set to -1 if no such SID can be found. This is the
@@ -69,7 +70,7 @@ public class CodeServiceImpl implements CodeService {
 		if (userId == -1) {
 			return null;
 		}
-		return dbServ.getAllUserItems(userId, 10000, 0);
+		return dbServ.getAllUserItems(userId, firstResult, maxResults);
 
 	}
 

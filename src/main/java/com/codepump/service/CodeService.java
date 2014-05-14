@@ -6,6 +6,7 @@ import com.codepump.data.CodeItem;
 import com.codepump.tempobject.EditContainer;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
+import com.codepump.tempobject.ResultContainer;
 
 /**
  * Handles all codeitem related requests from the database.
@@ -17,7 +18,16 @@ public interface CodeService {
 
 	public CodeItem findItemById(int id);
 
-	public List<CodeItem> getAllCodeItems();
+	/**
+	 * Get all {@link CodeItem}'s in this range.
+	 * 
+	 * @param firstResult
+	 * @param maxResults
+	 * @return {@link ResultContainer} with {@link CodeItem}.<br>
+	 *         null if no code was found.
+	 */
+	public ResultContainer<CodeItem> getAllCodeItems(int firstResult,
+			int maxResults);
 
 	/**
 	 * Adds this code to the DB. Uses SID to find user.
@@ -52,10 +62,17 @@ public interface CodeService {
 	 * Uses AuthenticationService to find the id of this user. Then searches the
 	 * DB for all code made by this user.
 	 * 
-	 * @return All CodeItems by this user.<br>
+	 * @param SID
+	 *            User cookie
+	 * @param firstResult
+	 *            first result to display
+	 * @param maxResults
+	 *            maximum results
+	 * @return {@link ResultContainer} with {@link MyStuffListItem}.<br>
 	 *         null if no code was found.
 	 */
-	public List<MyStuffListItem> getAllUserItems(String SID);
+	public ResultContainer<MyStuffListItem> getAllUserItems(String SID,
+			int firstResult, int maxResults);
 
 	/**
 	 * Deletes this code from the DB.

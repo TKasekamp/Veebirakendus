@@ -13,6 +13,7 @@ import com.codepump.service.CodeService;
 import com.codepump.tempobject.EditContainer;
 import com.codepump.tempobject.MyStuffListItem;
 import com.codepump.tempobject.RecentItem;
+import com.codepump.tempobject.ResultContainer;
 import com.google.inject.Inject;
 
 /**
@@ -55,14 +56,15 @@ public class CodeServiceNoDB implements CodeService {
 	}
 
 	@Override
-	public List<CodeItem> getAllCodeItems() {
+	public ResultContainer<CodeItem> getAllCodeItems(int firstResult,
+			int maxResults) {
 		ArrayList<CodeItem> dataset = new ArrayList<CodeItem>();
 		for (CodeItem value : items.values()) {
 			if (value.getPrivacy().equals("Public")) {
 				dataset.add(value);
 			}
 		}
-		return dataset;
+		return new ResultContainer<>(items.size(), dataset);
 	}
 
 	@Override
@@ -107,7 +109,8 @@ public class CodeServiceNoDB implements CodeService {
 	}
 
 	@Override
-	public List<MyStuffListItem> getAllUserItems(String SID) {
+	public ResultContainer<MyStuffListItem> getAllUserItems(String SID, int firstResult,
+			int maxResults) {
 		int userId = authServ.getUserIdWithSID(SID);
 		if (userId == -1) {
 			return null;
@@ -119,7 +122,7 @@ public class CodeServiceNoDB implements CodeService {
 						value.getLanguage(), value.getCreateDate()));
 			}
 		}
-		return dataset;
+		return new ResultContainer<>(items.size(), dataset);
 	}
 
 	@Override

@@ -14,7 +14,7 @@ import org.hibernate.search.query.dsl.QueryBuilder;
 
 import com.codepump.data.CodeItem;
 import com.codepump.service.SearchService;
-import com.codepump.tempobject.SearchContainer;
+import com.codepump.tempobject.ResultContainer;
 import com.codepump.util.HibernateUtil;
 
 @SuppressWarnings("unchecked")
@@ -26,11 +26,11 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public SearchContainer searchDatabaseFuzzy(String searchString, int size,
+	public ResultContainer<CodeItem> searchDatabaseFuzzy(String searchString, int size,
 			int firstResult, String sortField) {
 
 		if(illegalArgumentCheck(size, firstResult)) {
-			return new SearchContainer(0, null);
+			return new ResultContainer<CodeItem>(0, null);
 		}
 		FullTextQuery hibernateQuery;
 		// TODO rethink error handling
@@ -42,7 +42,7 @@ public class SearchServiceImpl implements SearchService {
 				hibernateQuery = fuzzyQuery(searchString, size, firstResult);
 			}
 		} catch (EmptyQueryException e) {
-			return new SearchContainer(0, null);
+			return new ResultContainer<CodeItem>(0, null);
 		}
 
 		// Apply optional sort criteria, if not the default sort-by-relevance
@@ -59,7 +59,7 @@ public class SearchServiceImpl implements SearchService {
 		int resultSize = ((FullTextQuery) hibernateQuery).getResultSize();
 
 		List<CodeItem> result = hibernateQuery.list();
-		return new SearchContainer(resultSize, result);
+		return new ResultContainer<CodeItem>(resultSize, result);
 	}
 
 	private FullTextQuery fuzzyQuery(String query, int size, int firstResult) {
