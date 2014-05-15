@@ -1,3 +1,4 @@
+var appCacheEnabled = false;
 var appCache = window.applicationCache;
 
 function cacheCode(){
@@ -44,15 +45,16 @@ function updateCache(){
 }
 
 $(function CacheManager() {
-	if (location.pathname == "/updateappcache.html"){
-		updateCache();
-	} else {
-		checkCodeCache();
-		checkForManifestUpdate();
-	
-		var bodyHtml = document.body.innerHTML;
-		var path = location.pathname;
-		localStorage.setItem(path, bodyHtml);
-		console.log(path+" saved to cache.");
+	checkCodeCache();
+	if (appCacheEnabled){
+		if (location.pathname == "/updateappcache.html"){
+			updateCache();
+		} else {
+			checkForManifestUpdate();	
+			var bodyHtml = document.body.innerHTML;
+			var path = location.pathname;
+			localStorage.setItem(path, bodyHtml);
+			console.log(path+" saved to cache.");
+		}
 	}
 });

@@ -43,7 +43,7 @@ public class Velocity extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		engine = createTemplateEngine(config.getServletContext());
-		CacheController.updateCacheManifest();
+//		CacheController.updateCacheManifest();
 	}
 
 	@Inject
