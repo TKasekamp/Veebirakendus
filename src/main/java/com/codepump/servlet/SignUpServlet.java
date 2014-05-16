@@ -44,18 +44,12 @@ public class SignUpServlet extends HttpServlet {
 			return;
 		}
 		
-		if (!name.matches("\\p{Lu}\\p{Ll}+((\\s|[-])\\p{Lu}\\p{Ll}+)*")){
-			resp.sendRedirect("/signup.html?result=badname");
-			return;
-		}
-		
 		if (!email.toLowerCase().matches("(\\p{Ll}|\\p{N})+[@](\\p{Ll}|\\p{N})+[.]\\p{Ll}+")){
 			resp.sendRedirect("/signup.html?result=bademail");
 			return;
 		}
 		
-		if (!password1.matches(".*\\p{Ll}+.*") || !password1.matches(".*\\p{Lu}+.*") || 
-				!password1.matches(".*\\p{N}+.*") || !password1.matches("(\\p{L}|\\p{N}){5,20}")){
+		if (!password1.matches("(\\p{L}|\\p{N}){5,20}")){
 			resp.sendRedirect("/signup.html?result=badpassword");
 			return;
 		}
