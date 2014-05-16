@@ -1,0 +1,35 @@
+			<div id="result">
+			#set($value = $firstResult + 1)
+			Results $value - $last of $resultSize
+			
+			#if($firstResult > 0 )
+				#if($nojs == true)
+					<a class="searchObject" href="browse.html?q=$q&amp;sortField=$sortField&amp;firstResult=$previousFirstResult&amp;limit=$limit&amp;nojs=true">
+						<div class="searchButton">
+							&lt; prev
+						</div>
+					</a>
+				#else
+					<a class="searchObject" href="browse.html?q=$q&amp;sortField=$sortField&amp;firstResult=$previousFirstResult&amp;limit=$limit">
+						<div class="searchButton">
+						&lt; prev
+						</div>
+					</a>
+				#end			
+			#end
+			#if ($nextFirstResult < $resultSize)
+				#if($nojs == true)
+					<a class="searchObject" href="browse.html?q=$q&amp;sortField=$sortField&amp;firstResult=$nextFirstResult&amp;limit=$limit&amp;nojs=true">
+						<div class="searchButton">
+							next &gt;
+						</div>
+					</a>
+				#else
+					<a class="searchObject" href="browse.html?q=$q&amp;sortField=$sortField&amp;firstResult=$nextFirstResult&amp;limit=$limit">
+						<div class="searchButton">
+							next &gt;
+						</div>
+					</a>
+				#end
+			#end
+			</div>
