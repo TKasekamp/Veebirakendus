@@ -61,7 +61,7 @@ public class DatabaseServiceImpl implements DatabaseService {
 		// XXX I am ashamed of this code
 		// Basically I'm repeating the query and getting the size of results
 		// Not the way to do pagination
-		String countQ = "Select count (f.id) from CodeItem f";
+		String countQ = "Select count (f.id) from CodeItem f where PRIVACY='Public'";
 		Query countQuery = session.createQuery(countQ);
 		Long countResults = (Long) countQuery.uniqueResult();
 		return new ResultContainer<CodeItem>(countResults.intValue(), dataset);

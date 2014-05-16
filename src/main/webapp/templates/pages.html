@@ -4,13 +4,13 @@
 			
 			#if($firstResult > 0 )
 				#if($nojs == true)
-					<a class="searchObject" href="browse.html?q=$q&amp;sortField=$sortField&amp;firstResult=$previousFirstResult&amp;limit=$limit&amp;nojs=true">
+					<a class="searchObject" href="browse.html?firstResult=$previousFirstResult&amp;limit=$limit&amp;nojs=true">
 						<div class="searchButton">
 							&lt; prev
 						</div>
 					</a>
 				#else
-					<a class="searchObject" href="browse.html?q=$q&amp;sortField=$sortField&amp;firstResult=$previousFirstResult&amp;limit=$limit">
+					<a class="searchObject" href="browse.html?firstResult=$previousFirstResult&amp;limit=$limit">
 						<div class="searchButton">
 						&lt; prev
 						</div>
@@ -19,13 +19,13 @@
 			#end
 			#if ($nextFirstResult < $resultSize)
 				#if($nojs == true)
-					<a class="searchObject" href="browse.html?q=$q&amp;sortField=$sortField&amp;firstResult=$nextFirstResult&amp;limit=$limit&amp;nojs=true">
+					<a class="searchObject" href="browse.html?firstResult=$nextFirstResult&amp;limit=$limit&amp;nojs=true">
 						<div class="searchButton">
 							next &gt;
 						</div>
 					</a>
 				#else
-					<a class="searchObject" href="browse.html?q=$q&amp;sortField=$sortField&amp;firstResult=$nextFirstResult&amp;limit=$limit">
+					<a class="searchObject" href="browse.html?firstResult=$nextFirstResult&amp;limit=$limit">
 						<div class="searchButton">
 							next &gt;
 						</div>
