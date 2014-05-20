@@ -27,14 +27,12 @@ import com.codepump.data.User;
 import com.codepump.deserializer.UserDeserializer;
 import com.codepump.response.AuthenticationResponse;
 import com.codepump.service.AuthenicationService;
-import com.codepump.service.DatabaseService;
 import com.codepump.service.impl.AuthenticationServiceImpl;
 import com.codepump.service.impl.DatabaseServiceImpl;
 
 public final class GoogleAuth {
 	private Gson gson;
-	private DatabaseService dbServ = new DatabaseServiceImpl();
-	private AuthenicationService authServ = new AuthenticationServiceImpl(dbServ);
+	private AuthenicationService authServ;
 	private String SID;
 
 	private static final String CLIENT_ID = "570680235799-mq2l1luj94oqc20ahl8uh0a9evi3d8be.apps.googleusercontent.com";
@@ -51,6 +49,8 @@ public final class GoogleAuth {
 	private String stateToken;
 
 	private final GoogleAuthorizationCodeFlow flow;
+	
+	private static GoogleAuth INSTANCE;
 
 	public GoogleAuth() {
 		flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT,
@@ -67,6 +67,14 @@ public final class GoogleAuth {
 		} catch (Exception ex) {
 			System.err.println(ex);
 		}
+		authServ = new AuthenticationServiceImpl(new DatabaseServiceImpl());
+		
+	}
+	
+	public static GoogleAuth getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new GoogleAuth();
+		return INSTANCE;
 	}
 	
 	public void buildGson() {

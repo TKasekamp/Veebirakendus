@@ -12,7 +12,7 @@
 <body>
 	<div>
 		<%
-			final GoogleAuth gAuth = new GoogleAuth();
+			final GoogleAuth gAuth = GoogleAuth.getInstance();
 			
 			if (request.getParameter("code") == null
 					|| request.getParameter("state") == null) {

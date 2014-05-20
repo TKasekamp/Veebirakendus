@@ -9,10 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.codepump.data.CodeItem;
-import com.codepump.deserializer.CodeItemDeserializer;
 import com.codepump.service.CodeService;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -29,7 +26,6 @@ public class DataServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private CodeService codeServ;
-	private Gson gsonPost;
 
 	@Override
 	public void init() throws ServletException {
@@ -39,11 +35,6 @@ public class DataServlet extends HttpServlet {
 	@Inject
 	public DataServlet(CodeService codeServ) {
 		this.codeServ = codeServ;
-		// Deserializer
-		GsonBuilder gsonBuilder = new GsonBuilder();
-		gsonBuilder.registerTypeAdapter(CodeItem.class,
-				new CodeItemDeserializer());
-		gsonPost = gsonBuilder.create();
 	}
 
 	@Override
