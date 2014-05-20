@@ -54,6 +54,16 @@ public class EditServlet extends HttpServlet {
 			handleCodeEdit(req, resp, SID);
 		}
 	}
+	
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		String SID = getCookies(req);
+//		String uri = req.getRequestURI();
+
+		handleCodeEdit(req, resp, SID);
+
+	}
 
 	private void handleCodeDelete(HttpServletRequest req,
 			HttpServletResponse resp) throws ServletException, IOException {

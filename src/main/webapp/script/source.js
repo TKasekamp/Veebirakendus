@@ -57,8 +57,8 @@ function save(){
 		SyntaxHighlighter.highlight();
 		position.fadeToggle();
 		var objekt = source.objectify(code.id,code.text);
-		$.ajax('/edit/ajax', {
-            type: 'POST',
+		$.ajax('/edit/', {
+            type: 'PUT',
             data: JSON.stringify(objekt), 
             success: function(objekt) {
                 //comment
