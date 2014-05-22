@@ -11,10 +11,10 @@ import org.hibernate.search.Search;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.service.DatabaseService;
-import com.codepump.tempobject.MyStuffListItem;
-import com.codepump.tempobject.RecentItem;
-import com.codepump.tempobject.ResultContainer;
-import com.codepump.tempobject.UserLanguageStatisticsItem;
+import com.codepump.data.temporary.MyStuffListItem;
+import com.codepump.data.temporary.RecentItem;
+import com.codepump.data.container.ResultContainer;
+import com.codepump.data.temporary.UserLanguageStatisticsItem;
 import com.codepump.util.HibernateUtil;
 
 /**
@@ -50,14 +50,16 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
-	public ResultContainer<CodeItem> getAllCodeItems(int firstResult, int maxResults) {
+	public ResultContainer<CodeItem> getAllCodeItems(int firstResult,
+			int maxResults) {
 		session = sessionFactory.getCurrentSession();
-		Query query = session.createQuery(
-				"from CodeItem where PRIVACY='Public' order by create_date desc ")
-		.setMaxResults(maxResults).setFirstResult(firstResult);
+		Query query = session
+				.createQuery(
+						"from CodeItem where PRIVACY='Public' order by create_date desc ")
+				.setMaxResults(maxResults).setFirstResult(firstResult);
 		@SuppressWarnings("unchecked")
 		List<CodeItem> dataset = query.list();
-		
+
 		// XXX I am ashamed of this code
 		// Basically I'm repeating the query and getting the size of results
 		// Not the way to do pagination
@@ -68,16 +70,16 @@ public class DatabaseServiceImpl implements DatabaseService {
 	}
 
 	@Override
-	public ResultContainer<MyStuffListItem> getAllUserItems(int userId, int firstResult,
-			int maxResults) {
+	public ResultContainer<MyStuffListItem> getAllUserItems(int userId,
+			int firstResult, int maxResults) {
 		session = sessionFactory.getCurrentSession();
 		Query q = session.getNamedQuery("thisUserCodeByID");
 		q.setParameter("t_id", userId).setParameter("limit", maxResults)
 				.setParameter("offset", firstResult);
-		
+
 		@SuppressWarnings("unchecked")
 		List<MyStuffListItem> dataset = q.list();
-		
+
 		// XXX I am ashamed of this code
 		// Basically I'm repeating the query and getting the size of results
 		// Not the way to do pagination

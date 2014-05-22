@@ -7,7 +7,7 @@ import java.util.Random;
 import com.codepump.data.User;
 import com.codepump.response.AuthenticationResponse;
 import com.codepump.service.AuthenicationService;
-import com.codepump.tempobject.EditContainer;
+import com.codepump.data.container.EditContainer;
 
 /**
  * This is the AuthService when no database is attached. Google login and

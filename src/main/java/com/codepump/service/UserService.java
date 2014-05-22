@@ -1,7 +1,7 @@
 package com.codepump.service;
 
 import com.codepump.data.User;
-import com.codepump.tempobject.UserStatisticsItem;
+import com.codepump.data.container.UserStatisticsContainer;
 
 /**
  * Handles the adding of users to the database.
@@ -46,12 +46,12 @@ public interface UserService {
 	 * 
 	 * @param SID
 	 *            Cookie value
-	 * @return {@link UserStatisticsItem} with language statistics if this user
+	 * @return {@link UserStatisticsContainer} with language statistics if this user
 	 *         has made any code.<br>
-	 *         {@link UserStatisticsItem} with with no language statistics if no
+	 *         {@link UserStatisticsContainer} with with no language statistics if no
 	 *         code found.
 	 */
-	public UserStatisticsItem generateUserStatistics(String SID);
+	public UserStatisticsContainer generateUserStatistics(String SID);
 
 	/**
 	 * First checks if there is such an user logged in. Uses the ID to then get

@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.codepump.data.CodeItem;
 import com.codepump.service.CodeService;
+import com.codepump.socket.RecentSocketController;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 

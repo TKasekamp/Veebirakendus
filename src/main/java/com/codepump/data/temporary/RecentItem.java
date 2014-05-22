@@ -1,4 +1,4 @@
-package com.codepump.tempobject;
+package com.codepump.data.temporary;
 
 import java.io.Serializable;
 import java.text.DateFormat;
@@ -13,47 +13,55 @@ import javax.persistence.NamedNativeQuery;
 
 /**
  * Class to transport values from both tables to the user. <br>
- * Used to populate MyStuff list. Searches for all code made by this user.<br>
+ * Creates a new object with values from both the codeitem and webapp_user
+ * table. Creating this join clause almost destroyed my will to live.<br>
+ * 
+ * Note that this query was only created because we got pointe for it. It's much
+ * easier to just take all from CodeItem.
  * 
  * @author TKasekamp
  * 
  */
 @Entity
-@NamedNativeQuery(name = "thisUserCodeByID", query = "select c.code_id, c.code_name, c.code_language, c.create_date FROM CodeItem as c JOIN webapp_user as w on w.user_id = c.user_id where c.user_id = :t_id ORDER BY c.create_date DESC LIMIT :limit OFFSET :offset", resultClass = MyStuffListItem.class)
-public class MyStuffListItem implements Serializable {
-
+@NamedNativeQuery(name = "findRecentItemsInOrder", query = "select c.code_id, c.code_name,  c.code_language, "
+		+ "c.create_date, w.user_name, w.user_id FROM CodeItem as c JOIN webapp_user as w on w.user_id = c.user_id where c.privacy = 'Public' ORDER BY c.create_date DESC ", resultClass = RecentItem.class)
+public class RecentItem implements Serializable {
 	/**
-	 * This has to be here
+	 * 
 	 */
-	private static final long serialVersionUID = 3304476411995025133L;
-	private int codeId;
+	private static final long serialVersionUID = -6503631209142487572L;
+	private int codeID;
 	private String codeName;
 	private String codeLanguage;
 	private Date createDate;
+	private int userID;
+	private String userName;
 
 	private static final DateFormat FORMAT = new SimpleDateFormat(
 			"HH:mm:ss dd.MM.yyyy");
 
-	public MyStuffListItem() {
+	public RecentItem() {
 	}
 
-	public MyStuffListItem(int codeId, String codeName, String codeLanguage,
-			Date createDate) {
+	public RecentItem(int codeId, String codeName, String codeLanguage,
+			Date createDate, int user_id, String user_name) {
 		super();
-		this.codeId = codeId;
+		this.codeID = codeId;
 		this.codeName = codeName;
 		this.codeLanguage = codeLanguage;
 		this.createDate = createDate;
+		this.userID = user_id;
+		this.userName = user_name;
 	}
 
 	@Id
 	@Column(name = "CODE_ID")
 	public int getCodeId() {
-		return codeId;
+		return codeID;
 	}
 
 	public void setCodeId(int codeId) {
-		this.codeId = codeId;
+		this.codeID = codeId;
 	}
 
 	@Column(name = "CODE_NAME")
@@ -83,11 +91,30 @@ public class MyStuffListItem implements Serializable {
 		this.createDate = createDate;
 	}
 
+	@Column(name = "USER_ID")
+	public int getUserID() {
+		return userID;
+	}
+
+	public void setUserID(int user_id) {
+		this.userID = user_id;
+	}
+
+	@Column(name = "USER_NAME")
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String user_name) {
+		this.userName = user_name;
+	}
+
 	@Override
 	public String toString() {
-		return "MyStuffListItem [codeId=" + codeId + ", codeName=" + codeName
+		return "RecentItem [codeId=" + codeID + ", codeName=" + codeName
 				+ ", codeLanguage=" + codeLanguage + ", createDate="
-				+ createDate + "]";
+				+ createDate + ", userID=" + userID + ", userName=" + userName
+				+ "]";
 	}
 
 	/**
@@ -95,7 +122,6 @@ public class MyStuffListItem implements Serializable {
 	 * 
 	 * @return String format of date
 	 */
-	@Deprecated
 	public String prettyCreateDate() {
 		return FORMAT.format(createDate);
 	}
@@ -112,4 +138,5 @@ public class MyStuffListItem implements Serializable {
 		FORMAT.setTimeZone(TimeZone.getTimeZone(timeZone));
 		return FORMAT.format(createDate);
 	}
+
 }

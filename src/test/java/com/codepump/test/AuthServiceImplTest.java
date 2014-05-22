@@ -11,7 +11,7 @@ import com.codepump.response.AuthenticationResponse;
 import com.codepump.service.DatabaseService;
 import com.codepump.service.impl.AuthenticationServiceImpl;
 import com.codepump.service.impl.DatabaseServiceImpl;
-import com.codepump.tempobject.EditContainer;
+import com.codepump.data.container.EditContainer;
 
 import static org.mockito.Mockito.*;
 

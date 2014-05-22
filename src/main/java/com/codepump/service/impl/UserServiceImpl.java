@@ -7,8 +7,8 @@ import com.codepump.data.User;
 import com.codepump.service.AuthenicationService;
 import com.codepump.service.DatabaseService;
 import com.codepump.service.UserService;
-import com.codepump.tempobject.UserLanguageStatisticsItem;
-import com.codepump.tempobject.UserStatisticsItem;
+import com.codepump.data.temporary.UserLanguageStatisticsItem;
+import com.codepump.data.container.UserStatisticsContainer;
 import com.google.inject.Inject;
 
 public class UserServiceImpl implements UserService {
@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserStatisticsItem generateUserStatistics(String SID) {
+	public UserStatisticsContainer generateUserStatistics(String SID) {
 		int userID = authServ.getUserIdWithSID(SID);
 		// userID will be set to -1 if no such SID can be found. This is the
 		// public user and as such Statistics should not work
@@ -63,10 +63,10 @@ public class UserServiceImpl implements UserService {
 		// As the dataset is empty, creating new item by searching for user
 		if (dataset.size() == 0) {
 			User user = findUserById(userID);
-			return new UserStatisticsItem(user.getId(), user.getName(), 0);
+			return new UserStatisticsContainer(user.getId(), user.getName(), 0);
 		}
 		// UserStatisticsItem is the container for this query's results
-		return new UserStatisticsItem(dataset);
+		return new UserStatisticsContainer(dataset);
 
 	}
 

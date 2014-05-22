@@ -135,7 +135,6 @@ public class User implements java.io.Serializable {
 		    randomPassword += c;
 		}
 		this.password = randomPassword;
-		System.out.println("Random password generated for the new user.");
 	}
 
 	@Column(name = "ADMIN_STATUS", nullable = false)

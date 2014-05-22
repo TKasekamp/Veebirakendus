@@ -14,7 +14,7 @@ import org.hibernate.search.query.dsl.QueryBuilder;
 
 import com.codepump.data.CodeItem;
 import com.codepump.service.SearchService;
-import com.codepump.tempobject.ResultContainer;
+import com.codepump.data.container.ResultContainer;
 import com.codepump.util.HibernateUtil;
 
 @SuppressWarnings("unchecked")
@@ -26,10 +26,10 @@ public class SearchServiceImpl implements SearchService {
 	}
 
 	@Override
-	public ResultContainer<CodeItem> searchDatabaseFuzzy(String searchString, int size,
-			int firstResult, String sortField) {
+	public ResultContainer<CodeItem> searchDatabase(String searchString,
+			int size, int firstResult, String sortField) {
 
-		if(illegalArgumentCheck(size, firstResult)) {
+		if (illegalArgumentCheck(size, firstResult)) {
 			return new ResultContainer<CodeItem>(0, null);
 		}
 		FullTextQuery hibernateQuery;

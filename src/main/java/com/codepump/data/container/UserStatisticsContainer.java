@@ -1,8 +1,9 @@
-package com.codepump.tempobject;
+package com.codepump.data.container;
 
 import java.io.Serializable;
 import java.util.List;
 
+import com.codepump.data.temporary.UserLanguageStatisticsItem;
 
 /**
  * Class to transport values from both tables to the user. <br>
@@ -11,7 +12,7 @@ import java.util.List;
  * @author TKasekamp
  * 
  */
-public class UserStatisticsItem implements Serializable {
+public class UserStatisticsContainer implements Serializable {
 	/**
 	 * Has to be here
 	 */
@@ -21,10 +22,10 @@ public class UserStatisticsItem implements Serializable {
 	private int createdItems;
 	private List<UserLanguageStatisticsItem> languageStatistics;
 
-	public UserStatisticsItem() {
+	public UserStatisticsContainer() {
 	}
 
-	public UserStatisticsItem(int userID, String username, int createdItems) {
+	public UserStatisticsContainer(int userID, String username, int createdItems) {
 		super();
 		this.userID = userID;
 		this.userName = username;
@@ -40,7 +41,7 @@ public class UserStatisticsItem implements Serializable {
 	 * @param dataset
 	 *            {@link UserLanguageStatisticsItem}
 	 */
-	public UserStatisticsItem(List<UserLanguageStatisticsItem> dataset) {
+	public UserStatisticsContainer(List<UserLanguageStatisticsItem> dataset) {
 		this.userID = dataset.get(0).getUserID();
 		this.userName = dataset.get(0).getUsername();
 		this.languageStatistics = dataset;

@@ -41,7 +41,11 @@ public class LogOutServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// For NOJS
 		String SID = getCookies(req);
-		authServ.logOut(SID);
+		try {
+			authServ.logOut(SID);
+		} catch (NullPointerException e) {
+			// No such user in logged in, but this is no problem
+		}
 		killCookie(resp);
 
 		if (req.getParameter("nojs") != null) {

@@ -11,9 +11,9 @@ import com.codepump.data.User;
 import com.codepump.response.AuthenticationResponse;
 import com.codepump.service.AuthenicationService;
 import com.codepump.service.DatabaseService;
-import com.codepump.tempobject.EditContainer;
-import com.codepump.tempobject.MyStuffListItem;
-import com.codepump.tempobject.ResultContainer;
+import com.codepump.data.container.EditContainer;
+import com.codepump.data.temporary.MyStuffListItem;
+import com.codepump.data.container.ResultContainer;
 import com.google.inject.Inject;
 
 public class AuthenticationServiceImpl implements AuthenicationService {
@@ -47,14 +47,12 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 
 		User dbUser = dbServ.findUserByEmail(user.getEmail());
 		try {
-			System.out.println("Got user from DB");
-			System.out.println(dbUser);
 			if (dbUser.getPassword().equals(user.getPassword())) {
 				result = 1;
 			} else {
 				result = 2;
 			}
-		} catch (Exception e) {
+		} catch (NullPointerException e) {
 			// This means there is no such user in DB
 		}
 

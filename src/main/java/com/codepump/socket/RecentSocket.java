@@ -6,8 +6,6 @@ import org.eclipse.jetty.websocket.api.annotations.OnWebSocketConnect;
 import org.eclipse.jetty.websocket.api.annotations.OnWebSocketMessage;
 import org.eclipse.jetty.websocket.api.annotations.WebSocket;
 
-import com.codepump.servlet.RecentSocketController;
-
 import java.io.IOException;
 
 @WebSocket

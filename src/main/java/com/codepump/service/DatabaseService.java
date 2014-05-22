@@ -7,16 +7,16 @@ import org.hibernate.exception.ConstraintViolationException;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.service.impl.DatabaseServiceImpl;
-import com.codepump.tempobject.MyStuffListItem;
-import com.codepump.tempobject.RecentItem;
-import com.codepump.tempobject.ResultContainer;
-import com.codepump.tempobject.UserLanguageStatisticsItem;
-import com.codepump.tempobject.UserStatisticsItem;
+import com.codepump.data.temporary.MyStuffListItem;
+import com.codepump.data.temporary.RecentItem;
+import com.codepump.data.container.ResultContainer;
+import com.codepump.data.temporary.UserLanguageStatisticsItem;
+import com.codepump.data.container.UserStatisticsContainer;
 import com.google.inject.ImplementedBy;
 
 /**
  * All database commands go through here. These are the building blocks on which
- * this app is based. The methods don't handle any excetions.<br>
+ * this app is based. The methods don't handle any exceptions.<br>
  * Only to be used in other services.<br>
  * Should be split into separate methods if this class grows too big.
  * 
@@ -131,7 +131,7 @@ public interface DatabaseService {
 
 	/**
 	 * Returns statistics about this's users languages. Proper
-	 * {@link UserStatisticsItem} must be constructed using this list. Query
+	 * {@link UserStatisticsContainer} must be constructed using this list. Query
 	 * explained in {@link UserLanguageStatisticsItem}.
 	 * 
 	 * @param userId

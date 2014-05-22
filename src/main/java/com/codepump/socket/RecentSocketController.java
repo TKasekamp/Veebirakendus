@@ -1,11 +1,11 @@
-package com.codepump.servlet;
+package com.codepump.socket;
 
 import org.eclipse.jetty.websocket.servlet.*;
 
 import com.codepump.serializer.RecentItemSerializer;
 import com.codepump.service.CodeService;
 import com.codepump.socket.RecentSocket;
-import com.codepump.tempobject.RecentItem;
+import com.codepump.data.temporary.RecentItem;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.inject.Inject;

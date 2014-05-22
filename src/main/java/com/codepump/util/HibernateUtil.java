@@ -51,11 +51,11 @@ public class HibernateUtil {
 		Configuration configuration = new Configuration()
 				.addAnnotatedClass(com.codepump.data.User.class)
 				.addAnnotatedClass(com.codepump.data.CodeItem.class)
-				.addAnnotatedClass(com.codepump.tempobject.RecentItem.class)
+				.addAnnotatedClass(com.codepump.data.temporary.RecentItem.class)
 				.addAnnotatedClass(
-						com.codepump.tempobject.MyStuffListItem.class)
+						com.codepump.data.temporary.MyStuffListItem.class)
 				.addAnnotatedClass(
-						com.codepump.tempobject.UserLanguageStatisticsItem.class)
+						com.codepump.data.temporary.UserLanguageStatisticsItem.class)
 				.setProperty("hibernate.dialect",
 						"org.hibernate.dialect.PostgreSQLDialect")
 				.setProperty("hibernate.connection.driver_class",

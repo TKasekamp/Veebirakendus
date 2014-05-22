@@ -2,7 +2,7 @@ package com.codepump.serializer;
 
 import java.lang.reflect.Type;
 
-import com.codepump.tempobject.RecentItem;
+import com.codepump.data.temporary.RecentItem;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;

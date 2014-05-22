@@ -61,5 +61,10 @@ $(document).ready(
 							window.location.href = "/GoogleLogin.jsp";
 						}
 					);
+				$(".sup").click(
+						function() {
+							window.location.href = "/surprise.html";
+						}
+					);
 			}
 		});

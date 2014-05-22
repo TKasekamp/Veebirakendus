@@ -1,4 +1,4 @@
-package com.codepump.tempobject;
+package com.codepump.data.temporary;
 
 import java.io.Serializable;
 

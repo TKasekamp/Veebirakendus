@@ -4,15 +4,14 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 
-import com.codepump.controller.CacheController;
 import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.service.CodeService;
 import com.codepump.service.SearchService;
 import com.codepump.service.UserService;
-import com.codepump.tempobject.MyStuffListItem;
-import com.codepump.tempobject.ResultContainer;
-import com.codepump.tempobject.UserStatisticsItem;
+import com.codepump.data.temporary.MyStuffListItem;
+import com.codepump.data.container.ResultContainer;
+import com.codepump.data.container.UserStatisticsContainer;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -43,7 +42,6 @@ public class Velocity extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		super.init(config);
 		engine = createTemplateEngine(config.getServletContext());
-//		CacheController.updateCacheManifest();
 	}
 
 	@Inject
@@ -179,7 +177,6 @@ public class Velocity extends HttpServlet {
 		context.put("last", firstResult+limit < codeList.getResultSize() ? firstResult+limit : codeList.getResultSize());
 		context.put("resultSize", codeList.getResultSize());
 		context.put("limit", limit);
-		System.out.println(codeList.getResultSize());
 
 	}
 
@@ -217,9 +214,9 @@ public class Velocity extends HttpServlet {
 			int limit = req.getParameter("limit") != null ? Integer.parseInt(req.getParameter("limit")) : 20;
 			int firstResult = req.getParameter("firstResult") != null ? Integer.parseInt(req.getParameter("firstResult")) : 0;
 			
-			UserStatisticsItem stat = userServ.generateUserStatistics(SID);
+			UserStatisticsContainer stat = userServ.generateUserStatistics(SID);
 			ResultContainer<MyStuffListItem> allContent = codeServ.getAllUserItems(SID, firstResult, limit);
-			System.out.println(allContent.getResultSize());
+
 			context.put("stat", stat);
 			context.put("myStuffList", allContent.getCodeList());
 			
@@ -282,7 +279,7 @@ public class Velocity extends HttpServlet {
 		int limit = req.getParameter("limit") != null ? Integer.parseInt(req.getParameter("limit")) : 0;
 		int firstResult = req.getParameter("firstResult") != null ? Integer.parseInt(req.getParameter("firstResult")) : 0;
 
-		dataset = searchServ.searchDatabaseFuzzy(searchString, limit, firstResult, sortField);
+		dataset = searchServ.searchDatabase(searchString, limit, firstResult, sortField);
 		
 		context.put("results", dataset.getCodeList());
 		context.put("recentList", codeServ.getRecentItems());	

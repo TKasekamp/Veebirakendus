@@ -30,8 +30,8 @@
 		<!-- Mapping -->
 		<mapping class="com.codepump.data.CodeItem"></mapping>
 		<mapping class="com.codepump.data.User"></mapping>
-		<mapping class="com.codepump.tempobject.RecentItem"></mapping>
-		<mapping class="com.codepump.tempobject.MyStuffListItem"></mapping>
-		<mapping class="com.codepump.tempobject.UserLanguageStatisticsItem"></mapping>
+		<mapping class="com.codepump.data.temporary.RecentItem"></mapping>
+		<mapping class="com.codepump.data.temporary.MyStuffListItem"></mapping>
+		<mapping class="com.codepump.data.temporary.UserLanguageStatisticsItem"></mapping>
 	</session-factory>
 </hibernate-configuration>

@@ -8,8 +8,8 @@ import java.util.Map;
 import com.codepump.data.User;
 import com.codepump.service.AuthenicationService;
 import com.codepump.service.UserService;
-import com.codepump.tempobject.UserLanguageStatisticsItem;
-import com.codepump.tempobject.UserStatisticsItem;
+import com.codepump.data.temporary.UserLanguageStatisticsItem;
+import com.codepump.data.container.UserStatisticsContainer;
 import com.google.inject.Inject;
 
 public class UserServiceNoDB implements UserService {
@@ -60,7 +60,7 @@ public class UserServiceNoDB implements UserService {
 	}
 
 	@Override
-	public UserStatisticsItem generateUserStatistics(String SID) {
+	public UserStatisticsContainer generateUserStatistics(String SID) {
 		int userID = authServ.getUserIdWithSID(SID);
 		if (userID == -1) {
 			return null;
@@ -69,7 +69,7 @@ public class UserServiceNoDB implements UserService {
 		dataset.add(new UserLanguageStatisticsItem(2, "test", 2, "Java"));
 		dataset.add(new UserLanguageStatisticsItem(2, "test", 4, "Python"));
 		dataset.add(new UserLanguageStatisticsItem(2, "test", 2, "SQL"));
-		return new UserStatisticsItem(dataset);
+		return new UserStatisticsContainer(dataset);
 	}
 
 	@Override

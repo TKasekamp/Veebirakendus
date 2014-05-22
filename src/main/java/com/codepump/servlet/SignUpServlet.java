@@ -56,14 +56,11 @@ public class SignUpServlet extends HttpServlet {
 		
 		String SID = userServ.addUser(user);
 		if (SID != null) {
-			System.out.println("Adding user");
-			System.out.println(user);
 			Cookie c = new Cookie("SID", SID);
 			resp.addCookie(c);
 			resp.sendRedirect("/index.html");
 
 		} else {
-			System.out.println("user already exists");
 			resp.sendRedirect("/signup.html?result=userexists");
 		}
 	}

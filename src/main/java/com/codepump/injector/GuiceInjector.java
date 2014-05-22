@@ -20,7 +20,7 @@ import com.codepump.servlet.DataServlet;
 import com.codepump.servlet.EditServlet;
 import com.codepump.servlet.LogOutServlet;
 import com.codepump.servlet.LoginServlet;
-import com.codepump.servlet.RecentSocketController;
+import com.codepump.socket.RecentSocketController;
 import com.codepump.servlet.SearchServlet;
 import com.codepump.servlet.SignUpServlet;
 import com.codepump.velocity.Velocity;
@@ -32,7 +32,7 @@ import com.google.inject.servlet.ServletModule;
 /**
  * Google Guice servlet injection happens here. This class is run before any
  * other servlet. PageExpiryFilter still mapped in web.xml. <br>
- * configureServlets is esentially web.xml in Java form. @Webservlet annotations
+ * configureServlets is essentially web.xml in Java form. @Webservlet annotations
  * in servlets are unnecessary.<br>
  * 
  * USE_DATABASE is used to set interface implementations.

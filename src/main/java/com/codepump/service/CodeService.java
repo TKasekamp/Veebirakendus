@@ -3,10 +3,10 @@ package com.codepump.service;
 import java.util.List;
 
 import com.codepump.data.CodeItem;
-import com.codepump.tempobject.EditContainer;
-import com.codepump.tempobject.MyStuffListItem;
-import com.codepump.tempobject.RecentItem;
-import com.codepump.tempobject.ResultContainer;
+import com.codepump.data.container.EditContainer;
+import com.codepump.data.temporary.MyStuffListItem;
+import com.codepump.data.temporary.RecentItem;
+import com.codepump.data.container.ResultContainer;
 
 /**
  * Handles all codeitem related requests from the database.

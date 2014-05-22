@@ -1,4 +1,4 @@
-package com.codepump.tempobject;
+package com.codepump.data.container;
 
 /**
  * Created when an user wants to edit code. Holds the SID to authorise the edit.<br>

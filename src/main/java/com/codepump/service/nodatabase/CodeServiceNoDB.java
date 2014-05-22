@@ -10,10 +10,10 @@ import com.codepump.data.CodeItem;
 import com.codepump.data.User;
 import com.codepump.service.AuthenicationService;
 import com.codepump.service.CodeService;
-import com.codepump.tempobject.EditContainer;
-import com.codepump.tempobject.MyStuffListItem;
-import com.codepump.tempobject.RecentItem;
-import com.codepump.tempobject.ResultContainer;
+import com.codepump.data.container.EditContainer;
+import com.codepump.data.temporary.MyStuffListItem;
+import com.codepump.data.temporary.RecentItem;
+import com.codepump.data.container.ResultContainer;
 import com.google.inject.Inject;
 
 /**

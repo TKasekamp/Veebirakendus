@@ -5,7 +5,7 @@ package com.codepump.response;
  * 0 - there is no such user <br>
  * 1 - user and password are correct, but already logged in. NOT USED<br>
  * 2 - wrong password <br>
- * 3 - user succesfully logged in<br>
+ * 3 - user successfully logged in<br>
  * 
  * Returns Integer and String SID
  * 

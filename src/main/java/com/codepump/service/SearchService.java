@@ -1,8 +1,8 @@
 package com.codepump.service;
 
 import com.codepump.data.CodeItem;
-import com.codepump.tempobject.MyStuffListItem;
-import com.codepump.tempobject.ResultContainer;
+import com.codepump.data.temporary.MyStuffListItem;
+import com.codepump.data.container.ResultContainer;
 
 public interface SearchService {
 
@@ -25,7 +25,7 @@ public interface SearchService {
 	 * @return {@link ResultContainer} holding the results and expected total
 	 *         size of this query
 	 */
-	public <T> ResultContainer<T> searchDatabaseFuzzy(String query, int limit,
+	public <T> ResultContainer<T> searchDatabase(String query, int limit,
 			int firstResult, String sortField);
 
 }

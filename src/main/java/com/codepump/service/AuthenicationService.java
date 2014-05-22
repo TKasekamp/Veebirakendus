@@ -4,7 +4,7 @@ import java.util.Map;
 
 import com.codepump.data.User;
 import com.codepump.response.AuthenticationResponse;
-import com.codepump.tempobject.EditContainer;
+import com.codepump.data.container.EditContainer;
 
 /**
  * Handles logging in and logging out.
