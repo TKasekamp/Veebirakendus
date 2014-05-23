@@ -185,3 +185,21 @@ div#result{
 	margin-top:5px;
 }
 
+#rotating { 	
+	position: absolute;
+	left: 40%;
+	top: 128px;
+    margin-top: 50px; 
+    -webkit-transition: all 30s ease-in-out;
+    -moz-transition: all 30s ease-in-out;
+    -o-transition: all 30s ease-in-out;
+    transition: all 30s ease-in-out;
+}
+
+.rotated { 
+    transform:rotate(2500deg); 
+    -webkit-transform:rotate(2500deg); 
+    -moz-transform:rotate(2500deg); 
+    -o-transform:rotate(2500deg); 
+}
+
