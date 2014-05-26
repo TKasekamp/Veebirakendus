@@ -15,7 +15,11 @@
 				</form>
 			</div>
 			<div id="result">
+			#if($searchResultSize == 0)
+			#set($value = 0)
+			#else
 			#set($value = $firstResult + 1)
+			#end
 			Results $value - $last of $searchResultSize
 			
 			#if($firstResult > 0 )

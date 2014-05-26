@@ -1,5 +1,9 @@
 			<div id="result">
+			#if($resultSize == 0)
+			#set($value = 0)
+			#else
 			#set($value = $firstResult + 1)
+			#end
 			Results $value - $last of $resultSize
 			
 			#if($firstResult > 0 )

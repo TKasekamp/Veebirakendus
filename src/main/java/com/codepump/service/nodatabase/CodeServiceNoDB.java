@@ -73,7 +73,7 @@ public class CodeServiceNoDB implements CodeService {
 		item.setCreateDate(new Date());
 		item.setExpireDate(new Date());
 		item.setText(escapeChars(item.getText()));
-
+		item.setName(escapeChars(item.getName()));
 		User u = new User();
 		u.setId(authServ.getUserIdWithSID(SID));
 		item.setUser(u);
