@@ -15,4 +15,8 @@ function checkCodeCache(){
 	}
 }
 
-checkCodeCache();
+$(document).ready(
+		function() {
+			checkCodeCache();
+		}
+);
