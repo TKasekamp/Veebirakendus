@@ -77,8 +77,9 @@ public class CodeServiceImpl implements CodeService {
 	}
 
 	@Override
-	public void deleteCode(int id) {
-		dbServ.deleteCodeItem(id);
+	public void deleteCode(int id, String SID) {
+		if (authServ.authoriseDelete(id, SID))
+			dbServ.deleteCodeItem(id);
 
 	}
 

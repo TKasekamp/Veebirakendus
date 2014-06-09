@@ -81,4 +81,6 @@ public interface AuthenicationService {
 	public void logOut(String SID);
 
 	public Map<String, Integer> getSidList();
+	
+	public boolean authoriseDelete(int codeId, String SID);
 }

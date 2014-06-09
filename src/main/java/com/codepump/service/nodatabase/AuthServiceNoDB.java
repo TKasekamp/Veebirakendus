@@ -107,4 +107,10 @@ public class AuthServiceNoDB implements AuthenicationService {
 		return SIDlist;
 	}
 
+	@Override
+	public boolean authoriseDelete(int codeId, String SID) {
+		// Nothing here, sorry
+		return true;
+	}
+
 }

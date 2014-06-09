@@ -75,12 +75,14 @@ public interface CodeService {
 			int firstResult, int maxResults);
 
 	/**
-	 * Deletes this code from the DB.
+	 * Deletes this code from the DB if this user is authorized.
 	 * 
 	 * @param id
 	 *            of code to be deleted.
+	 * @param SID
+	 *            user session id who wants to delete it.
 	 */
-	public void deleteCode(int id);
+	public void deleteCode(int id, String SID);
 
 	public Boolean isValid(CodeItem item);
 

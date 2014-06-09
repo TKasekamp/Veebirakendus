@@ -46,13 +46,11 @@ public class EditServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String SID = getCookies(req);
 		String uri = req.getRequestURI();
-		if (uri.equals("/edit/delete")) {
-			handleCodeDelete(req, resp);
-			// TODO websocket announcment missing. must find better way to link
-			// it up
-		} else if (uri.equals("/edit/ajax")) {
-			handleCodeEdit(req, resp, SID);
-		}
+		if (uri.equals("/edit/delete"))
+			handleCodeDelete(req, resp, SID);
+		// TODO websocket announcment missing. must find better way to link
+		// it up
+
 	}
 
 	@Override
@@ -64,10 +62,11 @@ public class EditServlet extends HttpServlet {
 	}
 
 	private void handleCodeDelete(HttpServletRequest req,
-			HttpServletResponse resp) throws ServletException, IOException {
+			HttpServletResponse resp, String SID) throws ServletException,
+			IOException {
 		String s = req.getParameter("codeID");
 
-		codeServ.deleteCode(Integer.parseInt(s));
+		codeServ.deleteCode(Integer.parseInt(s), SID);
 		// Redirecting
 		if (req.getParameter("nojs").equalsIgnoreCase("true")) {
 			resp.sendRedirect("/mystuff.html?nojs=true");

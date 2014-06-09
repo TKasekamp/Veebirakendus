@@ -126,8 +126,9 @@ public class CodeServiceNoDB implements CodeService {
 	}
 
 	@Override
-	public void deleteCode(int id) {
-		items.remove(id);
+	public void deleteCode(int id, String SID) {
+		if (authServ.authoriseDelete(id, SID))
+			items.remove(id);
 
 	}
 

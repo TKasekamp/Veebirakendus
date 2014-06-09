@@ -165,4 +165,17 @@ public class AuthenticationServiceImpl implements AuthenicationService {
 		return sid;
 	}
 
+	@Override
+	public boolean authoriseDelete(int codeId, String SID) {
+		int userID = getUserIdWithSID(SID);
+		if (userID == -1) {
+			return false;
+		}
+		CodeItem code = dbServ.findCodeItemById(codeId);
+		if (userID == code.getUser().getId()) {
+			return true;
+		}
+		return false;
+	}
+
 }
