@@ -1,6 +1,8 @@
 CodePump #2
 =============
 
+[ ![Codeship Status for TKasekamp/Veebirakendus](https://codeship.io/projects/0611c2e0-444e-0132-c733-5ea9e4cf64c6/status)](https://codeship.io/projects/44818)
+
 ##English
 This webapp was created in University of Tartu during spring 2014 as part of [MTAT.03.230 Web Application Development] (https://courses.cs.ut.ee/2014/vl/spring).
 
