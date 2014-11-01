@@ -1,3 +1,7 @@
-target
-doc
-indexes
+target/
+doc/
+indexes/
+.settings/
+.project
+.classpath
+bin/
